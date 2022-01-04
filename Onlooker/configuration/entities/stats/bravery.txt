@@ -1,0 +1,7 @@
+type="numeric"
+id="bravery"
+display_name="Bravery"
+description="How likely an entity is to engage in risky actions (such as fighting)"
+default_minimum=0
+default_maximum=100
+maximum_can_change=false
