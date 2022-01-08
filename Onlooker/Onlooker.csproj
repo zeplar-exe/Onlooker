@@ -8,4 +8,8 @@
         <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="SettingsConfig" Version="1.2.3" />
+    </ItemGroup>
+
 </Project>
