@@ -93,4 +93,20 @@ public class Matrix2D<T>
             index++;
         }
     }
+
+    public T[] Flatten()
+    {
+        var array = new T[Width * Height];
+        var index = 0;
+        
+        for (var x = 0; x < Width; x++)
+        {
+            for (var y = 0; y < Height; y++)
+            {
+                array[index++] = Items[x, y];
+            }
+        }
+
+        return array;
+    }
 }
