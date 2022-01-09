@@ -6,33 +6,33 @@ namespace Onlooker.Generation;
     
 public class OpenSimplex2S
 {
-    private const int PSIZE = 2048;
-    private const int PMASK = 2047;
+    private const int Psize = 2048;
+    private const int Pmask = 2047;
 
-    private short[] perm;
-    private Grad2[] permGrad2;
-    private Grad3[] permGrad3;
-    private Grad4[] permGrad4;
+    private readonly short[] perm;
+    private readonly Grad2[] permGrad2;
+    private readonly Grad3[] permGrad3;
+    private readonly Grad4[] permGrad4;
 
     public OpenSimplex2S(long seed)
     {
-        perm = new short[PSIZE];
-        permGrad2 = new Grad2[PSIZE];
-        permGrad3 = new Grad3[PSIZE];
-        permGrad4 = new Grad4[PSIZE];
-        var source = new short[PSIZE];
-        for (short i = 0; i < PSIZE; i++)
+        perm = new short[Psize];
+        permGrad2 = new Grad2[Psize];
+        permGrad3 = new Grad3[Psize];
+        permGrad4 = new Grad4[Psize];
+        var source = new short[Psize];
+        for (short i = 0; i < Psize; i++)
             source[i] = i;
-        for (var i = PSIZE - 1; i >= 0; i--)
+        for (var i = Psize - 1; i >= 0; i--)
         {
             seed = seed * 6364136223846793005L + 1442695040888963407L;
             var r = (int)((seed + 31) % (i + 1));
             if (r < 0)
                 r += (i + 1);
             perm[i] = source[r];
-            permGrad2[i] = GRADIENTS_2D[perm[i]];
-            permGrad3[i] = GRADIENTS_3D[perm[i]];
-            permGrad4[i] = GRADIENTS_4D[perm[i]];
+            permGrad2[i] = Gradients2D[perm[i]];
+            permGrad3[i] = Gradients3D[perm[i]];
+            permGrad4[i] = Gradients4D[perm[i]];
             source[r] = source[i];
         }
     }
@@ -78,7 +78,7 @@ public class OpenSimplex2S
         double value = 0;
 
         // Get base points and offsets
-        int xsb = fastFloor(xs), ysb = fastFloor(ys);
+        int xsb = FastFloor(xs), ysb = FastFloor(ys);
         double xsi = xs - xsb, ysi = ys - ysb;
 
         // Index to point list
@@ -94,15 +94,15 @@ public class OpenSimplex2S
         // Point contributions
         for (var i = 0; i < 4; i++)
         {
-            var c = LOOKUP_2D[index + i];
+            var c = Lookup2D[index + i];
 
-            double dx = xi + c.dx, dy = yi + c.dy;
+            double dx = xi + c.Dx, dy = yi + c.Dy;
             var attn = 2.0 / 3.0 - dx * dx - dy * dy;
             if (attn <= 0) continue;
 
-            int pxm = (xsb + c.xsv) & PMASK, pym = (ysb + c.ysv) & PMASK;
+            int pxm = (xsb + c.Xsv) & Pmask, pym = (ysb + c.Ysv) & Pmask;
             var grad = permGrad2[perm[pxm] ^ pym];
-            var extrapolation = grad.dx * dx + grad.dy * dy;
+            var extrapolation = grad.Dx * dx + grad.Dy * dy;
 
             attn *= attn;
             value += attn * attn * extrapolation;
@@ -186,7 +186,7 @@ public class OpenSimplex2S
     {
 
         // Get base and offsets inside cube of first lattice.
-        int xrb = fastFloor(xr), yrb = fastFloor(yr), zrb = fastFloor(zr);
+        int xrb = FastFloor(xr), yrb = FastFloor(yr), zrb = FastFloor(zr);
         double xri = xr - xrb, yri = yr - yrb, zri = zr - zrb;
 
         // Identify which octant of the cube we're in. This determines which cell
@@ -196,10 +196,10 @@ public class OpenSimplex2S
 
         // Point contributions
         double value = 0;
-        var c = LOOKUP_3D[index];
+        var c = Lookup3D[index];
         while (c != null)
         {
-            double dxr = xri + c.dxr, dyr = yri + c.dyr, dzr = zri + c.dzr;
+            double dxr = xri + c.Dxr, dyr = yri + c.Dyr, dzr = zri + c.Dzr;
             var attn = 0.75 - dxr * dxr - dyr * dyr - dzr * dzr;
             if (attn < 0)
             {
@@ -207,9 +207,9 @@ public class OpenSimplex2S
             }
             else
             {
-                int pxm = (xrb + c.xrv) & PMASK, pym = (yrb + c.yrv) & PMASK, pzm = (zrb + c.zrv) & PMASK;
+                int pxm = (xrb + c.Xrv) & Pmask, pym = (yrb + c.Yrv) & Pmask, pzm = (zrb + c.Zrv) & Pmask;
                 var grad = permGrad3[perm[perm[pxm] ^ pym] ^ pzm];
-                var extrapolation = grad.dx * dxr + grad.dy * dyr + grad.dz * dzr;
+                var extrapolation = grad.Dx * dxr + grad.Dy * dyr + grad.Dz * dzr;
 
                 attn *= attn;
                 value += attn * attn * extrapolation;
@@ -288,31 +288,31 @@ public class OpenSimplex2S
         double value = 0;
 
         // Get base points and offsets
-        int xsb = fastFloor(xs), ysb = fastFloor(ys), zsb = fastFloor(zs), wsb = fastFloor(ws);
+        int xsb = FastFloor(xs), ysb = FastFloor(ys), zsb = FastFloor(zs), wsb = FastFloor(ws);
         double xsi = xs - xsb, ysi = ys - ysb, zsi = zs - zsb, wsi = ws - wsb;
 
         // Unskewed offsets
         var ssi = (xsi + ysi + zsi + wsi) * -0.138196601125011;
         double xi = xsi + ssi, yi = ysi + ssi, zi = zsi + ssi, wi = wsi + ssi;
 
-        var index = ((fastFloor(xs * 4) & 3) << 0)
-                    | ((fastFloor(ys * 4) & 3) << 2)
-                    | ((fastFloor(zs * 4) & 3) << 4)
-                    | ((fastFloor(ws * 4) & 3) << 6);
+        var index = ((FastFloor(xs * 4) & 3) << 0)
+                    | ((FastFloor(ys * 4) & 3) << 2)
+                    | ((FastFloor(zs * 4) & 3) << 4)
+                    | ((FastFloor(ws * 4) & 3) << 6);
 
         // Point contributions
-        foreach (var c in LOOKUP_4D[index])
+        foreach (var c in Lookup4D[index])
         {
-            double dx = xi + c.dx, dy = yi + c.dy, dz = zi + c.dz, dw = wi + c.dw;
+            double dx = xi + c.Dx, dy = yi + c.Dy, dz = zi + c.Dz, dw = wi + c.Dw;
             var attn = 0.8 - dx * dx - dy * dy - dz * dz - dw * dw;
             if (attn > 0)
             {
                 attn *= attn;
 
-                int pxm = (xsb + c.xsv) & PMASK, pym = (ysb + c.ysv) & PMASK;
-                int pzm = (zsb + c.zsv) & PMASK, pwm = (wsb + c.wsv) & PMASK;
+                int pxm = (xsb + c.Xsv) & Pmask, pym = (ysb + c.Ysv) & Pmask;
+                int pzm = (zsb + c.Zsv) & Pmask, pwm = (wsb + c.Wsv) & Pmask;
                 var grad = permGrad4[perm[perm[perm[pxm] ^ pym] ^ pzm] ^ pwm];
-                var extrapolation = grad.dx * dx + grad.dy * dy + grad.dz * dz + grad.dw * dw;
+                var extrapolation = grad.Dx * dx + grad.Dy * dy + grad.Dz * dz + grad.Dw * dw;
 
                 value += attn * attn * extrapolation;
             }
@@ -325,7 +325,7 @@ public class OpenSimplex2S
      */
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static int fastFloor(double x)
+    private static int FastFloor(double x)
     {
         var xi = (int)x;
         return x < xi ? xi - 1 : xi;
@@ -335,22 +335,22 @@ public class OpenSimplex2S
      * Lookup Tables & Gradients
      */
 
-    private static LatticePoint2D[] LOOKUP_2D;
-    private static LatticePoint3D[] LOOKUP_3D;
-    private static LatticePoint4D[][] LOOKUP_4D;
+    private static readonly LatticePoint2D[] Lookup2D;
+    private static readonly LatticePoint3D[] Lookup3D;
+    private static readonly LatticePoint4D[][] Lookup4D;
 
     private const double N2 = 0.05481866495625118;
     private const double N3 = 0.2781926117527186;
     private const double N4 = 0.11127401889945551;
-    private static Grad2[] GRADIENTS_2D;
-    private static Grad3[] GRADIENTS_3D;
-    private static Grad4[] GRADIENTS_4D;
+    private static readonly Grad2[] Gradients2D;
+    private static readonly Grad3[] Gradients3D;
+    private static readonly Grad4[] Gradients4D;
 
     static OpenSimplex2S()
     {
-        LOOKUP_2D = new LatticePoint2D[8 * 4];
-        LOOKUP_3D = new LatticePoint3D[8];
-        LOOKUP_4D = new LatticePoint4D[256][];
+        Lookup2D = new LatticePoint2D[8 * 4];
+        Lookup3D = new LatticePoint3D[8];
+        Lookup4D = new LatticePoint4D[256][];
 
         for (var i = 0; i < 8; i++)
         {
@@ -365,10 +365,10 @@ public class OpenSimplex2S
                 if ((i & 2) != 0) { i1 = 2; j1 = 1; } else { i1 = 0; j1 = 1; }
                 if ((i & 4) != 0) { i2 = 1; j2 = 2; } else { i2 = 1; j2 = 0; }
             }
-            LOOKUP_2D[i * 4 + 0] = new LatticePoint2D(0, 0);
-            LOOKUP_2D[i * 4 + 1] = new LatticePoint2D(1, 1);
-            LOOKUP_2D[i * 4 + 2] = new LatticePoint2D(i1, j1);
-            LOOKUP_2D[i * 4 + 3] = new LatticePoint2D(i2, j2);
+            Lookup2D[i * 4 + 0] = new LatticePoint2D(0, 0);
+            Lookup2D[i * 4 + 1] = new LatticePoint2D(1, 1);
+            Lookup2D[i * 4 + 2] = new LatticePoint2D(i1, j1);
+            Lookup2D[i * 4 + 3] = new LatticePoint2D(i2, j2);
         }
 
         for (var i = 0; i < 8; i++)
@@ -433,7 +433,7 @@ public class OpenSimplex2S
             cC.NextOnFailure = cD; cC.NextOnSuccess = null;
             cD.NextOnFailure = cD.NextOnSuccess = null;
 
-            LOOKUP_3D[i] = c0;
+            Lookup3D[i] = c0;
         }
 
         int[][] lookup4DPregen = {
@@ -705,14 +705,14 @@ public class OpenSimplex2S
         }
         for (var i = 0; i < 256; i++)
         {
-            LOOKUP_4D[i] = new LatticePoint4D[lookup4DPregen[i].Length];
+            Lookup4D[i] = new LatticePoint4D[lookup4DPregen[i].Length];
             for (var j = 0; j < lookup4DPregen[i].Length; j++)
             {
-                LOOKUP_4D[i][j] = latticePoints[lookup4DPregen[i][j]];
+                Lookup4D[i][j] = latticePoints[lookup4DPregen[i][j]];
             }
         }
 
-        GRADIENTS_2D = new Grad2[PSIZE];
+        Gradients2D = new Grad2[Psize];
         Grad2[] grad2 = {
             new Grad2( 0.130526192220052,  0.99144486137381),
             new Grad2( 0.38268343236509,   0.923879532511287),
@@ -741,14 +741,14 @@ public class OpenSimplex2S
         };
         for (var i = 0; i < grad2.Length; i++)
         {
-            grad2[i].dx /= N2; grad2[i].dy /= N2;
+            grad2[i].Dx /= N2; grad2[i].Dy /= N2;
         }
-        for (var i = 0; i < PSIZE; i++)
+        for (var i = 0; i < Psize; i++)
         {
-            GRADIENTS_2D[i] = grad2[i % grad2.Length];
+            Gradients2D[i] = grad2[i % grad2.Length];
         }
 
-        GRADIENTS_3D = new Grad3[PSIZE];
+        Gradients3D = new Grad3[Psize];
         Grad3[] grad3 = {
             new Grad3(-2.22474487139,      -2.22474487139,      -1.0),
             new Grad3(-2.22474487139,      -2.22474487139,       1.0),
@@ -801,14 +801,14 @@ public class OpenSimplex2S
         };
         for (var i = 0; i < grad3.Length; i++)
         {
-            grad3[i].dx /= N3; grad3[i].dy /= N3; grad3[i].dz /= N3;
+            grad3[i].Dx /= N3; grad3[i].Dy /= N3; grad3[i].Dz /= N3;
         }
-        for (var i = 0; i < PSIZE; i++)
+        for (var i = 0; i < Psize; i++)
         {
-            GRADIENTS_3D[i] = grad3[i % grad3.Length];
+            Gradients3D[i] = grad3[i % grad3.Length];
         }
 
-        GRADIENTS_4D = new Grad4[PSIZE];
+        Gradients4D = new Grad4[Psize];
         Grad4[] grad4 = {
             new Grad4(-0.753341017856078,    -0.37968289875261624,  -0.37968289875261624,  -0.37968289875261624),
             new Grad4(-0.7821684431180708,   -0.4321472685365301,   -0.4321472685365301,    0.12128480194602098),
@@ -973,78 +973,92 @@ public class OpenSimplex2S
         };
         for (var i = 0; i < grad4.Length; i++)
         {
-            grad4[i].dx /= N4; grad4[i].dy /= N4; grad4[i].dz /= N4; grad4[i].dw /= N4;
+            grad4[i].Dx /= N4; grad4[i].Dy /= N4; grad4[i].Dz /= N4; grad4[i].Dw /= N4;
         }
-        for (var i = 0; i < PSIZE; i++)
+        for (var i = 0; i < Psize; i++)
         {
-            GRADIENTS_4D[i] = grad4[i % grad4.Length];
+            Gradients4D[i] = grad4[i % grad4.Length];
         }
     }
 
     private struct LatticePoint2D
     {
-        public int xsv, ysv;
-        public double dx, dy;
+        public readonly int Xsv;
+        public readonly int Ysv;
+        public readonly double Dx;
+        public readonly double Dy;
+
         public LatticePoint2D(int xsv, int ysv)
         {
-            this.xsv = xsv; this.ysv = ysv;
+            Xsv = xsv; Ysv = ysv;
             var ssv = (xsv + ysv) * -0.211324865405187;
-            dx = -xsv - ssv;
-            dy = -ysv - ssv;
+            Dx = -xsv - ssv;
+            Dy = -ysv - ssv;
         }
     }
 
     private class LatticePoint3D
     {
-        public double dxr, dyr, dzr;
-        public int xrv, yrv, zrv;
-        public LatticePoint3D NextOnFailure, NextOnSuccess;
+        public readonly double Dxr;
+        public readonly double Dyr;
+        public readonly double Dzr;
+        public readonly int Xrv;
+        public readonly int Yrv;
+        public readonly int Zrv;
+        public LatticePoint3D? NextOnFailure, NextOnSuccess;
         public LatticePoint3D(int xrv, int yrv, int zrv, int lattice)
         {
-            dxr = -xrv + lattice * 0.5; dyr = -yrv + lattice * 0.5; dzr = -zrv + lattice * 0.5;
-            this.xrv = xrv + lattice * 1024; this.yrv = yrv + lattice * 1024; this.zrv = zrv + lattice * 1024;
+            Dxr = -xrv + lattice * 0.5; Dyr = -yrv + lattice * 0.5; Dzr = -zrv + lattice * 0.5;
+            Xrv = xrv + lattice * 1024; Yrv = yrv + lattice * 1024; Zrv = zrv + lattice * 1024;
         }
     }
 
     private class LatticePoint4D
     {
-        public int xsv, ysv, zsv, wsv;
-        public double dx, dy, dz, dw;
+        public readonly int Xsv;
+        public readonly int Ysv;
+        public readonly int Zsv;
+        public readonly int Wsv;
+        public readonly double Dx;
+        public readonly double Dy;
+        public readonly double Dz;
+        public readonly double Dw;
+
         public LatticePoint4D(int xsv, int ysv, int zsv, int wsv)
         {
-            this.xsv = xsv; this.ysv = ysv; this.zsv = zsv; this.wsv = wsv;
+            Xsv = xsv; Ysv = ysv; Zsv = zsv; Wsv = wsv;
             var ssv = (xsv + ysv + zsv + wsv) * -0.138196601125011;
-            dx = -xsv - ssv;
-            dy = -ysv - ssv;
-            dz = -zsv - ssv;
-            dw = -wsv - ssv;
+            Dx = -xsv - ssv;
+            Dy = -ysv - ssv;
+            Dz = -zsv - ssv;
+            Dw = -wsv - ssv;
         }
     }
 
     private struct Grad2
     {
-        public double dx, dy;
+        public double Dx, Dy;
         public Grad2(double dx, double dy)
         {
-            this.dx = dx; this.dy = dy;
+            Dx = dx; Dy = dy;
         }
     }
 
     private struct Grad3
     {
-        public double dx, dy, dz;
+        public double Dx, Dy, Dz;
         public Grad3(double dx, double dy, double dz)
         {
-            this.dx = dx; this.dy = dy; this.dz = dz;
+            Dx = dx; Dy = dy; Dz = dz;
         }
     }
 
     private struct Grad4
     {
-        public double dx, dy, dz, dw;
+        public double Dx, Dy, Dz, Dw;
         public Grad4(double dx, double dy, double dz, double dw)
         {
-            this.dx = dx; this.dy = dy; this.dz = dz; this.dw = dw;
+            Dx = dx; Dy = dy; Dz = dz; Dw = dw;
         }
     }
 }
