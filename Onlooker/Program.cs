@@ -1,3 +1,14 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using Onlooker.Monogame;
 
-Console.WriteLine("Hello, World!");
+namespace Onlooker;
+
+public static class Program
+{
+    [STAThread]
+    public static void Main()
+    {
+        using var game = new GameManager();
+        
+        game.Run();
+    }
+}
