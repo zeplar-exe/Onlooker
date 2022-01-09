@@ -1,30 +1,30 @@
-namespace Onlooker.IntermediateConfiguration.Entities.Moods;
+namespace Onlooker.IntermediateConfiguration.World;
 
-public class MoodConfigGroup : ConfigGroup
+public class TerrainTypeConfigGroup : ConfigGroup
 {
-    public List<MoodConfig> MoodConfigs { get; }
-    
-    public MoodConfigGroup()
+    public List<TerrainTypeConfig> TypeConfigs { get; }
+
+    public TerrainTypeConfigGroup()
     {
-        MoodConfigs = new List<MoodConfig>();
+        TypeConfigs = new List<TerrainTypeConfig>();
     }
 
     public override void UpdateFromDirectory(DirectoryInfo root, IProgress<ConfigUpdateStatus> progress)
     {
-        MoodConfigs.Clear();
+        TypeConfigs.Clear();
 
         foreach (var file in root.EnumerateFiles("*.txt", SearchOption.TopDirectoryOnly))
         {
-            var config = new MoodConfig(file);
+            var config = new TerrainTypeConfig(file);
             config.UpdateFromStream(file.OpenRead());
             
-            MoodConfigs.Add(config);
+            TypeConfigs.Add(config);
         }
     }
 
     public override void WriteToDirectory(DirectoryInfo root, IProgress<ConfigWriteStatus> progress)
     {
-        foreach (var config in MoodConfigs)
+        foreach (var config in TypeConfigs)
         {
             using var stream = File.OpenWrite(Path.Join(root.FullName, config.Id + ConfigFile.Extension));
             var result = config.WriteToStream(stream);

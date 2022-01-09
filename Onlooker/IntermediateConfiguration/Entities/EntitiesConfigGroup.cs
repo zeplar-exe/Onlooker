@@ -30,6 +30,9 @@ public class EntitiesConfigGroup : ConfigGroup
 
     public override void WriteToDirectory(DirectoryInfo root, IProgress<ConfigWriteStatus> progress)
     {
-        throw new NotImplementedException();
+        RaceConfig.WriteToDirectory(root.CreateSubdirectory("races"), progress);
+        StatsConfig.WriteToDirectory(root.CreateSubdirectory("stats"), progress);
+        PersonalityConfig.WriteToDirectory(root.CreateSubdirectory("personalities"), progress);
+        MoodConfig.WriteToDirectory(root.CreateSubdirectory("moods"), progress);
     }
 }
