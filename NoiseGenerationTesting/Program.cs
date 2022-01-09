@@ -19,11 +19,10 @@ for (var x = 0; x < sizeX; x++)
 {
     for (var y = 0; y < sizeY; y++)
     {
-        var d = map[x, y];
+        var noise = map[x, y];
+        var color = (byte)Math.Ceiling(Math2.Lerp(0d, 255d, noise));
         
-        var l = Math.Ceiling(0 + d * (255 - 0));
-        
-        colors[x, y] = new Color((byte)(short)l, (byte)(short)l, (byte)(short)l);
+        colors[x, y] = new Color(color, color, color);
     }
 }
 

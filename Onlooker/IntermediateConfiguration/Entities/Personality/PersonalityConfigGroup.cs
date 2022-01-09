@@ -1,5 +1,3 @@
-using SettingsConfig;
-
 namespace Onlooker.IntermediateConfiguration.Entities.Personality;
 
 public class PersonalityConfigGroup : ConfigGroup

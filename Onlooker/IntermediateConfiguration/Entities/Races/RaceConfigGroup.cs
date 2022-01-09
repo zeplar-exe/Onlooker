@@ -1,6 +1,3 @@
-using SettingsConfig;
-using SettingsConfig.Serialization;
-
 namespace Onlooker.IntermediateConfiguration.Entities.Races;
 
 public class RaceConfigGroup : ConfigGroup

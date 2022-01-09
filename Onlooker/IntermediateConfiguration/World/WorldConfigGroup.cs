@@ -1,3 +1,5 @@
+using Onlooker.IntermediateConfiguration.World.Terrain;
+
 namespace Onlooker.IntermediateConfiguration.World;
 
 public class WorldConfigGroup : ConfigGroup

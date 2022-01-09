@@ -1,4 +1,4 @@
-namespace Onlooker.IntermediateConfiguration.World;
+namespace Onlooker.IntermediateConfiguration.World.Terrain;
 
 public class TerrainTypeConfigGroup : ConfigGroup
 {

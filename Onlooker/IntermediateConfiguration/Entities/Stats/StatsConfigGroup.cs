@@ -1,5 +1,4 @@
 using SettingsConfig;
-using SettingsConfig.Serialization;
 
 namespace Onlooker.IntermediateConfiguration.Entities.Stats;
 

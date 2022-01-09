@@ -1,4 +1,4 @@
-using Onlooker.IntermediateConfiguration.World;
+using Onlooker.IntermediateConfiguration.World.Terrain;
 
 namespace Onlooker.Worlds;
 
