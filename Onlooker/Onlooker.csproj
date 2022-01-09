@@ -9,6 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.1641" />
       <PackageReference Include="SettingsConfig" Version="1.2.3" />
     </ItemGroup>
 
