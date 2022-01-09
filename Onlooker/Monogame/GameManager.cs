@@ -16,7 +16,12 @@ public class GameManager : Game
         Hooks = new List<GameHook>();
     }
 
-    public void Hook(GameHook hook) => Hooks.Add(hook);
+    public void Hook(GameHook hook)
+    {
+        hook.SetManager(this);
+        Hooks.Add(hook);
+    }
+
     public bool Unhook(GameHook hook) => Hooks.Remove(hook);
 
     protected override void LoadContent()
@@ -37,7 +42,7 @@ public class GameManager : Game
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.White);
-
+        
         foreach (var hook in Hooks)
         {
             hook.OnDraw(gameTime);
