@@ -7,13 +7,15 @@ public class GameManager : Game
 {
     private GraphicsDeviceManager Graphics { get; }
     private SpriteBatch SpriteBatch { get; set; }
-    
     private List<GameHook> Hooks { get; }
 
+    public SceneCamera Camera { get; }
+    
     public GameManager()
     {
         Graphics = new GraphicsDeviceManager(this);
         Hooks = new List<GameHook>();
+        Camera = new SceneCamera();
     }
 
     public void Hook(GameHook hook)
