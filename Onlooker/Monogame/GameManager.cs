@@ -1,5 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Onlooker.IntermediateConfiguration;
+using Onlooker.Monogame.Controllers;
 
 namespace Onlooker.Monogame;
 
@@ -7,24 +9,25 @@ public class GameManager : Game
 {
     private GraphicsDeviceManager Graphics { get; }
     private SpriteBatch SpriteBatch { get; set; }
-    private List<GameHook> Hooks { get; }
+    
+    private List<GameController> Controllers { get; }
 
-    public SceneCamera Camera { get; }
+    public GameConfig Configuration { get; }
     
     public GameManager()
     {
         Graphics = new GraphicsDeviceManager(this);
-        Hooks = new List<GameHook>();
-        Camera = new SceneCamera();
+        Configuration = new GameConfig();
+        Controllers = new List<GameController>();
     }
 
-    public void Hook(GameHook hook)
+    public void HookController(GameController controller)
     {
-        hook.SetManager(this);
-        Hooks.Add(hook);
+        if (!Controllers.Contains(controller))
+            Controllers.Add(controller);
     }
-
-    public bool Unhook(GameHook hook) => Hooks.Remove(hook);
+    
+    public bool UnhookController(GameController controller) => Controllers.Remove(controller);
 
     protected override void LoadContent()
     {
@@ -33,9 +36,9 @@ public class GameManager : Game
 
     protected override void Update(GameTime gameTime)
     {
-        foreach (var hook in Hooks)
+        foreach (var controller in Controllers)
         {
-            hook.OnUpdate(gameTime);
+            controller.Update(gameTime);
         }
         
         base.Update(gameTime);
@@ -44,10 +47,12 @@ public class GameManager : Game
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.White);
-        
-        foreach (var hook in Hooks)
+
+        var canvas = new DrawCanvas();
+
+        foreach (var controller in Controllers)
         {
-            hook.OnDraw(gameTime);
+            controller.Draw(canvas, gameTime);
         }
         
         base.Draw(gameTime);
