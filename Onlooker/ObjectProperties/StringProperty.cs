@@ -32,9 +32,7 @@ public class StringProperty : ObjectProperty<string>
             if (fixedValue[valueIndex] == result[valueIndex])
                 continue; // Skip until we find a difference
 
-            var removalIndex = fixedValue.Length;
-
-            for (; removalIndex >= valueIndex; removalIndex--)
+            for (var removalIndex = fixedValue.Length; removalIndex >= valueIndex; removalIndex--)
             { // Remove values in reverse until we reached the point of divergence
                 values.Add(fixedValue[..removalIndex]);
             }
