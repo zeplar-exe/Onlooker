@@ -1,4 +1,4 @@
-namespace Onlooker.ObjectProperties;
+namespace Onlooker.ObjectProperties.Binding;
 
 public class ObjectPropertyBinding<TValue>
 {

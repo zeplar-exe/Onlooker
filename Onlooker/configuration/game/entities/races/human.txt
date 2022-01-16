@@ -1,0 +1,9 @@
+id="human"
+display_name="Human"
+description="A human. A greedy bastard."
+reproduction_method="sexual" # options are sexual and asexual, should be self explanatory
+maximum_knowledge=10000 # how much knowledge (measured in its mass) can be retained without corruption
+move_speed=30 # affects the average speed of an entity
+
+# note that the health stat is applied automatically because 'default_stat' is set to true
+# otherwise, we would assign it in stats=[...]

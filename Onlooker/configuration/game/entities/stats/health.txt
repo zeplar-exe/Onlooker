@@ -1,0 +1,9 @@
+type="numeric"
+id="health"
+display_name="Health"
+description="A blanket stat over how alive an entity certain race is."
+default_minimum=0
+default_maximum=100
+maximum_can_change=true
+on_reached_minimum_handler="kill"
+default_stat=true # The statistic will be applied to all races, even if it is not specified.

@@ -1,0 +1,6 @@
+id="ambitious"
+display_name="Ambitious"
+description="This entity aspires to be the best."
+stat_offset=[
+    bravery = 30
+]

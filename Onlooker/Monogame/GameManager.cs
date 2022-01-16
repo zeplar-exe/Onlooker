@@ -1,6 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Onlooker.IntermediateConfiguration;
+using Onlooker.IntermediateConfiguration.Common;
+using Onlooker.IntermediateConfiguration.Game;
 using Onlooker.Monogame.Controllers;
 
 namespace Onlooker.Monogame;
@@ -11,14 +13,26 @@ public class GameManager : Game
     private SpriteBatch SpriteBatch { get; set; }
     
     private List<GameController> Controllers { get; }
-
-    public GameConfig Configuration { get; }
     
+    public static GameManager Current;
+    
+    public MainController MainController { get; }
+    public AbsoluteConfiguration Configuration { get; }
+
     public GameManager()
     {
+        if (Current != null)
+            throw new InvalidOperationException("A game manager has already been created.");
+        
+        Current = this;
+        
         Graphics = new GraphicsDeviceManager(this);
-        Configuration = new GameConfig();
+        Configuration = new AbsoluteConfiguration();
         Controllers = new List<GameController>();
+
+        MainController = new MainController();
+        
+        HookController(MainController);
     }
 
     public void HookController(GameController controller)
@@ -32,6 +46,11 @@ public class GameManager : Game
     protected override void LoadContent()
     {
         SpriteBatch = new SpriteBatch(GraphicsDevice);
+
+        foreach (var controller in Controllers)
+        {
+            controller.OnContentLoad();
+        }
     }
 
     protected override void Update(GameTime gameTime)
@@ -54,6 +73,18 @@ public class GameManager : Game
         {
             controller.Draw(canvas, gameTime);
         }
+        
+        SpriteBatch.Begin();
+
+        foreach (var pair in canvas.Items.OrderBy(c => c.Key))
+        {
+            foreach (var item in pair.Value)
+            {
+                item.Draw(SpriteBatch);
+            }
+        }
+        
+        SpriteBatch.End();
         
         base.Draw(gameTime);
     }

@@ -1,3 +1,5 @@
+using Onlooker.IntermediateConfiguration.Game;
+
 namespace Onlooker.IntermediateConfiguration;
 
 public abstract class ConfigGroup

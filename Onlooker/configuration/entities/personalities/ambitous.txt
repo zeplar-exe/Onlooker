@@ -1,6 +1,0 @@
-id="ambitious"
-display_name="Ambitious"
-description=""
-stat_offset=[
-    bravery = 30
-]

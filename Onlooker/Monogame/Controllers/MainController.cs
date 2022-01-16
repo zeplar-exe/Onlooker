@@ -4,18 +4,29 @@ namespace Onlooker.Monogame.Controllers;
 
 public class MainController : GameController
 {
-    public MainController(GameManager manager) : base(manager)
+    private LoadingScreenController LoadingScreen { get; }
+    
+    public MainController()
     {
+        LoadingScreen = new LoadingScreenController();
         
+        GameManager.Current.HookController(LoadingScreen);
+    }
+
+    public override async void OnContentLoad()
+    {
+        await LoadingScreen.Load(CancellationToken.None);
+        
+        base.OnContentLoad();
     }
 
     public override void Update(GameTime time)
     {
-        throw new NotImplementedException();
+        
     }
 
     public override void Draw(DrawCanvas canvas, GameTime time)
     {
-        throw new NotImplementedException();
+        
     }
 }

@@ -1,0 +1,6 @@
+id="sad"
+display_name="Sad"
+description="This person is feeling down."
+stat_offset=[
+    bravery = -50
+]

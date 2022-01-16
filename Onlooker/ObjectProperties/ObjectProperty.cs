@@ -1,4 +1,5 @@
 using Onlooker.ObjectProperties.Animation;
+using Onlooker.ObjectProperties.Binding;
 
 namespace Onlooker.ObjectProperties;
 

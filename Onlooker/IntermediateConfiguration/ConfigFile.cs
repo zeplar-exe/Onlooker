@@ -1,3 +1,4 @@
+using Onlooker.IntermediateConfiguration.Game;
 using SettingsConfig;
 using SettingsConfig.Serialization;
 
