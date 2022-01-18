@@ -1,4 +1,4 @@
-namespace Onlooker;
+namespace Onlooker.Common;
 
 public class Matrix2D<T>
 {

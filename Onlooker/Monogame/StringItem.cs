@@ -21,7 +21,7 @@ public class StringItem : IDrawItem
 
     public void Draw(SpriteBatch batch)
     {
-        var position = new Microsoft.Xna.Framework.Vector2(Rectangle.Location.X, Rectangle.Location.Y);
+        var position = new Vector2(Rectangle.Location.X, Rectangle.Location.Y);
         
         batch.DrawString(Font, Builder, position, Color);
     }

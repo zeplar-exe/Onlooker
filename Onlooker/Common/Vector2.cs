@@ -1,4 +1,4 @@
-namespace Onlooker;
+namespace Onlooker.Common;
 
 public record struct Vector2(float X, float Y)
 {

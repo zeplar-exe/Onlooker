@@ -1,3 +1,4 @@
+using Onlooker.Common;
 using Onlooker.ObjectProperties.Animation;
 
 namespace Onlooker.ObjectProperties;

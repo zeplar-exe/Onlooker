@@ -1,4 +1,4 @@
-namespace Onlooker;
+namespace Onlooker.Common;
 
 public static class Math2
 {

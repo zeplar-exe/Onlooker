@@ -1,7 +1,5 @@
-using System.Text;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Onlooker.IntermediateConfiguration;
+using Onlooker.Common;
 using Onlooker.IntermediateConfiguration.Game;
 
 namespace Onlooker.Monogame.Controllers;
@@ -10,6 +8,8 @@ public class LoadingScreenController : GameController
 {
     private string? LastMessage { get; set; }
     private Progress<ConfigUpdateStatus> Progress { get; }
+    
+    public bool LoadingCompleted { get; private set; }
 
     public LoadingScreenController()
     {
@@ -18,10 +18,21 @@ public class LoadingScreenController : GameController
 
     public void Load()
     {
-        Progress.ProgressChanged += (_, status) => LastMessage = $"{status.Type}: {status.Message}";
+        Progress.ProgressChanged += OnLoadProgress;
 
         GameManager.Current.Configuration.UpdateFromDirectory(
             new DirectoryInfo(Path.Join(Directory.GetCurrentDirectory(), "configuration")), Progress);
+    }
+
+    private void OnLoadProgress(object? _, ConfigUpdateStatus status)
+    {
+        LastMessage = $"{status.Type}: {status.Message}";
+
+        if (status.Type == UpdateStatusType.Completed)
+        {
+            LoadingCompleted = true;
+            Progress.ProgressChanged -= OnLoadProgress;
+        }
     }
 
     public override void Update(GameTime time)
@@ -31,23 +42,19 @@ public class LoadingScreenController : GameController
 
     public override void Draw(DrawCanvas canvas, GameTime time)
     {
-        var screenRect = GameManager.Current.GraphicsDevice.PresentationParameters.Bounds;
+        var texture = GameManager.Current.Configuration.CommonConfig.Graphics.LoadingScreen;
 
+        if (texture == null)
+            return;
+        
         canvas.Draw(0, 
             new TextureItem(
-                GameManager.Current.Configuration.CommonConfig.Graphics.LoadingScreen!,
-                screenRect, Color.Black));
+                texture,
+                CommonValues.ScreenRect, Color.Black));
+    }
 
-        var text = new StringBuilder(LastMessage);
-        var font = GameManager.Current.Configuration.CommonConfig.Fonts.Information!;
-        var (fontX, fontY) = font.MeasureString(text);
-        var halfFontOffset = new Point((int)(fontX / 2), (int)(fontY / 2));
-        
-        var centeredRect = new Rectangle(
-            screenRect.Center - halfFontOffset, 
-            new Point(screenRect.Size.X / 2, screenRect.Size.Y / 2));
-
-        canvas.Draw(0, new StringItem(new StringBuilder(LastMessage), 
-            font, centeredRect, Color.White));
+    public override bool IsLocked()
+    {
+        return false;
     }
 }

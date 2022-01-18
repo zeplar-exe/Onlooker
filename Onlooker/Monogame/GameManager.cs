@@ -30,7 +30,7 @@ public class GameManager : Game
         Configuration = new AbsoluteConfiguration();
         Controllers = new List<GameController>();
 
-        MainController = new MainController();
+        MainController = new MainController { Enabled = true };
         
         HookController(MainController);
     }
@@ -47,7 +47,7 @@ public class GameManager : Game
     {
         SpriteBatch = new SpriteBatch(GraphicsDevice);
 
-        foreach (var controller in Controllers)
+        foreach (var controller in GetEnabledControllers())
         {
             controller.OnContentLoad();
         }
@@ -55,8 +55,11 @@ public class GameManager : Game
 
     protected override void Update(GameTime gameTime)
     {
-        foreach (var controller in Controllers)
+        foreach (var controller in GetEnabledControllers())
         {
+            if (controller.Disposed)
+                Controllers.Remove(controller);
+            
             controller.Update(gameTime);
         }
         
@@ -69,7 +72,7 @@ public class GameManager : Game
 
         var canvas = new DrawCanvas();
 
-        foreach (var controller in Controllers)
+        foreach (var controller in GetEnabledControllers())
         {
             controller.Draw(canvas, gameTime);
         }
@@ -87,5 +90,10 @@ public class GameManager : Game
         SpriteBatch.End();
         
         base.Draw(gameTime);
+    }
+
+    private IEnumerable<GameController> GetEnabledControllers()
+    {
+        return Controllers.Where(c => c.Enabled).ToArray();
     }
 }

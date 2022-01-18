@@ -11,6 +11,8 @@ public class Animator<TProperty>
     
     public bool IsAnimating { get; private set; }
 
+    public event EventHandler? Completed;
+
     private IProgress<AnimationStatus<TProperty>> InterfaceProgress => Progress;
     public Progress<AnimationStatus<TProperty>> Progress { get; }
 
@@ -72,6 +74,8 @@ public class Animator<TProperty>
 
             await Task.Delay(TimeSpan.FromSeconds(Interval), CancellationToken);
         }
+        
+        Completed?.Invoke(this, EventArgs.Empty);
     }
 
     private AnimationStatus<TProperty> CreateStatus()

@@ -1,3 +1,5 @@
+using Onlooker.Common;
+
 namespace Onlooker.Generation;
 
 public class NoiseGenerator

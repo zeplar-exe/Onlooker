@@ -1,4 +1,4 @@
-namespace Onlooker;
+namespace Onlooker.Common;
 
 public readonly record struct Rect(Vector2 BottomLeft, Vector2 Size)
 {
