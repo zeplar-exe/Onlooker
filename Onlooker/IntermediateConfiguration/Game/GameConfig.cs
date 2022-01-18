@@ -10,16 +10,4 @@ public class GameConfig : ConfigGroup
     {
         EntitiesConfig = new EntitiesConfigGroup();
     }
-    
-    public override void UpdateFromDirectory(DirectoryInfo root, IProgress<ConfigUpdateStatus> progress)
-    {
-        EntitiesConfig.UpdateFromDirectory(root.CreateSubdirectory("entities"), progress);
-        
-        progress.Report(new ConfigUpdateStatus("Loading Completed", UpdateStatusType.Completed));
-    }
-
-    public override void WriteToDirectory(DirectoryInfo root, IProgress<ConfigWriteStatus> progress)
-    {
-        EntitiesConfig.WriteToDirectory(root.CreateSubdirectory("entities"), progress);
-    }
 }

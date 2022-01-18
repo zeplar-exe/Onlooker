@@ -13,9 +13,9 @@ public class MainController : GameController
         GameManager.Current.HookController(LoadingScreen);
     }
 
-    public override async void OnContentLoad()
+    public override void OnContentLoad()
     {
-        await LoadingScreen.Load(CancellationToken.None);
+        LoadingScreen.Load();
         
         base.OnContentLoad();
     }

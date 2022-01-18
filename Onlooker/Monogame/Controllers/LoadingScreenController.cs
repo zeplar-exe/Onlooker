@@ -16,7 +16,7 @@ public class LoadingScreenController : GameController
         Progress = new Progress<ConfigUpdateStatus>();
     }
 
-    public async Task Load(CancellationToken token)
+    public void Load()
     {
         Progress.ProgressChanged += (_, status) => LastMessage = $"{status.Type}: {status.Message}";
 
@@ -31,11 +31,23 @@ public class LoadingScreenController : GameController
 
     public override void Draw(DrawCanvas canvas, GameTime time)
     {
-        var rect = GameManager.Current.GraphicsDevice.PresentationParameters.Bounds;
+        var screenRect = GameManager.Current.GraphicsDevice.PresentationParameters.Bounds;
 
-        canvas.Draw(0, new TextureItem(GameManager.Current.Configuration.CommonConfig.Graphics.LoadingScreen!, rect, Color.Black));
+        canvas.Draw(0, 
+            new TextureItem(
+                GameManager.Current.Configuration.CommonConfig.Graphics.LoadingScreen!,
+                screenRect, Color.Black));
+
+        var text = new StringBuilder(LastMessage);
+        var font = GameManager.Current.Configuration.CommonConfig.Fonts.Information!;
+        var (fontX, fontY) = font.MeasureString(text);
+        var halfFontOffset = new Point((int)(fontX / 2), (int)(fontY / 2));
+        
+        var centeredRect = new Rectangle(
+            screenRect.Center - halfFontOffset, 
+            new Point(screenRect.Size.X / 2, screenRect.Size.Y / 2));
 
         canvas.Draw(0, new StringItem(new StringBuilder(LastMessage), 
-            GameManager.Current.Configuration.CommonConfig.Fonts.Information!, rect, Color.White));
+            font, centeredRect, Color.White));
     }
 }
