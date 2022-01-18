@@ -41,15 +41,4 @@ public class StatsConfigGroup : ConfigGroup
             progress.Report(new ConfigUpdateStatus($"Loaded 'game/entities/stats/{file.Name}'", UpdateStatusType.Success));
         }
     }
-
-    public override void WriteToDirectory(DirectoryInfo root, IProgress<ConfigWriteStatus> progress)
-    {
-        foreach (var config in StatConfigs)
-        {
-            using var stream = File.OpenWrite(Path.Join(root.FullName, config.Id + ConfigFile.Extension));
-            var result = config.WriteToStream(stream);
-            
-            progress.Report(result);
-        }
-    }
 }

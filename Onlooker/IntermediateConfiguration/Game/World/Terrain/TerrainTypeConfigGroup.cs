@@ -2,6 +2,7 @@ namespace Onlooker.IntermediateConfiguration.Game.World.Terrain;
 
 public class TerrainTypeConfigGroup : ConfigGroup
 {
+    [ConfigLocation("configuration/game/world/terrain")]
     public List<TerrainTypeConfig> TypeConfigs { get; }
 
     public TerrainTypeConfigGroup()

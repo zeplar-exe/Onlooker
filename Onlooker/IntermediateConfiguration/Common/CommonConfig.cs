@@ -6,8 +6,8 @@ namespace Onlooker.IntermediateConfiguration.Common;
 
 public class CommonConfig : ConfigGroup
 {
-    public GraphicsConfigGroup Graphics { get; }
-    public FontsConfigGroup Fonts { get; }
+    [ConfigLocation("configuration/common/graphics")] public GraphicsConfigGroup Graphics { get; }
+    [ConfigLocation("configuration/common/fonts")] public FontsConfigGroup Fonts { get; }
 
     public CommonConfig()
     {
@@ -17,6 +17,10 @@ public class CommonConfig : ConfigGroup
     
     public override void UpdateFromDirectory(DirectoryInfo root, IProgress<ConfigUpdateStatus> progress)
     {
+        base.UpdateFromDirectory(root, progress);
+        
+        return;
+        
         Graphics.UpdateFromDirectory(root.CreateSubdirectory("graphics"), progress);
         Fonts.UpdateFromDirectory(root.CreateSubdirectory("fonts"), progress);
     }

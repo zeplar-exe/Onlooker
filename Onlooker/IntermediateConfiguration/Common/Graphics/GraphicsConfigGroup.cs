@@ -6,17 +6,8 @@ namespace Onlooker.IntermediateConfiguration.Common.Graphics;
 
 public class GraphicsConfigGroup : ConfigGroup
 {
+    [ConfigLocation("configuration/common/graphics/loading_screen.png")]
     public Texture2D? LoadingScreen { get; set; }
-    
-    public override void UpdateFromDirectory(DirectoryInfo root, IProgress<ConfigUpdateStatus> progress)
-    {
-        LoadingScreen = Texture2D.FromFile(
-            GameManager.Current.GraphicsDevice, 
-            Path.Join(Directory.GetCurrentDirectory(), "configuration/common/graphics/loading_screen.png"));
-        
-        // TODO: Ok, I really need a way to remove this boilerplate and stuff
-        progress.Report(new ConfigUpdateStatus("Loaded 'common/graphics/loading_screen.png'", UpdateStatusType.Success));
-    }
 
     public override void WriteToDirectory(DirectoryInfo root, IProgress<ConfigWriteStatus> progress)
     {

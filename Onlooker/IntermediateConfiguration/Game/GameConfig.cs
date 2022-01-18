@@ -4,7 +4,7 @@ namespace Onlooker.IntermediateConfiguration.Game;
 
 public class GameConfig : ConfigGroup
 {
-    public EntitiesConfigGroup EntitiesConfig { get; }
+    [ConfigLocation("configuration/game/entities")] public EntitiesConfigGroup EntitiesConfig { get; } 
 
     public GameConfig()
     {
