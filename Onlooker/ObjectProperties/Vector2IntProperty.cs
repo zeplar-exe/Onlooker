@@ -10,13 +10,21 @@ public class Vector2IntProperty : ObjectProperty<Vector2Int>
         
     }
 
-    public override Animator<Vector2Int> Animate(Vector2Int result, AnimationSettings settings)
+    protected internal override bool TryCreateNextFrame(Vector2Int start, Vector2Int end, AnimationSettings settings, out Vector2Int next)
     {
-        var x = new IntegerProperty(Value.X).Animate(result.X, settings).GetPropertySequence().ToArray();
-        var y = new IntegerProperty(Value.Y).Animate(result.Y, settings).GetPropertySequence().ToArray();
+        next = default;
+        
+        if (Value == end)
+            return false;
+        
+        var x = new IntegerProperty(Value.X);
+        var y = new IntegerProperty(Value.Y);
 
-        var values = x.Select((_, i) => new Vector2Int(x[i], y[i])).ToArray();
+        x.TryCreateNextFrame(start.X, end.X, settings, out var xNext);
+        y.TryCreateNextFrame(start.Y, end.Y, settings, out var yNext);
+        
+        next = new Vector2Int(xNext, yNext);
 
-        return new Animator<Vector2Int>(this, values, settings.Length.TotalSeconds / values.Length);
+        return true;
     }
 }

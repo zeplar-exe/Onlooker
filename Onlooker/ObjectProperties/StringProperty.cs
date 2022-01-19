@@ -9,8 +9,7 @@ public class StringProperty : ObjectProperty<string>
         
     }
 
-    public override Animator<string> Animate(string result, AnimationSettings settings) 
-        // TODO: Maybe use ObjectPropertyMetadata for settings instead 
+    /*public override Animator<string> Animate(string result, AnimationSettings settings)
     {
         if (result == null) 
             throw new ArgumentNullException(nameof(result));
@@ -46,5 +45,10 @@ public class StringProperty : ObjectProperty<string>
         }
 
         return new Animator<string>(this, values, settings.Length.TotalSeconds / values.Count);
+    }*/
+    
+    protected internal override bool TryCreateNextFrame(string start, string end, AnimationSettings settings, out string next)
+    {
+        throw new NotImplementedException();
     }
 }

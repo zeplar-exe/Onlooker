@@ -10,13 +10,21 @@ public class Vector2Property : ObjectProperty<Vector2>
         
     }
 
-    public override Animator<Vector2> Animate(Vector2 result, AnimationSettings settings)
+    protected internal override bool TryCreateNextFrame(Vector2 start, Vector2 end, AnimationSettings settings, out Vector2 next)
     {
-        var x = new FloatProperty(Value.X).Animate(result.X, settings).GetPropertySequence().ToArray();
-        var y = new FloatProperty(Value.Y).Animate(result.Y, settings).GetPropertySequence().ToArray();
+        next = default;
+        
+        if (Value == end)
+            return false;
+        
+        var x = new FloatProperty(Value.X);
+        var y = new FloatProperty(Value.Y);
 
-        var values = x.Select((_, i) => new Vector2(x[i], y[i])).ToArray();
+        x.TryCreateNextFrame(start.X, end.X, settings, out var xNext);
+        y.TryCreateNextFrame(start.Y, end.Y, settings, out var yNext);
+        
+        next = new Vector2(xNext, yNext);
 
-        return new Animator<Vector2>(this, values, settings.Length.TotalSeconds / values.Length);
+        return true;
     }
 }

@@ -10,15 +10,20 @@ public class ColorProperty : ObjectProperty<Color>
         
     }
 
-    public override Animator<Color> Animate(Color result, AnimationSettings settings)
+    protected internal override bool TryCreateNextFrame(Color start, Color end, AnimationSettings settings, out Color next)
     {
-        var a = new IntegerProperty(Value.A).Animate(result.A, settings).GetPropertySequence().ToArray();
-        var r = new IntegerProperty(Value.R).Animate(result.R, settings).GetPropertySequence().ToArray();
-        var g = new IntegerProperty(Value.G).Animate(result.G, settings).GetPropertySequence().ToArray();
-        var b = new IntegerProperty(Value.B).Animate(result.B, settings).GetPropertySequence().ToArray();
+        next = default;
 
-        var values = r.Select((_, i) => new Color(a[i], r[i], g[i], b[i])).ToArray();
+        if (Value == end)
+            return false;
+        
+        new IntegerProperty(Value.A).TryCreateNextFrame(start.A, end.A, settings, out var aNext);
+        new IntegerProperty(Value.R).TryCreateNextFrame(start.A, end.A, settings, out var rNext);
+        new IntegerProperty(Value.G).TryCreateNextFrame(start.A, end.A, settings, out var gNext);
+        new IntegerProperty(Value.B).TryCreateNextFrame(start.A, end.A, settings, out var bNext);
 
-        return new Animator<Color>(this, values, settings.Length.TotalSeconds / values.Length);
+        next = new Color(aNext, rNext, gNext, bNext);
+
+        return true;
     }
 }

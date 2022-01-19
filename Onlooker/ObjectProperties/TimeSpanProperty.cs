@@ -8,14 +8,20 @@ public class TimeSpanProperty : ObjectProperty<TimeSpan>
     {
         
     }
-    
-    public override Animator<TimeSpan> Animate(TimeSpan result, AnimationSettings settings)
+
+    protected internal override bool TryCreateNextFrame(TimeSpan start, TimeSpan end, AnimationSettings settings, out TimeSpan next)
     {
-        var seconds = new DoubleProperty(Value.TotalSeconds).Animate(result.TotalSeconds, settings);
-        var values = seconds.GetPropertySequence().ToArray();
+        next = default;
         
-        return new Animator<TimeSpan>(this, 
-            values.Select(TimeSpan.FromSeconds), 
-            settings.Length.TotalSeconds / values.Length);
+        if (Value == end)
+            return false;
+        
+        var seconds = new DoubleProperty(Value.TotalSeconds);
+
+        seconds.TryCreateNextFrame(start.TotalSeconds, end.TotalSeconds, settings, out var sNext);
+        
+        next = TimeSpan.FromSeconds(sNext);
+
+        return true;
     }
 }

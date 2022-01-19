@@ -12,32 +12,28 @@ public class DoubleProperty : ObjectProperty<double>
         
     }
     
-    public override Animator<double> Animate(double result, AnimationSettings settings)
+    protected internal override bool TryCreateNextFrame(double start, double end, AnimationSettings settings, out double next)
     {
-        if (Math.Abs(Value - result) < ComparisonTolerance)
-            return CreateEmptyAnimator();
+        next = 0;
         
-        var values = new List<double>();
-
+        if (Math.Abs(Value - end) > ComparisonTolerance)
+            return false;
+        
         switch (settings.Type)
         {
             case AnimationType.Linear:
             {
+                var invAlpha = Math2.InvLerp(start, end, Value);
+                // TODO: Gotta get rid of this magic number (0.1)
                 var minAlpha = 0.1 * (1 / settings.Length.TotalSeconds);
-                var alpha = 0d;
+                var alpha = invAlpha + minAlpha;
 
-                while ((alpha += minAlpha) < 1)
-                {
-                    values.Add(Math2.Lerp(Value, result, alpha));
-                }
-        
-                if (Math.Abs(values.Last() - result) > ComparisonTolerance)
-                    values.Add(result);
+                next = Math.Min(Math2.Lerp(Value, end, alpha), end);
                 
-                break;
+                return true;
             }
         }
 
-        return new Animator<double>(this, values, settings.Length.TotalSeconds / values.Count);
+        return false;
     }
 }

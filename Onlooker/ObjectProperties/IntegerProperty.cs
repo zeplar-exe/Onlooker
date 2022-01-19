@@ -10,33 +10,28 @@ public class IntegerProperty : ObjectProperty<int>
         
     }
 
-    public override Animator<int> Animate(int result, AnimationSettings settings)
+    protected internal override bool TryCreateNextFrame(int start, int end, AnimationSettings settings, out int next)
     {
-        if (Value == result)
-            return CreateEmptyAnimator();
+        next = 0;
         
-        var values = new List<int>();
-
+        if (Value == end)
+            return false;
+        
         switch (settings.Type)
         {
             case AnimationType.Linear:
             {
+                var invAlpha = Math2.InvLerp(start, end, Value);
                 // TODO: Gotta get rid of this magic number (0.1)
                 var minAlpha = 0.1 * (1 / settings.Length.TotalSeconds);
-                var alpha = 0d;
+                var alpha = invAlpha + minAlpha;
 
-                while ((alpha += minAlpha) < 1)
-                {
-                    values.Add(Math2.Lerp(Value, result, alpha));
-                }
-        
-                if (values.Last() != result)
-                    values.Add(result);
+                next = Math.Min(Math2.Lerp(Value, end, alpha), end);
                 
-                break;
+                return true;
             }
         }
 
-        return new Animator<int>(this, values, settings.Length.TotalSeconds / values.Count);
+        return false;
     }
 }

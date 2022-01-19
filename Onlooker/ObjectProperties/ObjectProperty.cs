@@ -33,12 +33,12 @@ public abstract class ObjectProperty<TValue>
         return new ObjectPropertyBinding<TValue>(this, destination, direction);
     }
 
-    public abstract Animator<TValue> Animate(TValue result, AnimationSettings settings);
-
-    protected Animator<TValue> CreateEmptyAnimator()
+    public Animator<TValue> Animate(TValue result, AnimationSettings settings)
     {
-        return new Animator<TValue>(this, Enumerable.Empty<TValue>(), 0);
+        return new Animator<TValue>(this, result, settings);
     }
+    
+    protected internal abstract bool TryCreateNextFrame(TValue start, TValue end, AnimationSettings settings, out TValue next);
 
     public static implicit operator TValue?(ObjectProperty<TValue> property) => property.Value;
 }

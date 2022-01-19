@@ -10,13 +10,18 @@ public class RectProperty : ObjectProperty<Rect>
         
     }
 
-    public override Animator<Rect> Animate(Rect result, AnimationSettings settings)
+    protected internal override bool TryCreateNextFrame(Rect start, Rect end, AnimationSettings settings, out Rect next)
     {
-        var bottomLeft = new Vector2Property(Value.BottomLeft).Animate(result.BottomLeft, settings).GetPropertySequence().ToArray();
-        var size = new Vector2Property(Value.Size).Animate(result.Size, settings).GetPropertySequence().ToArray();
+        next = default;
 
-        var values = bottomLeft.Select((_, i) => new Rect(bottomLeft[i], size[i])).ToArray();
+        if (Value == end)
+            return false;
 
-        return new Animator<Rect>(this, values, settings.Length.TotalSeconds / values.Length);
+        new Vector2Property(Value.BottomLeft).TryCreateNextFrame(start.BottomLeft, end.BottomLeft, settings, out var blNext);
+        new Vector2Property(Value.BottomLeft).TryCreateNextFrame(start.Size, end.Size, settings, out var sNext);
+
+        next = new Rect(blNext, sNext);
+        
+        return true;
     }
 }

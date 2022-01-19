@@ -2,12 +2,13 @@ namespace Onlooker.ObjectProperties.Animation;
 
 public class Animator<TProperty>
 {
+    private CancellationTokenSource InternalCancellation { get; }
     private CancellationToken CancellationToken { get; set; }
-
-    private int Index { get; set; }
+    
+    private TProperty InitialValue { get; }
+    private TProperty FinalValue { get; }
+    private AnimationSettings Settings { get; }
     private ObjectProperty<TProperty> Property { get; }
-    private TProperty[] Values { get; }
-    private double Interval { get; }
     
     public bool IsAnimating { get; private set; }
 
@@ -16,19 +17,28 @@ public class Animator<TProperty>
     private IProgress<AnimationStatus<TProperty>> InterfaceProgress => Progress;
     public Progress<AnimationStatus<TProperty>> Progress { get; }
 
-    internal Animator(ObjectProperty<TProperty> property, IEnumerable<TProperty> values, double interval)
+    internal Animator(ObjectProperty<TProperty> property, TProperty finalValue, AnimationSettings settings)
     {
-        if (values == null) 
-            throw new ArgumentNullException(nameof(values));
-        
         Property = property ?? throw new ArgumentNullException(nameof(property));
-        Values = values.ToArray();
-        Interval = interval;
+        InitialValue = Property.Value ?? throw new NullReferenceException("Cannot animate from a null initial value.");
+        Settings = settings ?? throw new ArgumentNullException(nameof(settings));
+        FinalValue = finalValue ?? throw new ArgumentNullException(nameof(finalValue));
 
+        InternalCancellation = new CancellationTokenSource();
         Progress = new Progress<AnimationStatus<TProperty>>();
     }
-    
-    public IEnumerable<TProperty> GetPropertySequence() => Values;
+
+    public IEnumerable<TProperty> GetPropertySequence()
+    {
+        if (IsAnimating)
+            throw new InvalidOperationException(
+                "The animator has already been started, calling this GetPropertySequence could corrupt memory.");
+
+        while (Property.TryCreateNextFrame(InitialValue, FinalValue, Settings, out var frame))
+        {
+            yield return frame;
+        }
+    }
     
     public async Task Start(CancellationToken token)
     {
@@ -51,10 +61,8 @@ public class Animator<TProperty>
 
     public async Task Restart(CancellationToken token)
     {
-        if (IsAnimating)
-            throw new InvalidOperationException("The animator has already been started.");
-        
-        Index = 0;
+        InternalCancellation.Cancel();
+        Property.Value = InitialValue;
         IsAnimating = true;
         
         await Start(CancellationToken);
@@ -62,27 +70,29 @@ public class Animator<TProperty>
 
     private async Task AnimateAsync()
     {
-        for (; Index < Values.LongLength; Index++)
+        TProperty? frame;
+
+        while (Property.TryCreateNextFrame(InitialValue, FinalValue, Settings, out frame))
         {
+            if (InternalCancellation.IsCancellationRequested)
+                return;
+            
             if (CancellationToken.IsCancellationRequested)
                 return;
             
-            var value = Values[Index];
-                        
-            Property.Value = value;
-            InterfaceProgress.Report(CreateStatus());
+            Property.Value = frame;
+            InterfaceProgress.Report(CreateStatus(false, frame));
 
-            await Task.Delay(TimeSpan.FromSeconds(Interval), CancellationToken);
+            await Task.Delay(Settings.Interval, CancellationToken);
         }
+        
+        InterfaceProgress.Report(CreateStatus(true, frame));
         
         Completed?.Invoke(this, EventArgs.Empty);
     }
 
-    private AnimationStatus<TProperty> CreateStatus()
+    private AnimationStatus<TProperty> CreateStatus(bool completed, TProperty? value)
     {
-        return new AnimationStatus<TProperty>(
-            Index == Values.LongLength - 1,
-            new ProgressInfo(Index, Values.LongLength),
-            Values[Index]);
+        return new AnimationStatus<TProperty>(completed, value);
     }
 }

@@ -17,4 +17,19 @@ public static class Math2
         return (float)(a + (b - a) * alpha);
         // TODO: Try to get rid of this cast
     }
+
+    public static int InvLerp(int a, int b, int v)
+    {
+        return (v - a) / (b - a);
+    }
+    
+    public static float InvLerp(float a, float b, float v)
+    {
+        return (v - a) / (b - a);
+    }
+    
+    public static double InvLerp(double a, double b, double v)
+    {
+        return (v - a) / (b - a);
+    }
 }
