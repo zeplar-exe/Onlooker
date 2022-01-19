@@ -1,5 +1,6 @@
 using Jammo.ParserTools.Tools;
 using Microsoft.Xna.Framework;
+using Onlooker.Common;
 
 namespace Onlooker.Monogame.Controllers;
 
@@ -28,6 +29,8 @@ public class MainController : GameController
 
     public override void Update(GameTime time)
     {
+        Time.Delta = time;
+        
         switch (State.Current)
         {
             case GameState.None:

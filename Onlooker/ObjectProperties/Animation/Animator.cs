@@ -32,12 +32,16 @@ public class Animator<TProperty>
     {
         if (IsAnimating)
             throw new InvalidOperationException(
-                "The animator has already been started, calling this GetPropertySequence could corrupt memory.");
+                "The animator has already been started, calling GetPropertySequence could corrupt memory.");
 
         while (Property.TryCreateNextFrame(InitialValue, FinalValue, Settings, out var frame))
         {
+            Property.Value = frame;
+            
             yield return frame;
         }
+
+        Property.Value = InitialValue;
     }
     
     public async Task Start(CancellationToken token)

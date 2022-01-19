@@ -21,12 +21,11 @@ public class IntegerProperty : ObjectProperty<int>
         {
             case AnimationType.Linear:
             {
-                var invAlpha = Math2.InvLerp(start, end, Value);
                 // TODO: Gotta get rid of this magic number (0.1)
-                var minAlpha = 0.1 * (1 / settings.Length.TotalSeconds);
-                var alpha = invAlpha + minAlpha;
+                var minAlpha = Time.Delta.ElapsedGameTime.TotalSeconds * (1 / settings.Length.TotalSeconds);
+                settings.Alpha += minAlpha;
 
-                next = Math.Min(Math2.Lerp(Value, end, alpha), end);
+                next = Math.Min(Math2.Lerp(Value, end, settings.Alpha), end);
                 
                 return true;
             }
