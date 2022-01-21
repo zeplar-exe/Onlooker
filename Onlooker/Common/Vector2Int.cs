@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+
 namespace Onlooker.Common;
 
 public record struct Vector2Int(int X, int Y)
@@ -44,6 +46,16 @@ public record struct Vector2Int(int X, int Y)
     public static Vector2Int operator /(Vector2Int left, Vector2Int right)
     {
         return new Vector2Int(left.X / right.X, left.Y / right.Y);
+    }
+    
+    public static implicit operator Vector2Int(Point point)
+    {
+        return new Vector2Int(point.X, point.Y);
+    }
+    
+    public static implicit operator Point(Vector2Int vector)
+    {
+        return new Point((int)vector.X, (int)vector.Y);
     }
     
     public override string ToString()
