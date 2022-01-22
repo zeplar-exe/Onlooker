@@ -21,7 +21,7 @@ public class IntegerProperty : ObjectProperty<int>
         {
             case AnimationType.LinearConstant:
             {
-                var minAlpha = 1 / settings.Length.TotalSeconds;
+                var minAlpha = Time.Delta.TotalSeconds * settings.Length.TotalSeconds;
                 settings.Alpha += minAlpha;
 
                 next = Math.Min(Math2.Lerp(Value, end, settings.Alpha), end);
