@@ -53,6 +53,11 @@ public class FillTransition : FadeTransition
         }
 
         Animator = DisplayRectangle.Rectangle.Animate(result, Settings);
+        
+        Animator.Progress.ProgressChanged += delegate(object? sender, AnimationStatus<Rectangle> status)
+        {
+            Console.WriteLine(status.NewValue);
+        };
     }
 
     public override bool TryStep()

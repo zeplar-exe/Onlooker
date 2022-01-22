@@ -13,7 +13,7 @@ public class RectangleProperty : ObjectProperty<Rectangle>
 
     protected internal override bool TryCreateNextFrame(Rectangle start, Rectangle end, AnimationSettings settings, out Rectangle next)
     {
-        next = default;
+        next = Value;
 
         if (Value == end)
             return false;

@@ -14,7 +14,7 @@ public class FloatProperty : ObjectProperty<float>
 
     protected internal override bool TryCreateNextFrame(float start, float end, AnimationSettings settings, out float next)
     {
-        next = end;
+        next = Value;
         
         if (Math.Abs(Value - end) < ComparisonTolerance)
             return false;

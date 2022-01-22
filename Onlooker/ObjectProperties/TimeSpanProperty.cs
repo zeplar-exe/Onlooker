@@ -11,7 +11,7 @@ public class TimeSpanProperty : ObjectProperty<TimeSpan>
 
     protected internal override bool TryCreateNextFrame(TimeSpan start, TimeSpan end, AnimationSettings settings, out TimeSpan next)
     {
-        next = end;
+        next = Value;
         
         if (Value == end)
             return false;

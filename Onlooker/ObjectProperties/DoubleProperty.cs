@@ -14,7 +14,7 @@ public class DoubleProperty : ObjectProperty<double>
     
     protected internal override bool TryCreateNextFrame(double start, double end, AnimationSettings settings, out double next)
     {
-        next = end;
+        next = Value;
         
         if (Math.Abs(Value - end) < ComparisonTolerance)
             return false;

@@ -12,7 +12,7 @@ public class ColorProperty : ObjectProperty<Color>
 
     protected internal override bool TryCreateNextFrame(Color start, Color end, AnimationSettings settings, out Color next)
     {
-        next = default;
+        next = Value;
 
         if (Value == end)
             return false;

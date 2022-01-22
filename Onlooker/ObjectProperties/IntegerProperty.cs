@@ -12,7 +12,7 @@ public class IntegerProperty : ObjectProperty<int>
 
     protected internal override bool TryCreateNextFrame(int start, int end, AnimationSettings settings, out int next)
     {
-        next = end;
+        next = Value;
         
         if (Value == end)
             return false;
