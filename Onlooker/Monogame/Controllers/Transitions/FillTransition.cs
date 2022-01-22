@@ -35,7 +35,7 @@ public class FillTransition : FadeTransition
             case TransitionFillDirection.ToTopClear:
                 break;
             case TransitionFillDirection.ToBottomClear:
-                result = new Rectangle(CommonValues.ScreenHeight, CommonValues.ScreenWidth);
+                result = new Rectangle(CommonValues.ScreenHeight, CommonValues.ScreenSize);
                 break;
             case TransitionFillDirection.RightToLeft:
                 break;
@@ -53,11 +53,6 @@ public class FillTransition : FadeTransition
         }
 
         Animator = DisplayRectangle.Rectangle.Animate(result, Settings);
-        
-        Animator.Progress.ProgressChanged += delegate(object? sender, AnimationStatus<Rectangle> status)
-        {
-            Console.WriteLine(status.NewValue);
-        };
     }
 
     public override bool TryStep()

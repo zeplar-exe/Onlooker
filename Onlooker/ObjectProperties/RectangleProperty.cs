@@ -18,10 +18,10 @@ public class RectangleProperty : ObjectProperty<Rectangle>
         if (Value == end)
             return false;
 
-        new Vector2Property(Value.TopLeft()).TryCreateNextFrame(start.TopLeft(), end.TopLeft(), settings, out var blNext);
-        new Vector2Property(Value.Size).TryCreateNextFrame(start.Size, end.Size, settings, out var sNext);
+        new Vector2Property(Value.TopLeft()).TryCreateNextFrame(start.TopLeft(), end.TopLeft(), settings, out var position);
+        new Vector2Property(Value.Size).TryCreateNextFrame(start.Size, end.Size, settings, out var size);
 
-        next = new Rectangle(blNext, sNext);
+        next = new Rectangle(position, size);
         
         return true;
     }
