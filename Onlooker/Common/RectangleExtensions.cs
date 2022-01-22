@@ -11,7 +11,7 @@ public static class RectangleExtensions
     
     public static Vector2 TopLeft(this Rectangle rectangle)
     {
-        return new Vector2(rectangle.Left, rectangle.Right);
+        return new Vector2(rectangle.Left, rectangle.Top);
     }
     
     public static Vector2 BottomRight(this Rectangle rectangle)

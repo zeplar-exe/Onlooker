@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Reflection;
 using Microsoft.Xna.Framework.Graphics;
 using Onlooker.IntermediateConfiguration.Game;

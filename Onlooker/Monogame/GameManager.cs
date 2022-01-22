@@ -1,8 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Onlooker.Common.Args;
 using Onlooker.IntermediateConfiguration;
-using Onlooker.IntermediateConfiguration.Common;
-using Onlooker.IntermediateConfiguration.Game;
 using Onlooker.Monogame.Controllers;
 
 namespace Onlooker.Monogame;
@@ -38,7 +37,10 @@ public class GameManager : Game
     public void HookController(GameController controller)
     {
         if (!Controllers.Contains(controller))
+        {
             Controllers.Add(controller);
+            controller.OnStart();
+        }
     }
     
     public bool UnhookController(GameController controller) => Controllers.Remove(controller);
@@ -58,8 +60,15 @@ public class GameManager : Game
         foreach (var controller in GetEnabledControllers())
         {
             if (controller.Disposed)
-                Controllers.Remove(controller);
-            
+            {
+                var args = new CancellationEventArgs();
+                
+                controller.OnDisposing(args);
+                
+                if (!args.Cancel)
+                    Controllers.Remove(controller);
+            }
+
             controller.Update(gameTime);
         }
         

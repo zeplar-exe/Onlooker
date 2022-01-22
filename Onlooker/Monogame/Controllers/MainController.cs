@@ -1,6 +1,8 @@
 using Jammo.ParserTools.Tools;
 using Microsoft.Xna.Framework;
 using Onlooker.Common;
+using Onlooker.Monogame.Controllers.Transitions;
+using Onlooker.ObjectProperties.Animation;
 
 namespace Onlooker.Monogame.Controllers;
 
@@ -29,7 +31,7 @@ public class MainController : GameController
 
     public override void Update(GameTime time)
     {
-        Time.Delta = time;
+        Time.LastUpdate = time;
         
         switch (State.Current)
         {
@@ -56,18 +58,28 @@ public class MainController : GameController
             case GameState.MainMenuStarted:
                 MainMenu.Enabled = true;
 
-                var transition = new DirectionalFadeTransitionController(
-                    new DirectionalFadeTransitionOptions(
-                        Color.Aqua, TimeSpan.FromSeconds(0.5),
-                        Direction.Down, TransitionEndHandler.Disable))
+                var transition = new FadeController(1, Color.Aqua)
                 {
-                    ZIndex = 1,
-                    Enabled = true
+                    Enabled = true,
+                    CompletionHandler = ControllerCompletionHandler.Dispose
                 };
                 
                 GameManager.Current.HookController(transition);
+                GameManager.Current.HookController(MainMenu);
 
-                transition.Start();
+                transition.QueueFillScreen(TransitionFillDirection.TopToBottom, new AnimationSettings
+                {
+                    Length = TimeSpan.FromSeconds(3),
+                    Interval = TimeSpan.FromSeconds(0.5)
+                });
+                
+                transition.QueueFillScreen(TransitionFillDirection.ToBottomClear, new AnimationSettings
+                {
+                    Length = TimeSpan.FromSeconds(5),
+                    Interval = TimeSpan.FromSeconds(0.5)
+                });
+                
+                transition.PlayAllBatches();
 
                 State.MoveTo(GameState.MainMenuUpdating);
                 

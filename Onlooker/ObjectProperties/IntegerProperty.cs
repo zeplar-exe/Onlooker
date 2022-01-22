@@ -12,7 +12,7 @@ public class IntegerProperty : ObjectProperty<int>
 
     protected internal override bool TryCreateNextFrame(int start, int end, AnimationSettings settings, out int next)
     {
-        next = 0;
+        next = end;
         
         if (Value == end)
             return false;
@@ -22,7 +22,7 @@ public class IntegerProperty : ObjectProperty<int>
             case AnimationType.Linear:
             {
                 // TODO: Gotta get rid of this magic number (0.1)
-                var minAlpha = Time.Delta.ElapsedGameTime.TotalSeconds * (1 / settings.Length.TotalSeconds);
+                var minAlpha = Time.LastUpdate.ElapsedGameTime.TotalSeconds * (1 / settings.Length.TotalSeconds);
                 settings.Alpha += minAlpha;
 
                 next = Math.Min(Math2.Lerp(Value, end, settings.Alpha), end);

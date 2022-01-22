@@ -16,12 +16,15 @@ public class LoadingScreenController : GameController
         Progress = new Progress<ConfigUpdateStatus>();
     }
 
-    public void Load()
+    public async void Load()
     {
         Progress.ProgressChanged += OnLoadProgress;
 
-        GameManager.Current.Configuration.UpdateFromDirectory(
-            new DirectoryInfo(Path.Join(Directory.GetCurrentDirectory(), "configuration")), Progress);
+        await Task.Run(delegate
+        {
+            GameManager.Current.Configuration.UpdateFromDirectory(
+                new DirectoryInfo(Path.Join(Directory.GetCurrentDirectory(), "configuration")), Progress);
+        });
     }
 
     private void OnLoadProgress(object? _, ConfigUpdateStatus status)

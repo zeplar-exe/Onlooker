@@ -1,16 +1,18 @@
+using Microsoft.Xna.Framework;
+using Onlooker.Common;
+using Onlooker.Monogame;
+using Onlooker.Monogame.Controllers;
+
 namespace Onlooker.ObjectProperties.Animation;
 
 public class Animator<TProperty>
 {
-    private CancellationTokenSource InternalCancellation { get; }
     private CancellationToken CancellationToken { get; set; }
     
     private TProperty InitialValue { get; }
     private TProperty FinalValue { get; }
     private AnimationSettings Settings { get; }
     private ObjectProperty<TProperty> Property { get; }
-    
-    public bool IsAnimating { get; private set; }
 
     public event EventHandler? Completed;
 
@@ -23,17 +25,12 @@ public class Animator<TProperty>
         InitialValue = Property.Value ?? throw new NullReferenceException("Cannot animate from a null initial value.");
         Settings = settings ?? throw new ArgumentNullException(nameof(settings));
         FinalValue = finalValue ?? throw new ArgumentNullException(nameof(finalValue));
-
-        InternalCancellation = new CancellationTokenSource();
+        
         Progress = new Progress<AnimationStatus<TProperty>>();
     }
 
     public IEnumerable<TProperty> GetPropertySequence()
     {
-        if (IsAnimating)
-            throw new InvalidOperationException(
-                "The animator has already been started, calling GetPropertySequence could corrupt memory.");
-
         while (Property.TryCreateNextFrame(InitialValue, FinalValue, Settings, out var frame))
         {
             Property.Value = frame;
@@ -44,55 +41,51 @@ public class Animator<TProperty>
         Property.Value = InitialValue;
     }
     
-    public async Task Start(CancellationToken token)
+    public void UpdateCancellationToken(CancellationToken token)
     {
-        if (IsAnimating)
-            throw new InvalidOperationException("The animator has already been started.");
-        
-        IsAnimating = true;
         CancellationToken = token;
-        
-        await AnimateAsync();
     }
 
-    public void Stop()
+    private GameTime LastStep { get; set; } = new(
+        TimeSpan.FromSeconds(-50000), TimeSpan.Zero);
+
+    public AnimationStatus<TProperty> Step()
     {
-        if (!IsAnimating)
-            throw new InvalidOperationException("The animator has already been stopped or is not animating yet.");
+        var status = new AnimationStatus<TProperty>(false, Property.Value);
         
-        IsAnimating = false;
-    }
-
-    public async Task Restart(CancellationToken token)
-    {
-        InternalCancellation.Cancel();
-        Property.Value = InitialValue;
-        IsAnimating = true;
-        
-        await Start(CancellationToken);
-    }
-
-    private async Task AnimateAsync()
-    {
-        TProperty? frame;
-
-        while (Property.TryCreateNextFrame(InitialValue, FinalValue, Settings, out frame))
+        if (Time.LastUpdate.TotalGameTime - LastStep.TotalGameTime > Settings.Interval)
         {
-            if (InternalCancellation.IsCancellationRequested)
-                return;
+            LastStep = Time.LastUpdate;
             
-            if (CancellationToken.IsCancellationRequested)
-                return;
-            
-            Property.Value = frame;
-            InterfaceProgress.Report(CreateStatus(false, frame));
+            return status;
+        }
 
-            await Task.Delay(Settings.Interval, CancellationToken);
+        LastStep = Time.LastUpdate;
+        
+        if (CancellationToken.IsCancellationRequested)
+            return status;
+
+        if (Property.TryCreateNextFrame(InitialValue, FinalValue, Settings, out var frame))
+        {
+            Property.Value = frame;
+            status = CreateStatus(frame?.Equals(FinalValue) ?? false, frame);
+            InterfaceProgress.Report(status);
+
+            return status;
         }
         
-        InterfaceProgress.Report(CreateStatus(true, frame));
-        
+        status = CreateStatus(true, frame);
+        InterfaceProgress.Report(status);
         Completed?.Invoke(this, EventArgs.Empty);
+
+        return status;
+    }
+
+    public void Reset(CancellationToken token)
+    {
+        Property.Value = InitialValue;
+        
+        UpdateCancellationToken(CancellationToken);
     }
 
     private AnimationStatus<TProperty> CreateStatus(bool completed, TProperty? value)

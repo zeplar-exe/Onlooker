@@ -1,7 +1,5 @@
 using Microsoft.Xna.Framework.Graphics;
 using Onlooker.IntermediateConfiguration.Game;
-using Onlooker.Monogame;
-using SpriteFontPlus;
 
 namespace Onlooker.IntermediateConfiguration.Common.Fonts;
 

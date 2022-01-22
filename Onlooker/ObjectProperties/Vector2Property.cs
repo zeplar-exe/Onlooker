@@ -12,7 +12,7 @@ public class Vector2Property : ObjectProperty<Vector2>
 
     protected internal override bool TryCreateNextFrame(Vector2 start, Vector2 end, AnimationSettings settings, out Vector2 next)
     {
-        next = default;
+        next = end;
         
         if (Value == end)
             return false;

@@ -14,16 +14,16 @@ public class FloatProperty : ObjectProperty<float>
 
     protected internal override bool TryCreateNextFrame(float start, float end, AnimationSettings settings, out float next)
     {
-        next = 0;
+        next = end;
         
-        if (Math.Abs(Value - end) > ComparisonTolerance)
+        if (Math.Abs(Value - end) < ComparisonTolerance)
             return false;
         
         switch (settings.Type)
         {
             case AnimationType.Linear:
             {
-                var minAlpha = Time.Delta.ElapsedGameTime.TotalSeconds * (1 / settings.Length.TotalSeconds);
+                var minAlpha = Time.LastUpdate.ElapsedGameTime.TotalSeconds * (1 / settings.Length.TotalSeconds);
                 settings.Alpha += minAlpha;
 
                 next = Math.Min(Math2.Lerp(Value, end, settings.Alpha), end);

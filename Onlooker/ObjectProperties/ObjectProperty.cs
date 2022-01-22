@@ -41,4 +41,9 @@ public abstract class ObjectProperty<TValue>
     protected internal abstract bool TryCreateNextFrame(TValue start, TValue end, AnimationSettings settings, out TValue next);
 
     public static implicit operator TValue?(ObjectProperty<TValue> property) => property.Value;
+
+    public override string ToString()
+    {
+        return Value?.ToString() ?? string.Empty;
+    }
 }

@@ -15,8 +15,7 @@ public static class Math2
     public static float Lerp(float a, float b, double alpha)
     {
         return (float)(a + (b - a) * alpha);
-        // TODO: Try to get rid of this cast
-    }
+    } // TODO: Lerps are not linear
 
     public static int InvLerp(int a, int b, int v)
     {
