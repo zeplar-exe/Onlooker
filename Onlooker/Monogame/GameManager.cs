@@ -18,6 +18,8 @@ public class GameManager : Game
     public MainController MainController { get; }
     public AbsoluteConfiguration Configuration { get; }
 
+    public static GameController? FindControllerById(Guid id) => Current.Controllers.Find(c => c.Id == id);
+
     public GameManager()
     {
         if (Current != null)

@@ -6,8 +6,14 @@ namespace Onlooker.Monogame.Controllers;
 
 public abstract class GameController
 {
+    public Guid Id { get; }
     public ControllerCompletionHandler CompletionHandler { get; set; }
-    
+
+    public GameController()
+    {
+        Id = Guid.NewGuid();
+    }
+
     public bool Disposed { get; set; }
     public bool Enabled { get; set; }
     
