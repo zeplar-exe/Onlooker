@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Onlooker.Common;
 using Onlooker.Common.Args;
 using Onlooker.Monogame.Controllers.Transitions;
 using Onlooker.ObjectProperties.Animation;
@@ -43,7 +44,7 @@ public class FadeController : GameController
 
     private void QueueTransition(FadeTransition transition)
     {
-        TransitionBatches.Enqueue(new TransitionBatch(new[] { transition }));
+        TransitionBatches.Enqueue(new TransitionBatch(transition.CreateEnumerable()));
     }
 
     private void QueueTransitionParallel(FadeTransition transition)

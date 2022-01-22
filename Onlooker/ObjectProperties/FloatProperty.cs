@@ -21,9 +21,9 @@ public class FloatProperty : ObjectProperty<float>
         
         switch (settings.Type)
         {
-            case AnimationType.Linear:
+            case AnimationType.LinearConstant:
             {
-                var minAlpha = Time.LastUpdate.ElapsedGameTime.TotalSeconds * (1 / settings.Length.TotalSeconds);
+                var minAlpha = Time.Delta.TotalSeconds / settings.Length.TotalSeconds;
                 settings.Alpha += minAlpha;
 
                 next = Math.Min(Math2.Lerp(Value, end, settings.Alpha), end);

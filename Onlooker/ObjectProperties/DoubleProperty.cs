@@ -21,9 +21,9 @@ public class DoubleProperty : ObjectProperty<double>
         
         switch (settings.Type)
         {
-            case AnimationType.Linear:
+            case AnimationType.LinearConstant:
             {
-                var minAlpha = Time.LastUpdate.ElapsedGameTime.TotalSeconds * (1 / settings.Length.TotalSeconds);
+                var minAlpha = 1 / settings.Length.TotalSeconds;
                 settings.Alpha += minAlpha;
 
                 next = Math.Min(Math2.Lerp(Value, end, settings.Alpha), end);

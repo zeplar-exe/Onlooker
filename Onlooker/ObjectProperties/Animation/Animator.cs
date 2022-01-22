@@ -46,21 +46,18 @@ public class Animator<TProperty>
         CancellationToken = token;
     }
 
-    private GameTime LastStep { get; set; } = new(
-        TimeSpan.FromSeconds(-50000), TimeSpan.Zero);
+    private TimeSpan LastStep { get; set; } = TimeSpan.FromSeconds(-50000);
 
     public AnimationStatus<TProperty> Step()
     {
         var status = new AnimationStatus<TProperty>(false, Property.Value);
         
-        if (Time.LastUpdate.TotalGameTime - LastStep.TotalGameTime > Settings.Interval)
+        if (Time.LastUpdate.TotalGameTime - LastStep < Settings.Interval)
         {
-            LastStep = Time.LastUpdate;
-            
             return status;
         }
 
-        LastStep = Time.LastUpdate;
+        LastStep = Time.LastUpdate.TotalGameTime;
         
         if (CancellationToken.IsCancellationRequested)
             return status;

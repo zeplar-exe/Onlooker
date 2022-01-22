@@ -70,13 +70,13 @@ public class MainController : GameController
                 transition.QueueFillScreen(TransitionFillDirection.TopToBottom, new AnimationSettings
                 {
                     Length = TimeSpan.FromSeconds(3),
-                    Interval = TimeSpan.FromSeconds(0.5)
+                    Interval = TimeSpan.FromSeconds(0.1)
                 });
                 
                 transition.QueueFillScreen(TransitionFillDirection.ToBottomClear, new AnimationSettings
                 {
                     Length = TimeSpan.FromSeconds(5),
-                    Interval = TimeSpan.FromSeconds(0.5)
+                    Interval = TimeSpan.FromSeconds(0.1)
                 });
                 
                 transition.PlayAllBatches();

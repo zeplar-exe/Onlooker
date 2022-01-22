@@ -19,10 +19,9 @@ public class IntegerProperty : ObjectProperty<int>
         
         switch (settings.Type)
         {
-            case AnimationType.Linear:
+            case AnimationType.LinearConstant:
             {
-                // TODO: Gotta get rid of this magic number (0.1)
-                var minAlpha = Time.LastUpdate.ElapsedGameTime.TotalSeconds * (1 / settings.Length.TotalSeconds);
+                var minAlpha = 1 / settings.Length.TotalSeconds;
                 settings.Alpha += minAlpha;
 
                 next = Math.Min(Math2.Lerp(Value, end, settings.Alpha), end);
