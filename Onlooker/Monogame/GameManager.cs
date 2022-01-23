@@ -27,6 +27,9 @@ public class GameManager : Game
         
         Current = this;
         
+        Window.AllowUserResizing = false; // TODO: Handle window resizing
+        Window.AllowAltF4 = true;
+        
         Graphics = new GraphicsDeviceManager(this);
         Configuration = new AbsoluteConfiguration();
         Controllers = new List<GameController>();

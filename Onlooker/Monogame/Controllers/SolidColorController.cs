@@ -1,12 +1,15 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Onlooker.Common;
 using Onlooker.ObjectProperties;
 
 namespace Onlooker.Monogame.Controllers;
 
 public class SolidColorController : GameController
 {
+    private Texture2D? Texture { get; set; }
     public RectangleProperty Rectangle { get; }
-    public ColorProperty Color { get; }
+    public ColorProperty Color { get; set; }
     private int ZIndex { get; }
 
     public SolidColorController(int zIndex, Color color)
@@ -23,9 +26,12 @@ public class SolidColorController : GameController
 
     public override void Draw(DrawCanvas canvas, GameTime time)
     {
-        var texture = GameManager.Current.Configuration.CommonConfig.Graphics.Black!;
+        var (x, y) = new Vector2Int(Rectangle.Value.Width, Rectangle.Value.Height);
+        
+        if (x == 0 || y == 0)
+            return;
 
-        canvas.Draw(ZIndex, new TextureItem(texture, Rectangle, Color));
+        canvas.Draw(ZIndex, new TextureItem(TextureHelper.CreateSolidColor(Color.Value), Rectangle, Color));
     }
 
     public override bool IsLocked()

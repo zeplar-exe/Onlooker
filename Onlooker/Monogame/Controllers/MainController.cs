@@ -48,7 +48,7 @@ public class MainController : GameController
             case GameState.LoadingUpdating:
                 if (LoadingScreen.LoadingCompleted)
                 {
-                    LoadingScreen.Enabled = false;
+                    LoadingScreen.Disposed = true;
                     State.MoveTo(GameState.MainMenuStarted);
                     
                     goto case GameState.MainMenuStarted;
@@ -58,7 +58,7 @@ public class MainController : GameController
             case GameState.MainMenuStarted:
                 MainMenu.Enabled = true;
 
-                var transition = new FadeController(1, Color.Aqua)
+                var transition = new FadeController(1, Color.DarkGray)
                 {
                     Enabled = true,
                     CompletionHandler = ControllerCompletionHandler.Dispose

@@ -21,9 +21,6 @@
         <None Update="configuration\common\graphics\loading_screen.png">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="configuration\common\graphics\black.png">
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
     </ItemGroup>
 
     <ItemGroup>
