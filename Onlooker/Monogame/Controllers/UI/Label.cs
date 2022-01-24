@@ -25,7 +25,6 @@ public class Label : GameController
         
         Text.ValueChanged += (_, e) =>
         {
-            Console.WriteLine(e.NewValue);
             if (ScaleToText)
             {
                 var (x, y) = Font.MeasureString(e.NewValue);
