@@ -1,3 +1,4 @@
+using System.Text;
 using Onlooker.ObjectProperties.Animation;
 
 namespace Onlooker.ObjectProperties;
@@ -50,5 +51,10 @@ public class StringProperty : ObjectProperty<string>
     protected internal override bool TryCreateNextFrame(string start, string end, AnimationSettings settings, out string next)
     {
         throw new NotImplementedException();
+    }
+
+    public StringBuilder ToBuilder()
+    {
+        return new StringBuilder(Value);
     }
 }

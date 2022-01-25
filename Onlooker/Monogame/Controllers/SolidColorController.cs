@@ -31,7 +31,7 @@ public class SolidColorController : GameController
         if (x == 0 || y == 0)
             return;
 
-        canvas.Draw(ZIndex, new TextureItem(TextureHelper.CreateSolidColor(Color.Value), Rectangle, Color));
+        canvas.Draw(ZIndex, new RectangleGraphic(Color, Rectangle));
     }
 
     public override bool IsLocked()
