@@ -20,18 +20,24 @@ public abstract class ConfigGroup
             
             if (typeof(ConfigFile).IsAssignableFrom(property.PropertyType))
             {
-                if (property.GetValue(this) is not ConfigFile config)
-                    continue;
-
                 var file = new FileInfo(locationAttribute.RelativeLocation);
                 
                 if (!file.Exists)
                     continue;
                 
+                if (property.GetValue(this) is not ConfigFile config)
+                {
+                    if (!WarnWriteAccess(property))
+                        continue;
+                    
+                    property.SetValue(this, Activator.CreateInstance(property.PropertyType, file));
+                    config = (ConfigFile)property.GetValue(this)!;
+                }
+
                 config.UpdateFromStream(file.OpenRead());
             
                 progress.Report(
-                    CreateFileLoadedStatus(Path.Join(locationAttribute.RelativeLocation, file.Name)));
+                    CreateFileLoadedStatus(Path.Join(locationAttribute.RelativeLocation)));
             }
             else if (property.GetValue(this) is ICollection<ConfigFile> collection)
             {
@@ -54,7 +60,13 @@ public abstract class ConfigGroup
             else if (typeof(ConfigGroup).IsAssignableFrom(property.PropertyType))
             {
                 if (property.GetValue(this) is not ConfigGroup config)
-                    continue;
+                {
+                    if (!WarnWriteAccess(property))
+                        continue;
+                    
+                    property.SetValue(this, Activator.CreateInstance(property.PropertyType));
+                    config = (ConfigGroup)property.GetValue(this)!;
+                }
                 
                 config.UpdateFromDirectory(
                     new DirectoryInfo(Path.Join(Directory.GetCurrentDirectory(), locationAttribute.RelativeLocation)),
@@ -153,8 +165,8 @@ public abstract class ConfigGroup
             }
             else if (property.PropertyType == typeof(Texture2D))
             {
-                using var stream = File.OpenRead(Path.Join(Directory.GetCurrentDirectory(),
-                    "configuration/common/graphics/loading_screen.png"));
+                using var stream = 
+                    File.OpenRead(Path.Join(Directory.GetCurrentDirectory(), locationAttribute.RelativeLocation));
 
                 if (property.GetValue(this) is not Texture2D loadingScreen)
                     continue;

@@ -1,19 +1,15 @@
 using Onlooker.IntermediateConfiguration.Common;
 using Onlooker.IntermediateConfiguration.Game;
+using Onlooker.IntermediateConfiguration.GUI;
 
 namespace Onlooker.IntermediateConfiguration;
 
 public class AbsoluteConfiguration : ConfigGroup
 {
-    [ConfigLocation("configuration/common")] public CommonConfig CommonConfig { get; }
-    [ConfigLocation("configuration/game")] public GameConfig GameConfig { get; }
+    [ConfigLocation("configuration/common")] public CommonConfig CommonConfig { get; set; }
+    [ConfigLocation("configuration/game")] public GameConfig GameConfig { get; set; }
+    [ConfigLocation("configuration/gui")] public GuiConfigGroup GuiConfig { get; set; }
 
-    public AbsoluteConfiguration()
-    {
-        CommonConfig = new CommonConfig();
-        GameConfig = new GameConfig();
-    }
-    
     public override void UpdateFromDirectory(DirectoryInfo root, IProgress<ConfigUpdateStatus> progress)
     {
         base.UpdateFromDirectory(root, progress);
