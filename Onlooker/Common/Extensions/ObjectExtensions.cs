@@ -1,4 +1,4 @@
-namespace Onlooker.Common;
+namespace Onlooker.Common.Extensions;
 
 public static class ObjectExtensions
 {

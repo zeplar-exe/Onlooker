@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace Onlooker.Common;
+namespace Onlooker.Common.Helpers;
 
 public static class MouseHelper
 {

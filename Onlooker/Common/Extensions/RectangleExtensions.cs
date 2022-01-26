@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 
-namespace Onlooker.Common;
+namespace Onlooker.Common.Extensions;
 
 public static class RectangleExtensions
 {

@@ -1,8 +1,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Onlooker.Common.Extensions;
 using Onlooker.Monogame;
 
-namespace Onlooker.Common;
+namespace Onlooker.Common.Helpers;
 
 public static class TextureHelper
 {
