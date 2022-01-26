@@ -100,6 +100,7 @@
 
     <ItemGroup>
       <Folder Include="configuration\common\fonts" />
+      <Folder Include="configuration\gui\documentation\frontent\example_snippets" />
     </ItemGroup>
 
 </Project>

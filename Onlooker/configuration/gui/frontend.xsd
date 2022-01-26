@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!-- Manipulating this file is not encouraged as it will only cause your own downfall -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:complexType name="ui_element">
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
+    
+    <xs:complexType name="text_element">
+        <xs:sequence>
+            <xs:element name="ui_element" type="ui_element" />
+        </xs:sequence>
+        
+        <xs:attribute name="text" type="xs:string"/>
+        <xs:attribute name="font_size" type="xs:string"/>
+    </xs:complexType>
+    
+    <xs:element name="frontend_root">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:any processContents="lax" maxOccurs="unbounded"/>
+                <xs:element name="ui_element" type="ui_element" />
+            </xs:sequence>
+            <xs:attribute name="id" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:complexType name="horizontal_layout">
+        <xs:sequence>
+            <xs:any processContents="lax" maxOccurs="unbounded"/>
+            <xs:element name="text_element" type="text_element" />
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="label">
+        <xs:sequence>
+            <xs:element name="text_element" type="text_element" />
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="button">
+        <xs:sequence>
+            <xs:element name="text_element" type="text_element" />
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

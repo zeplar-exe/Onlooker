@@ -1,0 +1,12 @@
+<frontend_root 
+        id="main_menu" 
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xsi:noNamespaceSchemaLocation="frontend.xsd">
+    
+    <horizontal_layout padding_generator="center_horizontal">
+        <label text="Onlooker" font_size="18"/>
+        <button id="play" text="Play" padding_down="30"/>
+        <button id="settings" text="Settings" padding_down="30"/>
+        <button id="exit" text="Exit"/>
+    </horizontal_layout>
+</frontend_root>
