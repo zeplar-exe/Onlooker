@@ -103,4 +103,19 @@
       <Folder Include="configuration\gui\documentation\frontent\example_snippets" />
     </ItemGroup>
 
+    <ItemGroup>
+      <EmbeddedResource Update="Common\StringResources\Xml\XmlProcessingOutput.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>XmlProcessingOutput.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Common\StringResources\Xml\XmlProcessingOutput.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>XmlProcessingOutput.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
 </Project>
