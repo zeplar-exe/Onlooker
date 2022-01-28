@@ -22,13 +22,6 @@ public class MainController : GameController
         GameManager.Current.HookController(LoadingScreen);
     }
 
-    public override void OnContentLoad()
-    {
-        LoadingScreen.Load();
-
-        base.OnContentLoad();
-    }
-
     public override void Update(GameTime time)
     {
         Time.LastUpdate = time;
@@ -40,7 +33,7 @@ public class MainController : GameController
 
                 goto case GameState.LoadingStarted;
             case GameState.LoadingStarted:
-                LoadingScreen.Load();
+                LoadingScreen.Load(); // by the time update runs, graphics devices have been initialized
                 
                 State.MoveTo(GameState.LoadingUpdating);
 
@@ -48,7 +41,6 @@ public class MainController : GameController
             case GameState.LoadingUpdating:
                 if (LoadingScreen.LoadingCompleted)
                 {
-                    LoadingScreen.Disposed = true;
                     State.MoveTo(GameState.MainMenuStarted);
                     
                     goto case GameState.MainMenuStarted;
@@ -67,18 +59,24 @@ public class MainController : GameController
                 GameManager.Current.HookController(transition);
                 GameManager.Current.HookController(MainMenu);
 
-                transition.QueueFillScreen(TransitionFillDirection.TopToBottom, new AnimationSettings
+                var fill = transition.QueueFillScreen(TransitionFillDirection.TopToBottom, new AnimationSettings
                 {
                     Length = TimeSpan.FromSeconds(3),
                     Interval = TimeSpan.FromSeconds(0.1)
                 });
+                
+                fill.Animator.Completed += (_, _) =>
+                {
+                    MainMenu.Enabled = true;
+                    LoadingScreen.Disposed = true;
+                };
                 
                 transition.QueueFillScreen(TransitionFillDirection.ToBottomClear, new AnimationSettings
                 {
                     Length = TimeSpan.FromSeconds(5),
                     Interval = TimeSpan.FromSeconds(0.1)
                 });
-                
+
                 transition.PlayAllBatches();
 
                 State.MoveTo(GameState.MainMenuUpdating);

@@ -2,7 +2,7 @@ namespace Onlooker.IntermediateConfiguration.Game.Entities.Races;
 
 public class RaceConfigGroup : ConfigGroup
 {
-    [ConfigLocation("game/entities/races")]
+    [RelativeConfigLocation("game/entities/races")]
     public List<RaceConfig> RaceConfigs { get; }
 
     public RaceConfigGroup()

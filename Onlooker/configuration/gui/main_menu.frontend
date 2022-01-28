@@ -1,6 +1,6 @@
 <frontend_root>    
     <vertical_layout width="30%" padding_generator="center">
-        <label text="Onlooker" font_size="18"/>
+        <label text="Onlooker" font_size="18" rect_scales="true"/>
         <button id="play" text="Play" font_size="18" padding_down="30" rect_scales="true"/>
         <button id="settings" text="Settings" font_size="18" padding_down="30" rect_scales="true"/>
         <button id="exit" text="Exit" font_size="18" rect_scales="true"/>

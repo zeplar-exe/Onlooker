@@ -21,6 +21,9 @@
         <None Update="configuration\common\graphics\loading_screen.png">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="configuration\gui\main_menu.frontend">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
     <ItemGroup>
@@ -108,6 +111,10 @@
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>XmlProcessingOutput.Designer.cs</LastGenOutput>
       </EmbeddedResource>
+      <EmbeddedResource Update="IntermediateConfiguration\ConfigurationProgress.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>ConfigurationProgress.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
     </ItemGroup>
 
     <ItemGroup>
@@ -115,6 +122,11 @@
         <DesignTime>True</DesignTime>
         <AutoGen>True</AutoGen>
         <DependentUpon>XmlProcessingOutput.resx</DependentUpon>
+      </Compile>
+      <Compile Update="IntermediateConfiguration\ConfigurationProgress.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>ConfigurationProgressOutput.resx</DependentUpon>
       </Compile>
     </ItemGroup>
 

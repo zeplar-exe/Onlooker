@@ -1,6 +1,9 @@
 using System.Reflection;
+using System.Xml.Linq;
 using Microsoft.Xna.Framework.Graphics;
+using Onlooker.Common.Wrappers;
 using Onlooker.IntermediateConfiguration.Game;
+using Onlooker.IntermediateConfiguration.GUI.Processing;
 using Onlooker.Monogame;
 using SpriteFontPlus;
 
@@ -13,63 +16,61 @@ public abstract class ConfigGroup
         foreach (var property in GetType().GetProperties(
                      BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
         {
-            var locationAttribute = property.GetCustomAttribute<ConfigLocationAttribute>();
+            var locationAttribute = property.GetCustomAttribute<RelativeConfigLocationAttribute>();
             
             if (locationAttribute == null)
                 continue;
-            
+
+            var value = property.GetValue(this);
+
             if (typeof(ConfigFile).IsAssignableFrom(property.PropertyType))
             {
-                var file = new FileInfo(locationAttribute.RelativeLocation);
+                var file = new FileInfo(Path.Join(root.FullName, locationAttribute.Location));
                 
                 if (!file.Exists)
+                {
+                    progress.Report(CreateInvalidFileStatus(file));
                     continue;
+                }
                 
-                if (property.GetValue(this) is not ConfigFile config)
+                if (value is not ConfigFile config)
                 {
                     if (!WarnWriteAccess(property))
                         continue;
-                    
-                    property.SetValue(this, Activator.CreateInstance(property.PropertyType, file));
-                    config = (ConfigFile)property.GetValue(this)!;
-                }
 
-                config.UpdateFromStream(file.OpenRead());
-            
-                progress.Report(
-                    CreateFileLoadedStatus(Path.Join(locationAttribute.RelativeLocation)));
+                    config = (ConfigFile)Activator.CreateInstance(property.PropertyType, file)!;
+                    property.SetValue(this, config);
+                }
+                
+                progress.Report(config.UpdateFromStream(file.OpenRead()));
             }
-            else if (property.GetValue(this) is ICollection<ConfigFile> collection)
+            else if (value is ICollection<ConfigFile> collection)
             {
                 var enumerableType = collection.GetType().GetGenericArguments()[0];
-                
                 collection.Clear();
 
                 foreach (var file in root.EnumerateFiles("*.txt", SearchOption.TopDirectoryOnly))
                 {
                     if (Activator.CreateInstance(enumerableType, file) is not ConfigFile config)
                         continue;
-
-                    config.UpdateFromStream(file.OpenRead());
+                    
+                    progress.Report(config.UpdateFromStream(file.OpenRead()));
                     collection.Add(config);
-
-                    progress.Report(
-                        CreateFileLoadedStatus(Path.Join(locationAttribute.RelativeLocation, file.Name)));
                 }
             }
             else if (typeof(ConfigGroup).IsAssignableFrom(property.PropertyType))
             {
-                if (property.GetValue(this) is not ConfigGroup config)
+                if (value is not ConfigGroup config)
                 {
                     if (!WarnWriteAccess(property))
                         continue;
-                    
-                    property.SetValue(this, Activator.CreateInstance(property.PropertyType));
-                    config = (ConfigGroup)property.GetValue(this)!;
+
+                    config = (ConfigGroup)Activator.CreateInstance(property.PropertyType)!;
+                    property.SetValue(this, config);
                 }
                 
                 config.UpdateFromDirectory(
-                    new DirectoryInfo(Path.Join(Directory.GetCurrentDirectory(), locationAttribute.RelativeLocation)),
+                    new DirectoryInfo(Path.Join(root.FullName, locationAttribute.Location)),
                     progress);
             }
             else if (property.PropertyType == typeof(Texture2D))
@@ -77,19 +78,34 @@ public abstract class ConfigGroup
                 if (!WarnWriteAccess(property))
                     continue;
                 
-                var texture = Texture2D.FromFile(
-                    GameManager.Current.GraphicsDevice, 
-                    Path.Join(Directory.GetCurrentDirectory(), locationAttribute.RelativeLocation));
+                var file = new FileInfo(Path.Join(root.FullName, locationAttribute.Location));
                 
+                if (!file.Exists)
+                {
+                    progress.Report(CreateInvalidFileStatus(file));
+                    continue;
+                }
+                
+                var texture = Texture2D.FromFile(GameManager.Current.GraphicsDevice, file.FullName);
                 property.SetValue(this, texture);
+                
+                progress.Report(CreateFileLoadedStatus(file));
             }
             else if (property.PropertyType == typeof(SpriteFont))
             {
                 if (!WarnWriteAccess(property))
                     continue;
+
+                var file = new FileInfo(Path.Join(root.FullName, locationAttribute.Location));
                 
-                var bake = TtfFontBaker.Bake(File.ReadAllBytes(
-                        Path.Join(Directory.GetCurrentDirectory(), locationAttribute.RelativeLocation)),
+                if (!file.Exists)
+                {
+                    progress.Report(CreateInvalidFileStatus(file));
+                    continue;
+                }
+                
+                var bake = TtfFontBaker.Bake(
+                    File.ReadAllBytes(file.FullName),
                     25,
                     1024,
                     1024,
@@ -103,15 +119,32 @@ public abstract class ConfigGroup
                 );
                 
                 property.SetValue(this, bake.CreateSpriteFont(GameManager.Current.GraphicsDevice));
-        
-                progress.Report(CreateFileLoadedStatus(locationAttribute.RelativeLocation));
+                progress.Report(CreateFileLoadedStatus(file));
+            }
+            else if (property.PropertyType == typeof(GuiDocument))
+            {
+                if (!WarnWriteAccess(property))
+                    continue;
+                
+                var file = new FileInfo(Path.Join(root.FullName, locationAttribute.Location));
+
+                if (!file.Exists)
+                {
+                    progress.Report(CreateInvalidFileStatus(file));
+                    continue;
+                }
+
+                var processor = new GuiProcessor();
+                var xmlResult = processor.ProcessXml(XDocumentWrapper.Create(file));
+                
+                property.SetValue(this, xmlResult.Value);
+                
+                progress.Report(CreateFileLoadedStatus(file));
             }
             else
             {
                 continue;
             }
-            
-            progress.Report(CreateFileLoadedStatus(locationAttribute.RelativeLocation));
         }
     }
     
@@ -131,21 +164,23 @@ public abstract class ConfigGroup
         foreach (var property in GetType().GetProperties(
                      BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
         {
-            var locationAttribute = property.GetCustomAttribute<ConfigLocationAttribute>();
+            var locationAttribute = property.GetCustomAttribute<RelativeConfigLocationAttribute>();
 
             if (locationAttribute == null)
                 continue;
+
+            var value = property.GetValue(this);
             
             if (typeof(ConfigFile).IsAssignableFrom(property.PropertyType))
             {
-                if (property.GetValue(this) is not ConfigFile config)
+                if (value is not ConfigFile config)
                     continue;
                 
                 var result = config.WriteToStream(config.Source.OpenWrite());
             
                 progress.Report(result);
             }
-            else if (property.GetValue(this) is IEnumerable<ConfigFile> enumerable)
+            else if (value is IEnumerable<ConfigFile> enumerable)
             {
                 foreach (var config in enumerable)
                 {
@@ -156,39 +191,43 @@ public abstract class ConfigGroup
             }
             else if (typeof(ConfigGroup).IsAssignableFrom(property.PropertyType))
             {
-                if (property.GetValue(this) is not ConfigGroup config)
+                if (value is not ConfigGroup config)
                     continue;
                 
                 config.WriteToDirectory(
-                    new DirectoryInfo(Path.Join(Directory.GetCurrentDirectory(), locationAttribute.RelativeLocation)),
+                    new DirectoryInfo(Path.Join(root.FullName, locationAttribute.Location)),
                     progress);
             }
             else if (property.PropertyType == typeof(Texture2D))
-            {
-                using var stream = 
-                    File.OpenRead(Path.Join(Directory.GetCurrentDirectory(), locationAttribute.RelativeLocation));
-
-                if (property.GetValue(this) is not Texture2D loadingScreen)
-                    continue;
-        
-                loadingScreen.SaveAsPng(stream, loadingScreen.Width, loadingScreen.Height);
-                
-                progress.Report(CreateFileWrittenStatus(locationAttribute.RelativeLocation));
+            { // None of these are going to change in-game
+                continue;
             }
             else if (property.PropertyType == typeof(SpriteFont))
             {
-                throw new NotSupportedException();
+                continue;
+            }
+            else if (property.PropertyType == typeof(GuiDocument))
+            {
+                continue;
+            }
+            else
+            {
+                continue;
             }
         }
     }
 
-    protected ConfigUpdateStatus CreateFileLoadedStatus(string relativePath)
+    protected ConfigUpdateStatus CreateFileLoadedStatus(FileInfo file)
     {
-        return new ConfigUpdateStatus($"Loaded '{relativePath}'", UpdateStatusType.Success);
+        return new ConfigUpdateStatus(
+            string.Format(ConfigurationProgress.FileLoaded, file), 
+            UpdateStatusType.Success);
     }
-    
-    protected ConfigWriteStatus CreateFileWrittenStatus(string relativePath)
+
+    protected ConfigUpdateStatus CreateInvalidFileStatus(FileInfo file)
     {
-        return new ConfigWriteStatus($"Wrote '{relativePath}'", WriteStatusType.Success);
+        return new ConfigUpdateStatus(
+            string.Format(ConfigurationProgress.ConfigurationFileMissing, file.Name),
+            UpdateStatusType.Invalid);
     }
 }

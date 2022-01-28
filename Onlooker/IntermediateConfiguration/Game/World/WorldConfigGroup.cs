@@ -4,6 +4,6 @@ namespace Onlooker.IntermediateConfiguration.Game.World;
 
 public class WorldConfigGroup : ConfigGroup
 {
-    [ConfigLocation("configuration/game/world/terrain")]
+    [RelativeConfigLocation("terrain")]
     public TerrainTypeConfigGroup TerrainTypes { get; set; }
 }

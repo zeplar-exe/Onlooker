@@ -22,7 +22,9 @@ public abstract class ConfigFile
     {
         SettingsDeserializer.DeserializeTo(SettingsDocument.FromStream(stream), this);
 
-        return new ConfigUpdateStatus("Success", UpdateStatusType.Success);
+        return new ConfigUpdateStatus(
+            string.Format(ConfigurationProgress.FileLoaded, Source),
+            UpdateStatusType.Success);
     }
 
     public virtual ConfigWriteStatus WriteToStream(Stream stream)

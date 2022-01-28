@@ -50,10 +50,7 @@ public class LoadingScreenController : GameController
         if (texture == null)
             return;
         
-        canvas.Draw(0, 
-            new TextureItem(
-                texture,
-                CommonValues.ScreenRect, Color.Black));
+        canvas.Draw(0, new TextureItem(texture, CommonValues.ScreenRect));
     }
 
     public override bool IsLocked()

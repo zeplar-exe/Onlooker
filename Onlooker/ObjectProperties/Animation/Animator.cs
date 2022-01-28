@@ -58,12 +58,15 @@ public class Animator<TProperty>
         
         if (CancellationToken.IsCancellationRequested)
             return status;
-
+        
         if (Property.TryCreateNextFrame(InitialValue, FinalValue, Settings, out var frame))
         {
             Property.Value = frame;
             status = CreateStatus(frame?.Equals(FinalValue) ?? false, frame);
             InterfaceProgress.Report(status);
+
+            if (frame?.Equals(FinalValue) ?? false)
+                Completed?.Invoke(this, EventArgs.Empty);
 
             return status;
         }

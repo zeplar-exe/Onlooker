@@ -7,17 +7,16 @@ namespace Onlooker.IntermediateConfiguration.GUI.Elements;
 
 public class VerticalLayoutElement : GuiElement
 {
-    public RectangleProperty Rect { get; }
     public PaddingProperty Padding { get; }
 
-    public VerticalLayoutElement()
+    public VerticalLayoutElement() : base(new RectangleProperty(new Rectangle(0, 0, 200, 200)))
     {
-        Rect = new RectangleProperty(new Rectangle(0, 0, 200, 200));
         Padding = new PaddingProperty(Onlooker.Common.Padding.Empty);
     }
     
     public override void LoadFromXml(XElement element)
     {
+        Rect.Value = new Rectangle(0, 0, 200, 200);
         Padding.Value = Onlooker.Common.Padding.FromXml(element);
         
         Enum.TryParse<PaddingPreset>(element.Attribute("padding_generator")?.Value, true, out var paddingPreset);
@@ -39,12 +38,16 @@ public class VerticalLayoutElement : GuiElement
     
     public override void Update(GameTime time)
     {
+        var y = 0;
         
-    }
+        foreach (var child in Children)
+        {
+            child.Rect.Value = new Rectangle(
+                child.Rect.Value.X, y,
+                child.Rect.Value.Width, child.Rect.Value.Width);
 
-    public override void Draw(DrawCanvas canvas, GameTime time)
-    {
-        
+            y += child.Rect.Value.Height;
+        }
     }
 
     public override bool IsLocked()

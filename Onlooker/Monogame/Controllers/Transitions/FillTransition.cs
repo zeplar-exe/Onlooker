@@ -7,7 +7,7 @@ namespace Onlooker.Monogame.Controllers.Transitions;
 public class FillTransition : FadeTransition
 {
     private TransitionFillDirection Direction { get; }
-    public Animator<Rectangle>? Animator { get; }
+    public Animator<Rectangle> Animator { get; }
 
     public FillTransition(SolidColorController displayRectangle, TransitionFillDirection direction, AnimationSettings settings) 
         : base(displayRectangle, settings)
@@ -57,6 +57,6 @@ public class FillTransition : FadeTransition
 
     public override bool TryStep()
     {
-        return !Animator?.Step().Completed ?? false;
+        return !Animator.Step().Completed;
     }
 }

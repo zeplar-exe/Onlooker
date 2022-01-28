@@ -10,7 +10,6 @@ namespace Onlooker.IntermediateConfiguration.GUI.Elements;
 
 public class LabelElement : GuiElement
 {
-    public RectangleProperty Rect { get; }
     public StringProperty Text { get; }
     public SpriteFont Font { get; set; }
     public IntegerProperty FontSize { get; }
@@ -19,9 +18,8 @@ public class LabelElement : GuiElement
     public BooleanProperty ScaleToRect { get; }
     public PaddingProperty Padding { get; }
     
-    public LabelElement()
+    public LabelElement() : base(new RectangleProperty(new Rectangle(0, 0, 200, 200)))
     {
-        Rect = new RectangleProperty(Rectangle.Empty);
         Text = new StringProperty("");
         FontSize = new IntegerProperty(14);
         ScaleToText = new BooleanProperty(false);
@@ -29,16 +27,44 @@ public class LabelElement : GuiElement
         Padding = new PaddingProperty(Onlooker.Common.Padding.Empty);
         
         Font = GameManager.Current.Configuration.CommonConfig.Fonts.Information!;
-        Background = TextureHelper.CreateSolidColor(Color.DarkGray);
+        Background = TextureHelper.CreateSolidColor(Color.BlueViolet);
+        
+        Rect.ValueChanged += (_, e) =>
+        {
+            if (ScaleToRect)
+            {
+                var size = Font!.MeasureString(Text);
+                var rectSize = new Vector2(Rect.Value.Width, Rect.Value.Height);
+
+                if (size.X < rectSize.X || size.Y < rectSize.Y)
+                {
+                    // Something something fontsize
+                }
+            }
+        };
+
+        Text.ValueChanged += (_, e) =>
+        {
+            if (ScaleToText)
+            {
+                var size = Font!.MeasureString(Text);
+                var rectSize = new Vector2(Rect.Value.Width, Rect.Value.Height);
+                
+                if (size.X > rectSize.X || size.Y > rectSize.Y)
+                {
+                    Rect.Value = new Rectangle(Rect.Value.Location, new Point((int)size.X, (int)size.Y));
+                }
+            }
+        };
     }
     
     public override void LoadFromXml(XElement element)
     {
-        Rect.Value = new Rectangle();
+        ScaleToText.Value = element.Attribute("rect_scales")?.Value.SafeParseBool() ?? ScaleToText.Value;
+        ScaleToRect.Value = element.Attribute("text_scales")?.Value.SafeParseBool() ?? ScaleToRect.Value;
+        Rect.Value = new Rectangle(0, 0, 50, 50);
         Text.Value = element.Attribute("text")?.Value;
         FontSize.Value = element.Attribute("font_size")?.Value.SafeParseInt() ?? FontSize.Value;
-        ScaleToText.Value = element.Attribute("text_scales")?.Value.SafeParseBool() ?? ScaleToText.Value;
-        ScaleToRect.Value = element.Attribute("rect_scales")?.Value.SafeParseBool() ?? ScaleToRect.Value;
         Padding.Value = Onlooker.Common.Padding.FromXml(element);
         // TODO: Font, Background, Padding
     }
@@ -52,6 +78,8 @@ public class LabelElement : GuiElement
     {
         canvas.Draw(ZIndex, new TextureItem(Background, Rect));
         canvas.Draw(ZIndex, new StringItem(Text.ToBuilder(), Font, Rect));
+        
+        base.Draw(canvas, time);
     }
 
     public override bool IsLocked()

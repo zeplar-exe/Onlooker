@@ -6,9 +6,9 @@ namespace Onlooker.IntermediateConfiguration;
 
 public class AbsoluteConfiguration : ConfigGroup
 {
-    [ConfigLocation("configuration/common")] public CommonConfig CommonConfig { get; set; }
-    [ConfigLocation("configuration/game")] public GameConfig GameConfig { get; set; }
-    [ConfigLocation("configuration/gui")] public GuiConfigGroup GuiConfig { get; set; }
+    [RelativeConfigLocation("common")] public CommonConfig CommonConfig { get; set; }
+    [RelativeConfigLocation("game")] public GameConfig GameConfig { get; set; }
+    [RelativeConfigLocation("gui")] public GuiConfigGroup GuiConfig { get; set; }
 
     public override void UpdateFromDirectory(DirectoryInfo root, IProgress<ConfigUpdateStatus> progress)
     {

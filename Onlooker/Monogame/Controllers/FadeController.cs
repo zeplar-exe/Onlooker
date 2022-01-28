@@ -27,14 +27,22 @@ public class FadeController : GameController
         QueueTransition(new ColorTransition(DisplayRectangle, color, settings));
     }
 
-    public void QueueFadeToParallel(Color color, AnimationSettings settings)
+    public ColorTransition QueueFadeToParallel(Color color, AnimationSettings settings)
     {
-        QueueTransitionParallel(new ColorTransition(DisplayRectangle, color, settings));
+        var transition = new ColorTransition(DisplayRectangle, color, settings);
+        
+        QueueTransitionParallel(transition);
+
+        return transition;
     }
     
-    public void QueueFillScreen(TransitionFillDirection direction, AnimationSettings settings)
+    public FillTransition QueueFillScreen(TransitionFillDirection direction, AnimationSettings settings)
     {
-        QueueTransition(new FillTransition(DisplayRectangle, direction, settings));
+        var transition = new FillTransition(DisplayRectangle, direction, settings);
+        
+        QueueTransition(transition);
+
+        return transition;
     }
 
     public void QueueFillScreenParallel(TransitionFillDirection direction, AnimationSettings settings)

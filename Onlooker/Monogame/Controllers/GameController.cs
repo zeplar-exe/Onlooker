@@ -15,13 +15,33 @@ public abstract class GameController
     }
 
     public bool Disposed { get; set; }
-    public bool Enabled { get; set; }
-    
+
+    private bool b_enalbed;
+
+    public bool Enabled
+    {
+        get => b_enalbed;
+        set
+        {
+            if (b_enalbed == value)
+                return;
+
+            b_enalbed = value;
+
+            if (b_enalbed)
+                OnEnable();
+            else
+                OnDisable();
+        }
+    }
+
     public virtual void OnStart() { }
     public virtual void OnContentLoad() { }
     public abstract void Update(GameTime time);
     public abstract void Draw(DrawCanvas canvas, GameTime time);
     public abstract bool IsLocked();
 
+    protected virtual void OnEnable() { }
+    protected virtual void OnDisable() { }
     public virtual void OnDisposing(CancellationEventArgs args) { }
 }
