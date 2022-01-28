@@ -10,13 +10,44 @@ public static class MouseHelper
         return rectangle.Contains(Mouse.GetState().Position);
     }
 
-    public static bool IsMousePressedOverRect(Rectangle rectangle)
+    public static bool IsLeftButtonPressed()
     {
-        return IsOverRect(rectangle) && Mouse.GetState().LeftButton == ButtonState.Pressed;
+        return Mouse.GetState().LeftButton == ButtonState.Pressed;
     }
 
-    public static bool IsMouseReleasedOverRect(Rectangle rectangle)
+    public static bool IsLeftButtonPressedOverRect(Rectangle rectangle)
     {
-        return IsOverRect(rectangle) && Mouse.GetState().LeftButton == ButtonState.Released;
+        return IsOverRect(rectangle) && IsLeftButtonPressed();
+    }
+    
+    public static bool IsLeftButtonReleased()
+    {
+        return Mouse.GetState().LeftButton == ButtonState.Released;
+    }
+
+    public static bool IsLeftButtonReleasedOverRect(Rectangle rectangle)
+    {
+        return IsOverRect(rectangle) && IsLeftButtonReleased();
+    }
+    
+    
+    public static bool IsRightButtonPressed()
+    {
+        return Mouse.GetState().RightButton == ButtonState.Pressed;
+    }
+
+    public static bool IsRightButtonPressedOverRect(Rectangle rectangle)
+    {
+        return IsOverRect(rectangle) && IsRightButtonPressed();
+    }
+    
+    public static bool IsRightButtonReleased()
+    {
+        return Mouse.GetState().RightButton == ButtonState.Released;
+    }
+
+    public static bool IsRightButtonReleasedOverRect(Rectangle rectangle)
+    {
+        return IsOverRect(rectangle) && IsRightButtonReleased();
     }
 }

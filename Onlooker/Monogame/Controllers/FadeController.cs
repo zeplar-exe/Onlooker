@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
-using Onlooker.Common;
 using Onlooker.Common.Args;
+using Onlooker.Common.Extensions;
 using Onlooker.Monogame.Controllers.Transitions;
 using Onlooker.ObjectProperties.Animation;
 

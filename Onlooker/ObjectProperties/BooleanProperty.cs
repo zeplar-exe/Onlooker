@@ -1,4 +1,4 @@
-using Onlooker.Common;
+using Onlooker.Common.Extensions;
 using Onlooker.ObjectProperties.Animation;
 
 namespace Onlooker.ObjectProperties;

@@ -1,7 +1,4 @@
-using Microsoft.Xna.Framework;
 using Onlooker.Common;
-using Onlooker.Monogame;
-using Onlooker.Monogame.Controllers;
 
 namespace Onlooker.ObjectProperties.Animation;
 

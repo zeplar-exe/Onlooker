@@ -9,20 +9,28 @@ public class StringItem : IDrawItem
     public StringBuilder Builder { get; }
     public SpriteFont Font { get; }
     public Rectangle Rectangle { get; }
-    public Color Color { get; }
+    public Color Tint { get; }
     
-    public StringItem(StringBuilder builder, SpriteFont font, Rectangle rectangle, Color color)
+    public StringItem(StringBuilder builder, SpriteFont font, Rectangle rectangle)
     {
         Builder = builder;
         Font = font;
         Rectangle = rectangle;
-        Color = color;
+        Tint = Color.White;
+    }
+    
+    public StringItem(StringBuilder builder, SpriteFont font, Rectangle rectangle, Color tint)
+    {
+        Builder = builder;
+        Font = font;
+        Rectangle = rectangle;
+        Tint = tint;
     }
 
     public void Draw(SpriteBatch batch)
     {
         var position = new Vector2(Rectangle.Location.X, Rectangle.Location.Y);
         
-        batch.DrawString(Font, Builder, position, Color);
+        batch.DrawString(Font, Builder, position, Tint);
     }
 }

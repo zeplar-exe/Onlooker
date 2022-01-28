@@ -1,12 +1,8 @@
-<frontend_root 
-        id="main_menu" 
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:noNamespaceSchemaLocation="frontend.xsd">
-    
-    <horizontal_layout padding_generator="center_horizontal">
+<frontend_root>    
+    <vertical_layout width="30%" padding_generator="center">
         <label text="Onlooker" font_size="18"/>
-        <button id="play" text="Play" padding_down="30"/>
-        <button id="settings" text="Settings" padding_down="30"/>
-        <button id="exit" text="Exit"/>
-    </horizontal_layout>
+        <button id="play" text="Play" font_size="18" padding_down="30" rect_scales="true"/>
+        <button id="settings" text="Settings" font_size="18" padding_down="30" rect_scales="true"/>
+        <button id="exit" text="Exit" font_size="18" rect_scales="true"/>
+    </vertical_layout>
 </frontend_root>
