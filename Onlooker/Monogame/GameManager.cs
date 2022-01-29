@@ -73,6 +73,9 @@ public class GameManager : Game
                 if (!args.Cancel)
                     Controllers.Remove(controller);
             }
+            
+            if (controller.IsLocked())
+                continue;
 
             controller.Update(gameTime);
         }
