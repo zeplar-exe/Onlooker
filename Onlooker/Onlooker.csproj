@@ -115,6 +115,13 @@
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>ConfigurationProgress.Designer.cs</LastGenOutput>
       </EmbeddedResource>
+      <EmbeddedResource Update="Common\StringResources\Gui\NumericValueOutput.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>NumericValueOutput.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Common\StringResources\Xml\XmlProcessingOutput.en.resx">
+        <DependentUpon>XmlProcessingOutput.resx</DependentUpon>
+      </EmbeddedResource>
     </ItemGroup>
 
     <ItemGroup>
@@ -127,6 +134,11 @@
         <DesignTime>True</DesignTime>
         <AutoGen>True</AutoGen>
         <DependentUpon>ConfigurationProgressOutput.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Common\StringResources\Gui\NumericValueOutput.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>NumericValueOutput.resx</DependentUpon>
       </Compile>
     </ItemGroup>
 

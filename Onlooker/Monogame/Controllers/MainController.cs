@@ -48,8 +48,6 @@ public class MainController : GameController
                 
                 break;
             case GameState.MainMenuStarted:
-                MainMenu.Enabled = true;
-
                 var transition = new FadeController(1, Color.DarkGray)
                 {
                     Enabled = true,

@@ -16,7 +16,8 @@ public class VerticalLayoutElement : GuiElement
     
     public override void LoadFromXml(XElement element)
     {
-        Rect.Value = new Rectangle(0, 0, 200, 200);
+        base.LoadFromXml(element);
+        
         Padding.Value = Onlooker.Common.Padding.FromXml(element);
         
         Enum.TryParse<PaddingPreset>(element.Attribute("padding_generator")?.Value, true, out var paddingPreset);

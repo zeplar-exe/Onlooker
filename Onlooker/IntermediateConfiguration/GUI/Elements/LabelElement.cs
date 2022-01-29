@@ -60,6 +60,8 @@ public class LabelElement : GuiElement
     
     public override void LoadFromXml(XElement element)
     {
+        base.LoadFromXml(element);
+        
         ScaleToText.Value = element.Attribute("rect_scales")?.Value.SafeParseBool() ?? ScaleToText.Value;
         ScaleToRect.Value = element.Attribute("text_scales")?.Value.SafeParseBool() ?? ScaleToRect.Value;
         Rect.Value = new Rectangle(0, 0, 50, 50);
