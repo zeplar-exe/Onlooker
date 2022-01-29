@@ -3,20 +3,20 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Onlooker.Monogame;
 
-public class TextureItem : IDrawItem
+public class TextureGraphic : IDrawGraphic
 {
     public Texture2D Texture { get; }
     public Rectangle Rectangle { get; }
     public Color Tint { get; }
     
-    public TextureItem(Texture2D texture, Rectangle rectangle)
+    public TextureGraphic(Texture2D texture, Rectangle rectangle)
     {
         Texture = texture;
         Rectangle = rectangle;
         Tint = Color.White;
     }
     
-    public TextureItem(Texture2D texture, Rectangle rectangle, Color tint)
+    public TextureGraphic(Texture2D texture, Rectangle rectangle, Color tint)
     {
         Texture = texture;
         Rectangle = rectangle;

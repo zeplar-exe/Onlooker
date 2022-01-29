@@ -4,14 +4,14 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Onlooker.Monogame;
 
-public class StringItem : IDrawItem
+public class StringGraphic : IDrawGraphic
 {
     public StringBuilder Builder { get; }
     public SpriteFont Font { get; }
     public Rectangle Rectangle { get; }
     public Color Tint { get; }
     
-    public StringItem(StringBuilder builder, SpriteFont font, Rectangle rectangle)
+    public StringGraphic(StringBuilder builder, SpriteFont font, Rectangle rectangle)
     {
         Builder = builder;
         Font = font;
@@ -19,7 +19,7 @@ public class StringItem : IDrawItem
         Tint = Color.White;
     }
     
-    public StringItem(StringBuilder builder, SpriteFont font, Rectangle rectangle, Color tint)
+    public StringGraphic(StringBuilder builder, SpriteFont font, Rectangle rectangle, Color tint)
     {
         Builder = builder;
         Font = font;

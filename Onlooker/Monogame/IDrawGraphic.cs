@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Onlooker.Monogame;
 
-public interface IDrawItem
+public interface IDrawGraphic
 {
     public void Draw(SpriteBatch batch);
 }

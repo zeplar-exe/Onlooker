@@ -82,8 +82,8 @@ public class ButtonElement : GuiElement
 
     public override void Draw(DrawCanvas canvas, GameTime time)
     {
-        canvas.Draw(ZIndex, new TextureItem(Background, Rect));
-        canvas.Draw(ZIndex, new StringItem(Text.ToBuilder(), Font, Rect));
+        canvas.Draw(ZIndex, new TextureGraphic(Background, Rect));
+        canvas.Draw(ZIndex, new StringGraphic(Text.ToBuilder(), Font, Rect));
     }
 
     public override bool IsLocked()

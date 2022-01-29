@@ -4,7 +4,7 @@ using Onlooker.Common.Helpers;
 
 namespace Onlooker.Monogame;
 
-public class RectangleGraphic : IDrawItem
+public class RectangleGraphic : IDrawGraphic
 {
     private Color Color { get; }
     private Rectangle Rect { get; }
