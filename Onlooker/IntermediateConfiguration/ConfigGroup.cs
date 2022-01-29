@@ -1,6 +1,7 @@
 using System.Reflection;
 using System.Xml.Linq;
 using Microsoft.Xna.Framework.Graphics;
+using Onlooker.Common.StringResources.Configuration;
 using Onlooker.Common.Wrappers;
 using Onlooker.IntermediateConfiguration.Game;
 using Onlooker.IntermediateConfiguration.GUI.Processing;
@@ -152,8 +153,7 @@ public abstract class ConfigGroup
     {
         if (!p.CanWrite)
         {
-            Console.WriteLine(
-                $"WARNING: The property '{p.Name}' has a ConfigLocation attribute, but is readonly.");
+            Console.WriteLine(ConfigurationProgress.ReadonlyConfigGroupProperty, p.Name);
         }
 
         return p.CanWrite;

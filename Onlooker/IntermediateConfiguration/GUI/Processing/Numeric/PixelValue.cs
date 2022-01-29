@@ -1,3 +1,5 @@
+using Onlooker.Common;
+
 namespace Onlooker.IntermediateConfiguration.GUI.Processing.Numeric;
 
 public class PixelValue : NumericValue

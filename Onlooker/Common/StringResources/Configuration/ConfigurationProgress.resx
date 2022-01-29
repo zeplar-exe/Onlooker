@@ -1,4 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
     <resheader name="resmimetype">
         <value>text/microsoft-resx</value>
     </resheader>
@@ -16,5 +23,8 @@
     </data>
     <data name="FileLoaded" xml:space="preserve">
         <value>Loaded '{0}'.</value>
+    </data>
+    <data name="ReadonlyConfigGroupProperty" xml:space="preserve">
+        <value>WARNING: The property '{0}' has a ConfigLocation attribute, but is readonly.</value>
     </data>
 </root>

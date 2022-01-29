@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Onlooker.Common.Helpers;
 
-namespace Onlooker.Monogame;
+namespace Onlooker.Monogame.Graphics;
 
 public class RectangleGraphic : IDrawGraphic
 {

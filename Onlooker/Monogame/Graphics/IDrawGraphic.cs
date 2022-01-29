@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Onlooker.Monogame;
+namespace Onlooker.Monogame.Graphics;
 
 public interface IDrawGraphic
 {

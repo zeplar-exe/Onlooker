@@ -1,4 +1,4 @@
-namespace Onlooker.IntermediateConfiguration.GUI.Processing.Numeric;
+namespace Onlooker.Common;
 
 public enum ScreenOrigin
 {

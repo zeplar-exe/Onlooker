@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Onlooker.Common.Args;
 using Onlooker.IntermediateConfiguration;
 using Onlooker.Monogame.Controllers;
+using Onlooker.Monogame.Graphics;
 
 namespace Onlooker.Monogame;
 
@@ -16,7 +17,7 @@ public class GameManager : Game
     public static GameManager Current;
     
     public MainController MainController { get; }
-    public AbsoluteConfiguration Configuration { get; }
+    public ConfigurationRoot Configuration { get; }
 
     public static GameController? FindControllerById(Guid id) => Current.Controllers.Find(c => c.Id == id);
 
@@ -31,7 +32,7 @@ public class GameManager : Game
         Window.AllowAltF4 = true;
         
         Graphics = new GraphicsDeviceManager(this);
-        Configuration = new AbsoluteConfiguration();
+        Configuration = new ConfigurationRoot();
         Controllers = new List<GameController>();
 
         MainController = new MainController { Enabled = true };

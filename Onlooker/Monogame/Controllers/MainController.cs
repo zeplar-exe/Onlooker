@@ -2,6 +2,7 @@ using Jammo.ParserTools.Tools;
 using Microsoft.Xna.Framework;
 using Onlooker.Common;
 using Onlooker.Monogame.Controllers.Transitions;
+using Onlooker.Monogame.Graphics;
 using Onlooker.ObjectProperties.Animation;
 
 namespace Onlooker.Monogame.Controllers;

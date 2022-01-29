@@ -1,4 +1,4 @@
-namespace Onlooker.Monogame;
+namespace Onlooker.Monogame.Graphics;
 
 public class DrawCanvas
 {

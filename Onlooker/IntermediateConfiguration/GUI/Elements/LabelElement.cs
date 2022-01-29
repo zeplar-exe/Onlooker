@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Onlooker.Common.Extensions;
 using Onlooker.Common.Helpers;
 using Onlooker.Monogame;
+using Onlooker.Monogame.Graphics;
 using Onlooker.ObjectProperties;
 
 namespace Onlooker.IntermediateConfiguration.GUI.Elements;

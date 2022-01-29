@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Onlooker.Common;
+using Onlooker.Monogame.Graphics;
 using Onlooker.ObjectProperties;
 
 namespace Onlooker.Monogame.Controllers;

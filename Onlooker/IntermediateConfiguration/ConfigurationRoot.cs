@@ -4,7 +4,7 @@ using Onlooker.IntermediateConfiguration.GUI;
 
 namespace Onlooker.IntermediateConfiguration;
 
-public class AbsoluteConfiguration : ConfigGroup
+public class ConfigurationRoot : ConfigGroup
 {
     [RelativeConfigLocation("common")] public CommonConfig CommonConfig { get; set; }
     [RelativeConfigLocation("game")] public GameConfig GameConfig { get; set; }

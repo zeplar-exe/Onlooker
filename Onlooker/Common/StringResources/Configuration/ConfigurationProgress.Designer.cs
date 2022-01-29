@@ -8,10 +8,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Onlooker.IntermediateConfiguration {
-    using System;
-    
-    
+namespace Onlooker.Common.StringResources.Configuration {
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -39,7 +38,7 @@ namespace Onlooker.IntermediateConfiguration {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Onlooker.IntermediateConfiguration.ConfigurationProgress", typeof(ConfigurationProgress).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Onlooker.Common.StringResources.Configuration.ConfigurationProgress", typeof(ConfigurationProgress).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -75,6 +74,15 @@ namespace Onlooker.IntermediateConfiguration {
         internal static string FileLoaded {
             get {
                 return ResourceManager.GetString("FileLoaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WARNING: The property &apos;{0}&apos; has a ConfigLocation attribute, but is readonly..
+        /// </summary>
+        internal static string ReadonlyConfigGroupProperty {
+            get {
+                return ResourceManager.GetString("ReadonlyConfigGroupProperty", resourceCulture);
             }
         }
     }
