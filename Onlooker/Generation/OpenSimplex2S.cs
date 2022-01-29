@@ -121,7 +121,7 @@ public class OpenSimplex2S
     {
 
         // Re-orient the cubic lattices via rotation, to produce the expected look on cardinal planar slices.
-        // If texturing objects that don't tend to have cardinal plane faces, you could even remove this.
+        // If texturing objects that don't tend to have cardinal plane faces, you could even get rid of this.
         // Orthonormal rotation. Not a skew transform.
         var r = (2.0 / 3.0) * (x + y + z);
         double xr = r - x, yr = r - y, zr = r - z;

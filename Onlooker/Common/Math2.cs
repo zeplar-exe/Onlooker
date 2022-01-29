@@ -11,11 +11,11 @@ public static class Math2
     {
         return a + alpha * (b - a);
     }
-    
+
     public static float Lerp(float a, float b, double alpha)
     {
         return (float)(a + alpha * (b - a));
-    } // TODO: Lerps are not linear
+    }
 
     public static int InvLerp(int a, int b, int v)
     {

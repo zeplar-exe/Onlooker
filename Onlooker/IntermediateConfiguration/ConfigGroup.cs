@@ -115,7 +115,7 @@ public abstract class ConfigGroup
                         CharacterRange.Latin1Supplement,
                         CharacterRange.LatinExtendedA,
                         CharacterRange.Cyrillic
-                    } // Remove: These hardcoded values
+                    }
                 );
                 
                 property.SetValue(this, bake.CreateSpriteFont(GameManager.Current.GraphicsDevice));
