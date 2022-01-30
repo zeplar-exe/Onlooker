@@ -2,7 +2,7 @@ namespace Onlooker.IntermediateConfiguration.Game.Entities.Moods;
 
 public class MoodConfigGroup : ConfigGroup
 {
-    [RelativeConfigLocation("moods")] 
+    [RelativeConfigLocation("")] 
     public List<MoodConfig> MoodConfigs { get; }
     
     public MoodConfigGroup()

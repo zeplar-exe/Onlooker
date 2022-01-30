@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Reflection;
 using System.Xml.Linq;
 using Microsoft.Xna.Framework.Graphics;
@@ -30,7 +31,7 @@ public abstract class ConfigGroup
                 
                 if (!file.Exists)
                 {
-                    progress.Report(CreateInvalidFileStatus(file));
+                    progress.Report(CreateMissingFileStatus(file));
                     continue;
                 }
                 
@@ -45,20 +46,24 @@ public abstract class ConfigGroup
                 
                 progress.Report(config.UpdateFromStream(file.OpenRead()));
             }
-            else if (value is ICollection<ConfigFile> collection)
+            else if(value is IList list && value.GetType().IsGenericType)
             {
-                var enumerableType = collection.GetType().GetGenericArguments()[0];
-                collection.Clear();
+                var enumerableType = list.GetType().GetGenericArguments()[0];
                 
-                Console.WriteLine(root.FullName);
+                if (!typeof(ConfigFile).IsAssignableFrom(enumerableType))
+                    continue;
+                
+                list.Clear();
 
-                foreach (var file in root.EnumerateFiles("*.txt", SearchOption.TopDirectoryOnly))
+                var directory = new DirectoryInfo(Path.Join(root.FullName, locationAttribute.Location));
+
+                foreach (var file in directory.EnumerateFiles("*.txt", SearchOption.TopDirectoryOnly))
                 {
                     if (Activator.CreateInstance(enumerableType, file) is not ConfigFile config)
                         continue;
                     
                     progress.Report(config.UpdateFromStream(file.OpenRead()));
-                    collection.Add(config);
+                    list.Add(config);
                 }
             }
             else if (typeof(ConfigGroup).IsAssignableFrom(property.PropertyType))
@@ -85,7 +90,7 @@ public abstract class ConfigGroup
                 
                 if (!file.Exists)
                 {
-                    progress.Report(CreateInvalidFileStatus(file));
+                    progress.Report(CreateMissingFileStatus(file));
                     continue;
                 }
                 
@@ -103,7 +108,7 @@ public abstract class ConfigGroup
                 
                 if (!file.Exists)
                 {
-                    progress.Report(CreateInvalidFileStatus(file));
+                    progress.Report(CreateMissingFileStatus(file));
                     continue;
                 }
                 
@@ -133,7 +138,7 @@ public abstract class ConfigGroup
 
                 if (!file.Exists)
                 {
-                    progress.Report(CreateInvalidFileStatus(file));
+                    progress.Report(CreateMissingFileStatus(file));
                     continue;
                 }
 
@@ -219,14 +224,14 @@ public abstract class ConfigGroup
         }
     }
 
-    protected ConfigUpdateStatus CreateFileLoadedStatus(FileInfo file)
+    protected static ConfigUpdateStatus CreateFileLoadedStatus(FileInfo file)
     {
         return new ConfigUpdateStatus(
             string.Format(ConfigurationProgress.FileLoaded, file), 
             UpdateStatusType.Success);
     }
 
-    protected ConfigUpdateStatus CreateInvalidFileStatus(FileInfo file)
+    protected static ConfigUpdateStatus CreateMissingFileStatus(FileInfo file)
     {
         return new ConfigUpdateStatus(
             string.Format(ConfigurationProgress.ConfigurationFileMissing, file.Name),

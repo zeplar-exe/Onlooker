@@ -2,7 +2,7 @@ namespace Onlooker.IntermediateConfiguration.Game.Entities.Personality;
 
 public class PersonalityConfigGroup : ConfigGroup
 {
-    [RelativeConfigLocation("personalities")] 
+    [RelativeConfigLocation("")] 
     public List<PersonalityConfig> PersonalityConfigs { get; }
 
     public PersonalityConfigGroup()

@@ -1,3 +1,4 @@
+using Onlooker.Common.StringResources.Configuration;
 using SettingsConfig;
 
 namespace Onlooker.IntermediateConfiguration.Game.Entities.Stats;
@@ -34,11 +35,15 @@ public class StatsConfigGroup : ConfigGroup
                     break;
                 default:
                     progress.Report(
-                        new ConfigUpdateStatus($"Expected a valid 'type' in '{file.Name}'", UpdateStatusType.Invalid));
+                        new ConfigUpdateStatus(
+                            $"Expected a valid 'type' in '{file.Name}'",
+                            UpdateStatusType.Invalid));
                     break;
             }
             
-            progress.Report(new ConfigUpdateStatus($"Loaded 'game/entities/stats/{file.Name}'", UpdateStatusType.Success));
+            progress.Report(new ConfigUpdateStatus(
+                string.Format(ConfigurationProgress.FileLoaded, file), 
+                UpdateStatusType.Success));
         }
     }
 }
