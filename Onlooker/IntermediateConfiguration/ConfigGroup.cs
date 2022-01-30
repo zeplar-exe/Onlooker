@@ -49,21 +49,25 @@ public abstract class ConfigGroup
             else if(value is IList list && value.GetType().IsGenericType)
             {
                 var enumerableType = list.GetType().GetGenericArguments()[0];
-                
-                if (!typeof(ConfigFile).IsAssignableFrom(enumerableType))
-                    continue;
-                
-                list.Clear();
 
-                var directory = new DirectoryInfo(Path.Join(root.FullName, locationAttribute.Location));
-
-                foreach (var file in directory.EnumerateFiles("*.txt", SearchOption.TopDirectoryOnly))
+                if (typeof(ConfigFile).IsAssignableFrom(enumerableType))
                 {
-                    if (Activator.CreateInstance(enumerableType, file) is not ConfigFile config)
-                        continue;
+                    list.Clear();
+
+                    var directory = new DirectoryInfo(Path.Join(root.FullName, locationAttribute.Location));
+
+                    foreach (var file in directory.EnumerateFiles("*.txt", SearchOption.TopDirectoryOnly))
+                    {
+                        if (Activator.CreateInstance(enumerableType, file) is not ConfigFile config)
+                            continue;
                     
-                    progress.Report(config.UpdateFromStream(file.OpenRead()));
-                    list.Add(config);
+                        progress.Report(config.UpdateFromStream(file.OpenRead()));
+                        list.Add(config);
+                    }
+                }
+                else if (typeof(GuiDocument).IsAssignableFrom(enumerableType))
+                {
+                    
                 }
             }
             else if (typeof(ConfigGroup).IsAssignableFrom(property.PropertyType))
@@ -143,7 +147,7 @@ public abstract class ConfigGroup
                 }
 
                 var processor = new GuiProcessor();
-                var xmlResult = processor.ProcessXml(XDocumentWrapper.Create(file));
+                var xmlResult = processor.ProcessFrontendXml(XDocumentWrapper.Create(file));
                 
                 property.SetValue(this, xmlResult.Value);
                 

@@ -27,6 +27,12 @@ public abstract class GuiElement : GameController
         Children = new List<GuiElement>();
     }
 
+    public override void Update(GameTime time)
+    {
+        foreach (var child in Children)
+            child.Update(time);
+    }
+
     public override void Draw(DrawCanvas canvas, GameTime time)
     {
         foreach (var child in Children)

@@ -1,5 +1,6 @@
 using System.Xml.Linq;
 using Microsoft.Xna.Framework;
+using Onlooker.Common;
 using Onlooker.Monogame;
 using Onlooker.ObjectProperties;
 
@@ -49,6 +50,8 @@ public class VerticalLayoutElement : GuiElement
 
             y += child.Rect.Value.Height;
         }
+        
+        base.Update(time);
     }
 
     public override bool IsLocked()

@@ -1,5 +1,6 @@
 using System.Xml.Linq;
 using Microsoft.Xna.Framework;
+using Onlooker.Common;
 using Onlooker.Monogame;
 using Onlooker.ObjectProperties;
 
@@ -11,12 +12,6 @@ public class RootElement : GuiElement
     {
         
     }
-    
-    public override void Update(GameTime time)
-    {
-        foreach (var child in Children)
-            child.Update(time);
-    }
 
     public override bool IsLocked()
     {
@@ -25,6 +20,6 @@ public class RootElement : GuiElement
 
     public override void LoadFromXml(XElement element)
     {
-        throw new NotImplementedException();
+        
     }
 }

@@ -29,6 +29,12 @@ public static class Program
         using var game = new GameManager(Name);
         
         game.Run();
+        
+        #if DEBUG
+
+        while (Console.ReadKey().Key != ConsoleKey.Enter) { }
+
+        #endif
     }
     
     private static void ExecuteCommandLine(string command)

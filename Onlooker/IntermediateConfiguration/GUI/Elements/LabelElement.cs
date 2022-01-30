@@ -1,11 +1,13 @@
 using System.Xml.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Onlooker.Common;
 using Onlooker.Common.Extensions;
 using Onlooker.Common.Helpers;
 using Onlooker.Monogame;
 using Onlooker.Monogame.Graphics;
 using Onlooker.ObjectProperties;
+using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace Onlooker.IntermediateConfiguration.GUI.Elements;
 
@@ -70,11 +72,6 @@ public class LabelElement : GuiElement
         FontSize.Value = element.Attribute("font_size")?.Value.SafeParseInt() ?? FontSize.Value;
         Padding.Value = Onlooker.Common.Padding.FromXml(element);
         // TODO: Font, Background, Padding
-    }
-
-    public override void Update(GameTime time)
-    {
-        
     }
 
     public override void Draw(DrawCanvas canvas, GameTime time)
