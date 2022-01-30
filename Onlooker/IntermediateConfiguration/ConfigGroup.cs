@@ -49,6 +49,8 @@ public abstract class ConfigGroup
             {
                 var enumerableType = collection.GetType().GetGenericArguments()[0];
                 collection.Clear();
+                
+                Console.WriteLine(root.FullName);
 
                 foreach (var file in root.EnumerateFiles("*.txt", SearchOption.TopDirectoryOnly))
                 {

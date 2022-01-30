@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Onlooker.Common;
 using Onlooker.IntermediateConfiguration.Game;
 using Onlooker.Monogame.Graphics;
+using Onlooker.Monogame.Logging;
 
 namespace Onlooker.Monogame.Controllers;
 
@@ -30,7 +31,8 @@ public class LoadingScreenController : GameController
 
     private void OnLoadProgress(object? _, ConfigUpdateStatus status)
     {
-        LastMessage = $"{status.Type}: {status.Message}";
+        LastMessage = $"{status.Type}, {status.Message}";
+        GameManager.Current.Logger.Log(AppLogger.ConfigLog, LogMessageBuilder.TimestampedMessage(LastMessage));
 
         if (status.Type == UpdateStatusType.Completed)
         {

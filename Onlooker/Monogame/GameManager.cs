@@ -1,9 +1,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Onlooker.Common.Args;
+using Onlooker.Common.Helpers;
 using Onlooker.IntermediateConfiguration;
 using Onlooker.Monogame.Controllers;
 using Onlooker.Monogame.Graphics;
+using Onlooker.Monogame.Logging;
 
 namespace Onlooker.Monogame;
 
@@ -18,10 +20,11 @@ public class GameManager : Game
     
     public MainController MainController { get; }
     public ConfigurationRoot Configuration { get; }
+    public AppLogger Logger { get; }
 
     public static GameController? FindControllerById(Guid id) => Current.Controllers.Find(c => c.Id == id);
 
-    public GameManager()
+    public GameManager(string name)
     {
         if (Current != null)
             throw new InvalidOperationException("A game manager has already been created.");
@@ -35,9 +38,22 @@ public class GameManager : Game
         Configuration = new ConfigurationRoot();
         Controllers = new List<GameController>();
 
+        var logDirectory = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), name, "logs");
+
+        Directory.CreateDirectory(logDirectory);
+        
+        Logger = new AppLogger(logDirectory);
+
         MainController = new MainController { Enabled = true };
         
         HookController(MainController);
+        
+        Init();
+    }
+
+    public async void Init()
+    {
+        await AsyncHelper.OnInterval(Logger.FlushAsync, TimeSpan.FromSeconds(5), CancellationToken.None);
     }
 
     public void HookController(GameController controller)
@@ -50,6 +66,11 @@ public class GameManager : Game
     }
     
     public bool UnhookController(GameController controller) => Controllers.Remove(controller);
+
+    protected override async void OnExiting(object sender, EventArgs args)
+    {
+        await Logger.DisposeAsync();
+    }
 
     protected override void LoadContent()
     {
