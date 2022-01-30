@@ -1,4 +1,5 @@
 using Onlooker.Common.StringResources.Configuration;
+using Onlooker.Common.StringResources.Configuration.Stats;
 using SettingsConfig;
 
 namespace Onlooker.IntermediateConfiguration.Game.Entities.Stats;
@@ -36,7 +37,7 @@ public class StatsConfigGroup : ConfigGroup
                 default:
                     progress.Report(
                         new ConfigUpdateStatus(
-                            $"Expected a valid 'type' in '{file.Name}'",
+                            string.Format(StatsConfigurationProgress.InvalidType, file),
                             UpdateStatusType.Invalid));
                     break;
             }

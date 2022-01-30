@@ -30,7 +30,8 @@ public class GameManager : Game
             throw new InvalidOperationException("A game manager has already been created.");
         
         Current = this;
-        
+
+        IsMouseVisible = true;
         Window.AllowUserResizing = false; // TODO: Handle window resizing
         Window.AllowAltF4 = true;
         

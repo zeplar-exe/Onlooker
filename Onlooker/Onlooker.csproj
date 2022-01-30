@@ -122,6 +122,10 @@
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>ConfigurationProgress.Designer.cs</LastGenOutput>
       </EmbeddedResource>
+      <EmbeddedResource Update="Common\StringResources\Configuration\Stats\StatsConfigurationProgress.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>StatsConfigurationProgress.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
     </ItemGroup>
 
     <ItemGroup>
@@ -139,6 +143,11 @@
         <DesignTime>True</DesignTime>
         <AutoGen>True</AutoGen>
         <DependentUpon>ConfigurationProgressOutput.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Common\StringResources\Configuration\Stats\StatsConfigurationProgress.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>StatsConfigurationProgress.resx</DependentUpon>
       </Compile>
     </ItemGroup>
 
