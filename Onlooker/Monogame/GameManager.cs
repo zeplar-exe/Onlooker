@@ -19,8 +19,11 @@ public class GameManager : Game
     public static GameManager Current;
     
     public MainController MainController { get; }
+    public InputFrameworkController Input { get; }
     public ConfigurationRoot Configuration { get; }
     public AppLogger Logger { get; }
+    
+    public bool EnableControllersOnHook { get; set; }
 
     public static GameController? FindControllerById(Guid id) => Current.Controllers.Find(c => c.Id == id);
 
@@ -46,8 +49,10 @@ public class GameManager : Game
         Logger = new AppLogger(logDirectory);
 
         MainController = new MainController { Enabled = true };
+        Input = new InputFrameworkController { Enabled = true };
         
         HookController(MainController);
+        HookController(Input);
         
         Init();
     }
@@ -61,6 +66,9 @@ public class GameManager : Game
     {
         if (!Controllers.Contains(controller))
         {
+            if (EnableControllersOnHook)
+                controller.Enabled = true;
+            
             Controllers.Add(controller);
             controller.OnStart();
         }

@@ -25,8 +25,11 @@ public static class Program
                 break;
         }
         #endif
-        
-        using var game = new GameManager(Name);
+
+        using var game = new GameManager(Name)
+        {
+            EnableControllersOnHook = true
+        };
         
         game.Run();
         
@@ -39,7 +42,6 @@ public static class Program
     
     private static void ExecuteCommandLine(string command)
     {
-
         var processInfo = new ProcessStartInfo("cmd.exe", "/K " + command)
         {
             CreateNoWindow = true,

@@ -87,14 +87,31 @@ public class ButtonElement : GuiElement
                 OnClick += (_, _) => output.Value.Invoke();
         }
     }
+    
+    private bool ContinuedPress { get; set; }
 
     public override void Update(GameTime time)
     {
-        if (MouseHelper.IsLeftButtonReleasedOverRect(Rect))
+        if (ContinuedPress)
         {
-            OnClick?.Invoke(this,EventArgs.Empty);
+            if (!MouseHelper.IsLeftButtonHeldOverRect(Rect))
+            {
+                if (MouseHelper.IsLeftButtonReleasedOverRect(Rect))
+                {
+                    OnClick?.Invoke(this,EventArgs.Empty);
+                }
+                else
+                {
+                    ContinuedPress = false;
+                }
+            }
         }
-        
+        else
+        {
+            if (MouseHelper.IsLeftButtonPressedOverRect(Rect))
+                ContinuedPress = true;
+        }
+
         base.Update(time);
     }
 

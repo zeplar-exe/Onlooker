@@ -48,7 +48,8 @@ public class LoadingScreenController : GameController
 
     public override void Draw(DrawCanvas canvas, GameTime time)
     {
-        var texture = GameManager.Current.Configuration.CommonConfig.Graphics.LoadingScreen;
+        // Null coalesce is required to prevent errors while config groups have not yet loaded
+        var texture = GameManager.Current.Configuration?.CommonConfig?.Graphics?.LoadingScreen;
 
         if (texture == null)
             return;
