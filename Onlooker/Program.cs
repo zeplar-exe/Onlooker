@@ -26,10 +26,7 @@ public static class Program
         }
         #endif
 
-        using var game = new GameManager(Name)
-        {
-            EnableControllersOnHook = true
-        };
+        using var game = new GameManager(Name);
         
         game.Run();
         

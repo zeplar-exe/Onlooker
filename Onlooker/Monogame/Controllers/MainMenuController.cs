@@ -7,9 +7,7 @@ namespace Onlooker.Monogame.Controllers;
 
 public class MainMenuController : GameController
 {
-    private GuiDocument Gui { get; set; }
-    
-    public bool IsShown { get; set; }
+    public GuiDocument Gui { get; set; }
     
     protected override void OnEnable()
     {

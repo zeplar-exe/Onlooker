@@ -1,6 +1,7 @@
 using Jammo.ParserTools.Tools;
 using Microsoft.Xna.Framework;
 using Onlooker.Common;
+using Onlooker.Generation;
 using Onlooker.Monogame.Controllers.Transitions;
 using Onlooker.Monogame.Graphics;
 using Onlooker.ObjectProperties.Animation;
@@ -9,9 +10,11 @@ namespace Onlooker.Monogame.Controllers;
 
 public class MainController : GameController
 {
-    private StateMachine<GameState> State { get; }
     private LoadingScreenController LoadingScreen { get; }
     private MainMenuController MainMenu { get; }
+    private RandomMapController RandomMap { get; }
+    
+    public StateMachine<GameState> State { get; }
     
     public MainController()
     {
@@ -19,6 +22,7 @@ public class MainController : GameController
         
         LoadingScreen = new LoadingScreenController { Enabled = true };
         MainMenu = new MainMenuController();
+        RandomMap = new RandomMapController();
         
         GameManager.Current.HookController(LoadingScreen);
     }
@@ -67,7 +71,7 @@ public class MainController : GameController
                 fill.Animator.Completed += (_, _) =>
                 {
                     MainMenu.Enabled = true;
-                    LoadingScreen.Disposed = true;
+                    LoadingScreen.Enabled = false;
                 };
                 
                 transition.QueueFillScreen(TransitionFillDirection.ToBottomClear, new AnimationSettings
@@ -84,6 +88,18 @@ public class MainController : GameController
             case GameState.MainMenuUpdating:
                 break;
             case GameState.WorldStarted:
+                LoadingScreen.Enabled = false;
+
+                var noise = new NoiseGenerator();
+                noise.Frequencies.Add(new NoiseFrequency(1, 1));
+                
+                RandomMap.Generate(new Vector2Int(100, 100), noise);
+                RandomMap.Enabled = true;
+                
+                GameManager.Current.HookController(RandomMap);
+                
+                State.MoveTo(GameState.WorldUpdating);
+                
                 break;
             case GameState.WorldUpdating:
                 break;
