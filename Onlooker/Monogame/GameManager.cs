@@ -22,7 +22,8 @@ public class GameManager : Game
     public InputFrameworkController Input { get; }
     public ConfigurationRoot Configuration { get; }
     public AppLogger Logger { get; }
-    
+
+    public int PixelsPerCoordinate { get; set; }
     public bool EnableControllersOnHook { get; set; }
 
     public static GameController? FindControllerById(Guid id) => Current.Controllers.Find(c => c.Id == id);
@@ -37,6 +38,8 @@ public class GameManager : Game
         IsMouseVisible = true;
         Window.AllowUserResizing = false; // TODO: Handle window resizing
         Window.AllowAltF4 = true;
+
+        PixelsPerCoordinate = 5;
         
         Graphics = new GraphicsDeviceManager(this);
         Configuration = new ConfigurationRoot();
@@ -129,9 +132,9 @@ public class GameManager : Game
 
         foreach (var pair in canvas.Items.OrderBy(c => c.Key))
         {
-            foreach (var item in pair.Value)
+            foreach (var graphic in pair.Value)
             {
-                item.Draw(SpriteBatch);
+                graphic.Draw(SpriteBatch);
             }
         }
         

@@ -88,12 +88,12 @@ public class MainController : GameController
             case GameState.MainMenuUpdating:
                 break;
             case GameState.WorldStarted:
-                LoadingScreen.Enabled = false;
+                MainMenu.Enabled = false;
 
                 var noise = new NoiseGenerator();
                 noise.Frequencies.Add(new NoiseFrequency(1, 1));
                 
-                RandomMap.Generate(new Vector2Int(100, 100), noise);
+                RandomMap.Generate(new Vector2Int(150, 150), noise);
                 RandomMap.Enabled = true;
                 
                 GameManager.Current.HookController(RandomMap);

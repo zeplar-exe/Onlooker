@@ -71,7 +71,6 @@ public class ButtonElement : GuiElement
         
         ScaleToText.Value = element.Attribute("rect_scales")?.Value.SafeParseBool() ?? ScaleToText.Value;
         ScaleToRect.Value = element.Attribute("text_scales")?.Value.SafeParseBool() ?? ScaleToRect.Value;
-        Rect.Value = new Rectangle(0, 0, 50, 50);
         Text.Value = element.Attribute("text")?.Value;
         FontSize.Value = element.Attribute("font_size")?.Value.SafeParseInt() ?? FontSize.Value;
         Padding.Value = Onlooker.Common.Padding.FromXml(element);

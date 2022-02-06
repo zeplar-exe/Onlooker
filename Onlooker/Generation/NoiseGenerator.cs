@@ -43,9 +43,11 @@ public class NoiseGenerator
                 {
                     var (amplitude, frequency) = Frequencies[frequencyIndex];
                     var noise = noises[frequencyIndex];
-                    
+
                     amplitudeSum += amplitude;
-                    finalNoise += amplitude * noise.Noise2(frequency * x, frequency * y);
+                    finalNoise += amplitude * noise.Noise2(
+                        frequency * x + Random.Shared.NextDouble(), 
+                        frequency * y + Random.Shared.NextDouble());
                 }
 
                 var constrainedNoise = finalNoise / amplitudeSum;

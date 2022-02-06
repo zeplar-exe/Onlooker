@@ -1,10 +1,12 @@
+using System.Collections;
+
 namespace Onlooker.Common;
 
-public class Matrix2D<T>
+public class Matrix2D<T> : IEnumerable<T>
 {
     private T[,] Items { get; }
 
-    public Vector2Int Size => new Vector2Int(Items.GetLength(0), Items.GetLength(1));
+    public Vector2Int Size => new(Items.GetLength(0), Items.GetLength(1));
     public int Width => Size.X;
     public int Height => Size.Y;
 
@@ -94,6 +96,33 @@ public class Matrix2D<T>
         }
     }
 
+    public Matrix2D<T> Expand(int factor)
+    {
+        if (factor is 0 or 1)
+            return Copy();
+
+        if (factor < 0)
+            throw new ArgumentOutOfRangeException(nameof(factor), "Cannot expand by a negative factor.");
+
+        var matrix = new Matrix2D<T>(new Vector2Int(Size.X * factor, Size.Y * factor));
+
+        for (var x = 0; x < Width; x++)
+        {
+            for (var y = 0; y < Height; y++)
+            {
+                for (var fx = 0; fx < factor; fx++)
+                {
+                    for (var fy = 0; fy < factor; fy++)
+                    {
+                        matrix[x * factor + fx, y * factor + fy] = this[x, y];
+                    }
+                }
+            }
+        }
+        
+        return matrix;
+    }
+
     public T[] Flatten()
     {
         var array = new T[Width * Height];
@@ -108,5 +137,23 @@ public class Matrix2D<T>
         }
 
         return array;
+    }
+
+    public Matrix2D<T> Copy() => new(this);
+    
+    public IEnumerator<T> GetEnumerator()
+    {
+        for (var x = 0; x < Width; x++)
+        {
+            for (var y = 0; y < Height; y++)
+            {
+                yield return Items[x, y];
+            }
+        }
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
     }
 }

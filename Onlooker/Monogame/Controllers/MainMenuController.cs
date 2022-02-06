@@ -17,6 +17,11 @@ public class MainMenuController : GameController
         GameManager.Current.HookController(Gui.Root);
     }
 
+    protected override void OnDisable()
+    {
+        Gui.Root.Enabled = false;
+    }
+
     public override void Update(GameTime time)
     {
         
