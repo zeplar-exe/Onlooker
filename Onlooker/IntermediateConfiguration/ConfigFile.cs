@@ -5,7 +5,7 @@ using SettingsConfig.Serialization;
 
 namespace Onlooker.IntermediateConfiguration;
 
-public abstract class ConfigFile
+public abstract class ConfigFile : IDisposable
 {
     private const uint SerializationDepth = 100u;
 
@@ -19,19 +19,21 @@ public abstract class ConfigFile
         Source = source;
     }
     
-    public virtual ConfigUpdateStatus UpdateFromStream(Stream stream)
+    public virtual IEnumerable<ConfigUpdateStatus> UpdateFromStream(Stream stream)
     {
         SettingsDeserializer.DeserializeTo(SettingsDocument.FromStream(stream), this);
 
-        return new ConfigUpdateStatus(
+        yield return new ConfigUpdateStatus(
             string.Format(ConfigurationProgress.FileLoaded, Source),
             UpdateStatusType.Success);
     }
 
-    public virtual ConfigWriteStatus WriteToStream(Stream stream)
+    public virtual IEnumerable<ConfigWriteStatus> WriteToStream(Stream stream)
     {
         var serializer = new SettingsSerializer(SerializationDepth);
         var document = serializer.Serialize(this);
+        
+        Exception? exception = null;
 
         try
         {
@@ -40,9 +42,25 @@ public abstract class ConfigFile
         }
         catch (Exception e)
         {
-            return new ConfigWriteStatus(e.ToString(), WriteStatusType.Corruption);
+            exception = e;
         }
+        
+        if (exception == null)
+        {
+            yield return new ConfigWriteStatus(
+                string.Format(ConfigurationProgress.DeserializeSuccess, Source.Name), 
+                WriteStatusType.Success);
+        }
+        else
+        {
+            yield return new ConfigWriteStatus(
+                string.Format(ConfigurationProgress.DeserializeFailure, Source.Name, exception!.GetType().Name),
+                WriteStatusType.Corruption);
+        }
+    }
 
-        return new ConfigWriteStatus("Success", WriteStatusType.Success);
+    public virtual void Dispose()
+    {
+        GC.SuppressFinalize(this);
     }
 }

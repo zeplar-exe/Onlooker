@@ -23,6 +23,7 @@ public class RandomMapController : GameController
     {
         var noiseMap = noise.Generate(size, 1).Expand(Resolution);
         
+        Texture?.Dispose();
         Texture = new Texture2D(GameManager.Current.GraphicsDevice, noiseMap.Width, noiseMap.Height);
         Texture.SetData(
             noiseMap

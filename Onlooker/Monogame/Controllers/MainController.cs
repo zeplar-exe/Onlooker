@@ -93,7 +93,8 @@ public class MainController : GameController
                 var noise = new NoiseGenerator();
                 noise.Frequencies.Add(new NoiseFrequency(1, 1));
                 
-                RandomMap.Generate(new Vector2Int(150, 150), noise);
+                RandomMap.Generate(new Vector2Int(75, 75), noise);
+                // TODO: Take pointers from that unity project to deal with image squash/stretching
                 RandomMap.Enabled = true;
                 
                 GameManager.Current.HookController(RandomMap);

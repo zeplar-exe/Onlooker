@@ -2,6 +2,7 @@ using System.Collections;
 using System.Reflection;
 using System.Xml.Linq;
 using Microsoft.Xna.Framework.Graphics;
+using Onlooker.Common.Extensions;
 using Onlooker.Common.StringResources.Configuration;
 using Onlooker.Common.Wrappers;
 using Onlooker.IntermediateConfiguration.Game;
@@ -44,7 +45,7 @@ public abstract class ConfigGroup
                     property.SetValue(this, config);
                 }
                 
-                progress.Report(config.UpdateFromStream(file.OpenRead()));
+                progress.ReportMany(config.UpdateFromStream(file.OpenRead()));
             }
             else if(value is IList list && value.GetType().IsGenericType)
             {
@@ -61,7 +62,7 @@ public abstract class ConfigGroup
                         if (Activator.CreateInstance(enumerableType, file) is not ConfigFile config)
                             continue;
                     
-                        progress.Report(config.UpdateFromStream(file.OpenRead()));
+                        progress.ReportMany(config.UpdateFromStream(file.OpenRead()));
                         list.Add(config);
                     }
                 }
@@ -189,7 +190,7 @@ public abstract class ConfigGroup
                 
                 var result = config.WriteToStream(config.Source.OpenWrite());
             
-                progress.Report(result);
+                progress.ReportMany(result);
             }
             else if (value is IEnumerable<ConfigFile> enumerable)
             {
@@ -197,7 +198,7 @@ public abstract class ConfigGroup
                 {
                     var result = config.WriteToStream(config.Source.OpenWrite());
             
-                    progress.Report(result);
+                    progress.ReportMany(result);
                 }
             }
             else if (typeof(ConfigGroup).IsAssignableFrom(property.PropertyType))

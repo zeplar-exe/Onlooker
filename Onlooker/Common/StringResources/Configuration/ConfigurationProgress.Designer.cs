@@ -9,8 +9,9 @@
 //------------------------------------------------------------------------------
 
 namespace Onlooker.Common.StringResources.Configuration {
-
-
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -65,6 +66,24 @@ namespace Onlooker.Common.StringResources.Configuration {
         internal static string ConfigurationFileMissing {
             get {
                 return ResourceManager.GetString("ConfigurationFileMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully deserialized &apos;{0}&apos;.
+        /// </summary>
+        internal static string DeserializeFailure {
+            get {
+                return ResourceManager.GetString("DeserializeFailure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to deserialize &apos;{0}&apos; due to {1}.
+        /// </summary>
+        internal static string DeserializeSuccess {
+            get {
+                return ResourceManager.GetString("DeserializeSuccess", resourceCulture);
             }
         }
         

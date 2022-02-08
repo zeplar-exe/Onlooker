@@ -1,3 +1,5 @@
+using Onlooker.Common.Extensions;
+
 namespace Onlooker.IntermediateConfiguration.Game.World.Terrain;
 
 public class TerrainTypeConfigGroup : ConfigGroup
@@ -30,7 +32,7 @@ public class TerrainTypeConfigGroup : ConfigGroup
             using var stream = File.OpenWrite(Path.Join(root.FullName, config.Id + ConfigFile.Extension));
             var result = config.WriteToStream(stream);
             
-            progress.Report(result);
+            progress.ReportMany(result);
         }
     }
 }

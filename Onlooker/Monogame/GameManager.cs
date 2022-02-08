@@ -82,6 +82,7 @@ public class GameManager : Game
     protected override async void OnExiting(object sender, EventArgs args)
     {
         await Logger.DisposeAsync();
+        TextureHelper.Dispose();
     }
 
     protected override void LoadContent()
