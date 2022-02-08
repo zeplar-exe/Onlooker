@@ -36,7 +36,7 @@ public abstract class DescriptiveConfigFile : ConfigFile
 
         var fullIconPath = Source.FullName;
 
-        if (IconPath.StartsWith("rel::"))
+        if (fullIconPath.StartsWith("rel::"))
         {
             fullIconPath = Path.Join(fullIconPath, IconPath);
         }

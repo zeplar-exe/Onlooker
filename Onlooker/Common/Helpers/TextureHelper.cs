@@ -9,6 +9,11 @@ public static class TextureHelper
 {
     private static Dictionary<Color, Texture2D> TextureCache { get; }
 
+    static TextureHelper()
+    {
+        TextureCache = new Dictionary<Color, Texture2D>();
+    }
+
     public static Texture2D CreateSolidColor(Color color)
     {
         if (!TextureCache.TryGetValue(color, out var texture))
