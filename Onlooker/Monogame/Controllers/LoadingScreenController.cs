@@ -1,3 +1,4 @@
+using System.Text;
 using Microsoft.Xna.Framework;
 using Onlooker.Common;
 using Onlooker.IntermediateConfiguration.Game;
@@ -31,7 +32,7 @@ public class LoadingScreenController : GameController
 
     private void OnLoadProgress(object? _, ConfigUpdateStatus status)
     {
-        LastMessage = $"{status.Type}, {status.Message}";
+        LastMessage = status.Message;
         GameManager.Current.Logger.Log(AppLogger.ConfigLog, LogMessageBuilder.TimestampedMessage(LastMessage));
 
         if (status.Type == UpdateStatusType.Completed)
@@ -50,11 +51,28 @@ public class LoadingScreenController : GameController
     {
         // Null coalesce is required to prevent errors while config groups have not yet loaded
         var texture = GameManager.Current.Configuration?.CommonConfig?.Graphics?.LoadingScreen;
+        var font = GameManager.Current.Configuration?.CommonConfig?.Fonts?.Information;
 
         if (texture == null)
             return;
         
         canvas.Draw(0, new TextureGraphic(texture, CommonValues.ScreenRect));
+
+        if (font != null)
+        {
+            var (xCenter, yCenter) = new Point(
+                Math2.FloorToInt(CommonValues.ScreenWidth.X / 2), 
+                Math2.FloorToInt(CommonValues.ScreenHeight.Y / 2));
+            var (textX, textY) = font.MeasureString(LastMessage);
+            
+            var offsetCenter = new Point(
+                Math2.FloorToInt(xCenter - textX / 2), 
+                Math2.FloorToInt(yCenter - textY / 2));
+            
+            var centeredRect = new Rectangle(offsetCenter, new Point((int)textX, (int)textY));
+            
+            canvas.Draw(0, new StringGraphic(new StringBuilder(LastMessage), font, centeredRect));
+        }
     }
 
     public override bool IsLocked()

@@ -31,4 +31,19 @@ public static class Math2
     {
         return (v - a) / (b - a);
     }
+
+    public static int FloorToInt(float f)
+    {
+        return (int)Math.Floor(f);
+    }
+    
+    public static int FloorToInt(double d)
+    {
+        return (int)Math.Floor(d);
+    }
+    
+    public static int FloorToInt(decimal m)
+    {
+        return (int)Math.Floor(m);
+    }
 }
