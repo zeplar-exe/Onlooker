@@ -7,6 +7,9 @@ namespace Onlooker;
 public static class Program
 {
     public const string Name = "Onlooker";
+    public static string LogDirectory = Path.Join(
+        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+        Name, "logs");
     
     [STAThread]
     public static void Main()
@@ -20,13 +23,12 @@ public static class Program
             case "ye":
             case "y":
             case "ok":
-                var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-                ExecuteCommandLine($@"explorer ""{appData}\{Name}\logs\{AppLogger.ConfigLog}""");
+                ExecuteCommandLine($"explorer \"{LogDirectory}\"");
                 break;
         }
         #endif
 
-        using var game = new GameManager(Name);
+        using var game = new GameManager(Name, LogDirectory);
         
         game.Run();
         

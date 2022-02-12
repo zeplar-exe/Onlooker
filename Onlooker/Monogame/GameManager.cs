@@ -1,11 +1,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Onlooker.Common;
 using Onlooker.Common.Args;
 using Onlooker.Common.Helpers;
 using Onlooker.IntermediateConfiguration;
 using Onlooker.Monogame.Controllers;
 using Onlooker.Monogame.Graphics;
 using Onlooker.Monogame.Logging;
+using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace Onlooker.Monogame;
 
@@ -28,13 +30,14 @@ public class GameManager : Game
 
     public static GameController? FindControllerById(Guid id) => Current.Controllers.Find(c => c.Id == id);
 
-    public GameManager(string name)
+    public GameManager(string title, string logDirectory)
     {
         if (Current != null)
             throw new InvalidOperationException("A game manager has already been created.");
         
         Current = this;
 
+        Window.Title = title;
         IsMouseVisible = true;
         Window.AllowUserResizing = false; // TODO: Handle window resizing
         Window.AllowAltF4 = true;
@@ -45,8 +48,6 @@ public class GameManager : Game
         Configuration = new ConfigurationRoot();
         Controllers = new List<GameController>();
 
-        var logDirectory = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), name, "logs");
-
         Directory.CreateDirectory(logDirectory);
         
         Logger = new AppLogger(logDirectory);
@@ -56,11 +57,11 @@ public class GameManager : Game
         
         HookController(MainController);
         HookController(Input);
-        
-        Init();
+
+        InitAsync();
     }
 
-    public async void Init()
+    public async void InitAsync()
     {
         await AsyncHelper.OnInterval(Logger.FlushAsync, TimeSpan.FromSeconds(5), CancellationToken.None);
     }
@@ -97,6 +98,16 @@ public class GameManager : Game
 
     protected override void Update(GameTime gameTime)
     {
+        Time.LastUpdate = gameTime;
+        
+        UpdateControllers(gameTime);
+        HandlePossibleResize(gameTime);
+        
+        base.Update(gameTime);
+    }
+
+    private void UpdateControllers(GameTime time)
+    {
         foreach (var controller in GetEnabledControllers())
         {
             if (controller.Disposed)
@@ -112,10 +123,21 @@ public class GameManager : Game
             if (controller.IsLocked())
                 continue;
 
-            controller.Update(gameTime);
+            controller.Update(time);
         }
+    }
+    
+    private Point PreviousSize { get; set; }
+
+    private void HandlePossibleResize(GameTime time)
+    {
+        if (Window.ClientBounds.Size == PreviousSize) 
+            return;
         
-        base.Update(gameTime);
+        var target = new RenderTarget2D(GraphicsDevice, (int)CommonValues.ScreenWidth.X, (int)CommonValues.ScreenHeight.Y);
+        GraphicsDevice.SetRenderTarget(target);
+            
+        PreviousSize = Window.ClientBounds.Size;
     }
     
     protected override void Draw(GameTime gameTime)
@@ -140,6 +162,7 @@ public class GameManager : Game
         }
         
         SpriteBatch.End();
+        GraphicsDevice.SetRenderTarget(null);
         
         base.Draw(gameTime);
     }
