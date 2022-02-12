@@ -20,10 +20,16 @@
     <data name="ReadonlyConfigGroupProperty" xml:space="preserve">
         <value>WARNING: The property '{0}' has a ConfigLocation attribute, but is readonly.</value>
     </data>
-    <data name="DeserializeSuccess" xml:space="preserve">
+    <data name="DeserializeFailure" xml:space="preserve">
         <value>Failed to deserialize '{0}' due to {1}</value>
     </data>
-    <data name="DeserializeFailure" xml:space="preserve">
+    <data name="DeserializeSuccess" xml:space="preserve">
         <value>Successfully deserialized '{0}'</value>
+    </data>
+    <data name="FileReceivedInvalidFile" xml:space="preserve">
+        <value>'{0}' received a file that does not exist '{1}'.</value>
+    </data>
+    <data name="FileReceivedIncorrectIconFormat" xml:space="preserve">
+        <value>'{0}' received an icon with an incorrect format '{1}'.</value>
     </data>
 </root>

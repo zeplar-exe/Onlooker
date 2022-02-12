@@ -13,7 +13,7 @@ public class TilemapGenerator
         var poolArray = pool.ToArray();
 
         if (poolArray.Length == 0)
-            return new Tilemap(matrix);
+            return new Tilemap(matrix, new Vector2Int(0, 0));
 
         var heightMap = noise.Generate(size, 100);
         var tempMap = noise.Generate(size, 100);
@@ -32,6 +32,6 @@ public class TilemapGenerator
             }
         }
 
-        return new Tilemap(matrix);
+        return new Tilemap(matrix, new Vector2Int(0, 0));
     }
 }

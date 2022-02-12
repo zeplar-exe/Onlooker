@@ -8,6 +8,8 @@ namespace Onlooker.Common.Helpers;
 public static class TextureHelper
 {
     private static Dictionary<Color, Texture2D> TextureCache { get; }
+    
+    public static Texture2D MissingTexture => CreateSolidColor(Color.HotPink);
 
     static TextureHelper()
     {

@@ -70,7 +70,7 @@ namespace Onlooker.Common.StringResources.Configuration {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Successfully deserialized &apos;{0}&apos;.
+        ///   Looks up a localized string similar to Failed to deserialize &apos;{0}&apos; due to {1}.
         /// </summary>
         internal static string DeserializeFailure {
             get {
@@ -79,7 +79,7 @@ namespace Onlooker.Common.StringResources.Configuration {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to deserialize &apos;{0}&apos; due to {1}.
+        ///   Looks up a localized string similar to Successfully deserialized &apos;{0}&apos;.
         /// </summary>
         internal static string DeserializeSuccess {
             get {
@@ -93,6 +93,24 @@ namespace Onlooker.Common.StringResources.Configuration {
         internal static string FileLoaded {
             get {
                 return ResourceManager.GetString("FileLoaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; received an icon with an incorrect format &apos;{1}&apos;..
+        /// </summary>
+        internal static string FileReceivedIncorrectIconFormat {
+            get {
+                return ResourceManager.GetString("FileReceivedIncorrectIconFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; received a file that does not exist &apos;{1}&apos;..
+        /// </summary>
+        internal static string FileReceivedInvalidFile {
+            get {
+                return ResourceManager.GetString("FileReceivedInvalidFile", resourceCulture);
             }
         }
         

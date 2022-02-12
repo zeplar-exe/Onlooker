@@ -1,8 +1,6 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Onlooker.Common;
 using Onlooker.Common.Extensions;
-using Onlooker.Common.Helpers;
 using Onlooker.Generation;
 using Onlooker.IntermediateConfiguration;
 using Onlooker.IntermediateConfiguration.Game.World.Terrain;

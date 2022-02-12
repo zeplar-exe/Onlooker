@@ -48,13 +48,13 @@ public abstract class ConfigFile : IDisposable
         if (exception == null)
         {
             yield return new ConfigWriteStatus(
-                string.Format(ConfigurationProgress.DeserializeSuccess, Source.Name), 
+                string.Format(ConfigurationProgress.DeserializeFailure, Source.Name), 
                 WriteStatusType.Success);
         }
         else
         {
             yield return new ConfigWriteStatus(
-                string.Format(ConfigurationProgress.DeserializeFailure, Source.Name, exception!.GetType().Name),
+                string.Format(ConfigurationProgress.DeserializeSuccess, Source.Name, exception!.GetType().Name),
                 WriteStatusType.Corruption);
         }
     }
