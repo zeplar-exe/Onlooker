@@ -1,0 +1,7 @@
+id="grass"
+display_name="Grass"
+description="Plain grass."
+icon="rel::sprites/grass.png"
+height=10
+temperature=70
+humidity=30

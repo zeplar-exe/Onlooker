@@ -29,8 +29,6 @@ public class MainController : GameController
 
     public override void Update(GameTime time)
     {
-        Time.LastUpdate = time;
-        
         switch (State.Current)
         {
             case GameState.None:
@@ -38,7 +36,7 @@ public class MainController : GameController
 
                 goto case GameState.LoadingStarted;
             case GameState.LoadingStarted:
-                LoadingScreen.Load(); // by the time update runs, graphics devices have been initialized
+                LoadingScreen.Load();
                 
                 State.MoveTo(GameState.LoadingUpdating);
 
