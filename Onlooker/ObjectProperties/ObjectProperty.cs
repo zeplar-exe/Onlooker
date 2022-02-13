@@ -38,6 +38,14 @@ public abstract class ObjectProperty<TValue>
         return new Animator<TValue>(this, result, settings);
     }
     
+    /// <summary>
+    /// Create the next animation frame for the current object property.
+    /// </summary>
+    /// <param name="start">Initial value to animate from.</param>
+    /// <param name="end">End value to animate to.</param>
+    /// <param name="settings">Settings preserved through every method call.</param>
+    /// <param name="next">Next value to set as the value, if possible.</param>
+    /// <returns>Whether a frame could be created, effectively a completed check.</returns>
     protected internal abstract bool TryCreateNextFrame(TValue start, TValue end, AnimationSettings settings, out TValue next);
 
     public static implicit operator TValue?(ObjectProperty<TValue> property) => property.Value;
