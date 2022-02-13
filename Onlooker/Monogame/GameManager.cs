@@ -162,7 +162,6 @@ public class GameManager : Game
         }
         
         SpriteBatch.End();
-        GraphicsDevice.SetRenderTarget(null);
         
         base.Draw(gameTime);
     }
