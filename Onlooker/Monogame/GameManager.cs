@@ -133,10 +133,7 @@ public class GameManager : Game
     {
         if (Window.ClientBounds.Size == PreviousSize) 
             return;
-        
-        var target = new RenderTarget2D(GraphicsDevice, (int)CommonValues.ScreenWidth.X, (int)CommonValues.ScreenHeight.Y);
-        GraphicsDevice.SetRenderTarget(target);
-            
+
         PreviousSize = Window.ClientBounds.Size;
     }
     
@@ -150,18 +147,21 @@ public class GameManager : Game
         {
             controller.Draw(canvas, gameTime);
         }
-        
-        SpriteBatch.Begin();
 
-        foreach (var pair in canvas.Items.OrderBy(c => c.Key))
+        if (canvas.Items.Count > 0)
         {
-            foreach (var graphic in pair.Value)
+            SpriteBatch.Begin();
+
+            foreach (var pair in canvas.Items.OrderBy(c => c.Key))
             {
-                graphic.Draw(SpriteBatch);
+                foreach (var graphic in pair.Value)
+                {
+                    graphic.Draw(SpriteBatch);
+                }
             }
+
+            SpriteBatch.End();
         }
-        
-        SpriteBatch.End();
         
         base.Draw(gameTime);
     }
