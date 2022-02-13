@@ -17,19 +17,19 @@ public abstract class GameController
 
     public bool Disposed { get; set; }
 
-    private bool b_enalbed;
+    private bool b_enabled;
 
     public bool Enabled
     {
-        get => b_enalbed;
+        get => b_enabled;
         set
         {
-            if (b_enalbed == value)
+            if (b_enabled == value)
                 return;
 
-            b_enalbed = value;
+            b_enabled = value;
 
-            if (b_enalbed)
+            if (b_enabled)
                 OnEnable();
             else
                 OnDisable();
