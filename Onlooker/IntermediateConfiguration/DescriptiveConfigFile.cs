@@ -11,6 +11,8 @@ namespace Onlooker.IntermediateConfiguration;
 
 public abstract class DescriptiveConfigFile : ConfigFile
 {
+    private const string RelativePathPrefix = "rel::";
+    
     public string Id { get; set; }
     
     [SettingsSerializer.SerializationName("display_name")]
@@ -36,52 +38,54 @@ public abstract class DescriptiveConfigFile : ConfigFile
     {
         var document = SettingsDocument.FromStream(stream);
         var iconSetting = document["icon"];
+        
+        IconTexture = TextureHelper.MissingTexture;
 
         if (iconSetting?.Value is TextSetting text)
         {
-            var fullIconPath = text.Value.StartsWith("rel::") ? Path.Join(Source.FullName, IconPath) : IconPath;
-
-            if (string.IsNullOrWhiteSpace(fullIconPath))
-            {
-                IconTexture = TextureHelper.MissingTexture;
-
-                yield return new ConfigUpdateStatus(
-                    string.Format(ConfigurationProgress.FileReceivedInvalidFile, Source.FullName, fullIconPath),
-                    UpdateStatusType.Invalid);
-            }
-
-            if (!File.Exists(fullIconPath))
-            {
-                IconTexture = TextureHelper.MissingTexture;
-
-                yield return new ConfigUpdateStatus(
-                    string.Format(ConfigurationProgress.FileReceivedInvalidFile, Source.FullName, fullIconPath),
-                    UpdateStatusType.Invalid);
-            }
-
-            Exception? exception = null;
-
-            try
-            {
-                IconTexture = Texture2D.FromFile(GameManager.Current.GraphicsDevice, fullIconPath);
-            }
-            catch (InvalidOperationException e)
-            {
-                exception = e;
-            }
-
-            if (exception != null)
-            {
-                yield return new ConfigUpdateStatus(
-                    ConfigurationProgress.FileReceivedIncorrectIconFormat,
-                    UpdateStatusType.Invalid);
-            }
+            yield return FillIconTexture(text.Value);
         }
 
         SettingsDeserializer.DeserializeTo(document, this);
         
         yield return new ConfigUpdateStatus(
             string.Format(ConfigurationProgress.FileLoaded, Source),
+            UpdateStatusType.Success);
+    }
+
+    private ConfigUpdateStatus FillIconTexture(string iconPath)
+    {
+        var fullIconPath = iconPath.StartsWith(RelativePathPrefix) ?
+            Path.Join(Source.DirectoryName, iconPath.Substring(RelativePathPrefix.Length)) :
+            iconPath;
+
+        if (string.IsNullOrWhiteSpace(fullIconPath))
+        {
+            return new ConfigUpdateStatus(
+                string.Format(ConfigurationProgress.FileReceivedInvalidFile, Source.FullName, fullIconPath),
+                UpdateStatusType.Invalid);
+        }
+
+        if (!File.Exists(fullIconPath))
+        {
+            return new ConfigUpdateStatus(
+                string.Format(ConfigurationProgress.FileReceivedInvalidFile, Source.FullName, fullIconPath),
+                UpdateStatusType.Invalid);
+        }
+
+        try
+        {
+            IconTexture = Texture2D.FromFile(GameManager.Current.GraphicsDevice, fullIconPath);
+        }
+        catch (InvalidOperationException)
+        {
+            return new ConfigUpdateStatus(
+                ConfigurationProgress.FileReceivedIncorrectIconFormat,
+                UpdateStatusType.Invalid);
+        }
+
+        return new ConfigUpdateStatus(
+            string.Format(ConfigurationProgress.IconLoaded, fullIconPath),
             UpdateStatusType.Success);
     }
 

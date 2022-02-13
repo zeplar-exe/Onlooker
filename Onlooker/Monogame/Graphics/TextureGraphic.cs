@@ -12,14 +12,14 @@ public class TextureGraphic : IDrawGraphic
     
     public TextureGraphic(Texture2D texture, Rectangle rectangle)
     {
-        Texture = texture;
+        Texture = texture ?? throw new ArgumentNullException(nameof(texture));
         Rectangle = rectangle;
         Tint = Color.White;
     }
     
     public TextureGraphic(Texture2D texture, Rectangle rectangle, Color tint)
     {
-        Texture = texture;
+        Texture = texture ?? throw new ArgumentNullException(nameof(texture));
         Rectangle = rectangle;
         Tint = tint;
     }

@@ -39,4 +39,7 @@
     <data name="FileReceivedIncorrectIconFormat" xml:space="preserve">
         <value>'{0}' received an icon with an incorrect format '{1}'.</value>
     </data>
+    <data name="IconLoaded" xml:space="preserve">
+        <value>Successfully loaded icon '{0}'.</value>
+    </data>
 </root>
