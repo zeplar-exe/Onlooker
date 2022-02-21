@@ -51,7 +51,7 @@ public class MainController : GameController
                 
                 break;
             case GameState.MainMenuStarted:
-                var transition = new FadeController(1, Color.DarkGray)
+                var transition = new FadeController(Layers.PriorityUI, Color.DarkGray)
                 {
                     Enabled = true,
                     CompletionHandler = ControllerCompletionHandler.Dispose

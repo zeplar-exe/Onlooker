@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Onlooker.Common;
+using Onlooker.Common.Helpers;
 using Onlooker.Monogame.Controllers;
 using Onlooker.Monogame.Graphics;
 using Onlooker.ObjectProperties;
@@ -9,18 +10,15 @@ namespace Onlooker.Worlds;
 
 public class TilemapStageController : GameController
 {
-    public Vector2Property CameraViewportSize { get; }
     public Vector2Property CameraPosition { get; }
+    public Vector2Property CameraViewportSize { get; }
     
-    public Tilemap Tilemap { get; set; }
-    public Vector2Int TileDrawSize { get; set; }
+    public Matrix2D<WorldTile> Tilemap { get; set; }
 
     public TilemapStageController()
     {
-        CameraViewportSize = new Vector2Property(new Vector2(50, 50));
+        CameraViewportSize = new Vector2Property(new Vector2(10, 10));
         CameraPosition = new Vector2Property(new Vector2(0, 0));
-
-        TileDrawSize = new Vector2Int(0, 0);
     }
     
     public override void Update(GameTime time)
@@ -30,24 +28,23 @@ public class TilemapStageController : GameController
 
     public override void Draw(DrawCanvas canvas, GameTime time)
     {
-        var cameraRect = new Rectangle(CameraPosition.Value, CameraViewportSize.Value);
+        if (Tilemap == null)
+            return;
+        
+        var cameraRect = 
+            new Rectangle(CameraPosition.Value - CameraViewportSize.Value / 2, CameraViewportSize.Value);
 
-        for (var x = 0; x < Tilemap.Tiles.Width; x++)
+        for (var x = 0; x < Tilemap.Width; x++)
         {
-            if (!cameraRect.Contains(new Rectangle(x * TileDrawSize.X, 0, 1, 1)))
-                continue;
-            
-            for (var y = 0; y < Tilemap.Tiles.Height; y++)
+            for (var y = 0; y < Tilemap.Height; y++)
             {
-                if (!cameraRect.Contains(new Rectangle(x * TileDrawSize.X, y * TileDrawSize.Y, 1, 1)))
+                var tile = Tilemap[x, y];
+                var rect = CoordinateConverter.ToScreenCoordinates(tile.CreateRect());
+                
+                if (!cameraRect.Intersects(rect))
                     continue;
                 
-                var tile = Tilemap.Tiles[x, y];
-                var rect = new Rectangle(
-                    new Point(x * TileDrawSize.X, y * TileDrawSize.Y) - (Point)CameraPosition.Value,
-                    TileDrawSize);
-                
-                canvas.Draw(0, new TextureGraphic(tile.Source.IconTexture, rect));
+                canvas.Draw(Layers.World, new TextureGraphic(tile.Source.IconTexture, rect));
             }
         }
     }

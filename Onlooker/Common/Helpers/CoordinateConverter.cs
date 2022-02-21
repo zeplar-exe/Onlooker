@@ -12,10 +12,10 @@ public static class CoordinateConverter
             return Rectangle.Empty;
 
         return new Rectangle(
-            rectangle.X / GameManager.Current.PixelsPerCoordinate,
-            rectangle.Y / GameManager.Current.PixelsPerCoordinate,
-            rectangle.Width / GameManager.Current.PixelsPerCoordinate,
-            rectangle.Height / GameManager.Current.PixelsPerCoordinate);
+            rectangle.X,
+            rectangle.Y,
+            rectangle.Width * GameManager.Current.PixelsPerCoordinate,
+            rectangle.Height * GameManager.Current.PixelsPerCoordinate);
     }
 
     public static Rectangle ToWorldCoordinates(Rectangle rectangle)
@@ -24,9 +24,9 @@ public static class CoordinateConverter
             return Rectangle.Empty;
         
         return new Rectangle(
-            rectangle.X * GameManager.Current.PixelsPerCoordinate,
-            rectangle.Y * GameManager.Current.PixelsPerCoordinate,
-            rectangle.Width * GameManager.Current.PixelsPerCoordinate,
-            rectangle.Height * GameManager.Current.PixelsPerCoordinate);
+            rectangle.X,
+            rectangle.Y,
+            rectangle.Width / GameManager.Current.PixelsPerCoordinate,
+            rectangle.Height / GameManager.Current.PixelsPerCoordinate);
     }
 }

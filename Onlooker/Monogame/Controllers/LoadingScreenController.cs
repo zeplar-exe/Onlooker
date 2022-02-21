@@ -56,7 +56,7 @@ public class LoadingScreenController : GameController
         if (texture == null)
             return;
         
-        canvas.Draw(0, new TextureGraphic(texture, CommonValues.ScreenRect));
+        canvas.Draw(Layers.PriorityUI, new TextureGraphic(texture, CommonValues.ScreenRect));
 
         if (font != null)
         {
@@ -71,7 +71,7 @@ public class LoadingScreenController : GameController
             
             var centeredRect = new Rectangle(offsetCenter, new Point((int)textX, (int)textY));
             
-            canvas.Draw(0, new StringGraphic(new StringBuilder(LastMessage), font, centeredRect));
+            canvas.Draw(Layers.PriorityUI, new StringGraphic(new StringBuilder(LastMessage), font, centeredRect));
         }
     }
 

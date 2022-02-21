@@ -14,25 +14,26 @@ public class RandomMapController : GameController
     private Vector2Int Size { get; set; }
     public TilemapStageController? TilemapController { get; private set; }
     
+    public int WorldTileSquared { get; set; }
     public int Resolution { get; set; }
 
     public RandomMapController()
     {
+        WorldTileSquared = 20;
         Resolution = 4;
     }
-
+    
     public void Generate(Vector2Int size, NoiseGenerator noise)
-    { // Maybe use sampling to get the nearest 5 for each map
+    { // TODO: Maybe use sampling to get the nearest 5 for each map
         if (TilemapController != null)
             TilemapController.Disposed = true;
-
-        var tilemap = new Tilemap(new Matrix2D<WorldTile>(size));
         
         TilemapController = new TilemapStageController
         {
-            Tilemap = tilemap,
-            TileDrawSize = new Vector2Int(8, 8)
+            Tilemap = new Matrix2D<WorldTile>(size),
         };
+
+        TilemapController.CameraViewportSize.Value = new Common.Vector2(50, 50);
 
         var heightMap = noise.Generate(size, 100);
         var temperatureMap = noise.Generate(size, 100);
@@ -41,24 +42,33 @@ public class RandomMapController : GameController
 
         var index = 0d;
 
-        using(var heightEnum = heightMap.GetEnumerator())
-        using(var tempEnum = temperatureMap.GetEnumerator())
-        using (var humidityEnum = humidityMap.GetEnumerator())
+        for (var xIndex = 0; xIndex < size.X; xIndex++)
         {
-            while (heightEnum.MoveNext() && tempEnum.MoveNext() && humidityEnum.MoveNext())
+            for (var yIndex = 0; yIndex < size.X; yIndex++)
             {
                 var terrain = terrainTypes.MinBy(t => CalculateCloseness(t,
-                    heightEnum.Current,
-                    tempEnum.Current,
-                    humidityEnum.Current));
-                
+                    heightMap[xIndex, yIndex],
+                    temperatureMap[xIndex, yIndex],
+                    humidityMap[xIndex, yIndex]));
+            
                 if (terrain == null)
                     continue;
 
-                var x = Math2.FloorToInt(index / TilemapController.Tilemap.Tiles.Width);
-                var y = Math2.FloorToInt(index % TilemapController.Tilemap.Tiles.Height);
-                
-                TilemapController.Tilemap.Tiles[x, y] = new WorldTile(terrain);
+                var x = Math2.FloorToInt(index / TilemapController.Tilemap.Width);
+                var y = Math2.FloorToInt(index % TilemapController.Tilemap.Height);
+
+                var tile = new WorldTile(terrain)
+                {
+                    Position =
+                    {
+                        Value = new Common.Vector2(x * WorldTileSquared + 1, y * WorldTileSquared + 1)
+                    },
+                    Size = {
+                        Value = new Vector2Int(WorldTileSquared, WorldTileSquared)
+                    }
+                };
+
+                TilemapController.Tilemap[x, y] = tile;
 
                 index++;
             }

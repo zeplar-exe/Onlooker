@@ -42,7 +42,7 @@ public class GameManager : Game
         Window.AllowUserResizing = false; // TODO: Handle window resizing
         Window.AllowAltF4 = true;
 
-        PixelsPerCoordinate = 5;
+        PixelsPerCoordinate = 25;
         
         Graphics = new GraphicsDeviceManager(this);
         Configuration = new ConfigurationRoot();
