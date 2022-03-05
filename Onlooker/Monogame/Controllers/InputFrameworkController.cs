@@ -13,6 +13,8 @@ public class InputFrameworkController : GameController
     private MouseState PreviousMouseState { get; set; }
     private MouseState CurrentMouseState { get; set; }
 
+    public static InputFrameworkController Current => GameManager.Current.Input;
+
     public bool IsKeyPressed(Keys key)
     {
         return CurrentKeyboardState.GetPressedKeys().Contains(key) &&
@@ -84,12 +86,18 @@ public class InputFrameworkController : GameController
         return CurrentMouseState.MiddleButton != ButtonState.Pressed &&
                PreviousMouseState.MiddleButton == ButtonState.Pressed;
     }
-
-    public Vector2Int GetMiddleMouseDelta()
-    {
-        return new Vector2Int(CurrentMouseState.HorizontalScrollWheelValue, CurrentMouseState.ScrollWheelValue);
-    }
     
+    public Vector2Int GetMouseDelta()
+    {
+        return CurrentMouseState.Position - PreviousMouseState.Position;
+    }
+
+    public Vector2Int GetScrollDelta()
+    {
+        return new Vector2Int(CurrentMouseState.HorizontalScrollWheelValue, CurrentMouseState.ScrollWheelValue) - 
+               new Vector2Int(PreviousMouseState.HorizontalScrollWheelValue, PreviousMouseState.ScrollWheelValue);
+    }
+
     public override void Update(GameTime time)
     {
         PreviousKeyboardState = CurrentKeyboardState;
