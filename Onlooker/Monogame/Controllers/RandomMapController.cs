@@ -19,7 +19,7 @@ public class RandomMapController : GameController
 
     public RandomMapController()
     {
-        WorldTileSquared = 20;
+        WorldTileSquared = 10;
         Resolution = 4;
     }
     
@@ -31,9 +31,11 @@ public class RandomMapController : GameController
         TilemapController = new TilemapStageController
         {
             Tilemap = new Matrix2D<WorldTile>(size),
+            CameraViewportSize =
+            {
+                Value = new Common.Vector2(50, 50)
+            }
         };
-
-        TilemapController.CameraViewportSize.Value = new Common.Vector2(50, 50);
 
         var heightMap = noise.Generate(size, 100);
         var temperatureMap = noise.Generate(size, 100);
@@ -46,31 +48,28 @@ public class RandomMapController : GameController
         {
             for (var yIndex = 0; yIndex < size.X; yIndex++)
             {
-                var terrain = terrainTypes.MinBy(t => CalculateCloseness(t,
-                    heightMap[xIndex, yIndex],
-                    temperatureMap[xIndex, yIndex],
-                    humidityMap[xIndex, yIndex]));
+                var height = heightMap[xIndex, yIndex];
+                var temperature = temperatureMap[xIndex, yIndex];
+                var humidity = humidityMap[xIndex, yIndex];
+            
+                var terrain = terrainTypes
+                    .MinBy(t => CalculateCloseness(t, height, temperature, humidity));
             
                 if (terrain == null)
                     continue;
-
-                var x = Math2.FloorToInt(index / TilemapController.Tilemap.Width);
-                var y = Math2.FloorToInt(index % TilemapController.Tilemap.Height);
 
                 var tile = new WorldTile(terrain)
                 {
                     Position =
                     {
-                        Value = new Common.Vector2(x * WorldTileSquared + 1, y * WorldTileSquared + 1)
+                        Value = new Common.Vector2(xIndex * WorldTileSquared + 1, yIndex * WorldTileSquared + 1)
                     },
                     Size = {
                         Value = new Vector2Int(WorldTileSquared, WorldTileSquared)
                     }
                 };
 
-                TilemapController.Tilemap[x, y] = tile;
-
-                index++;
+                TilemapController.Tilemap[xIndex, yIndex] = tile;
             }
         }
         
