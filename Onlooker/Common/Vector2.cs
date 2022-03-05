@@ -5,6 +5,11 @@ namespace Onlooker.Common;
 public record struct Vector2(float X, float Y)
 {
     public double Magnitude => Math.Sqrt(Math.Pow(X, 2) + Math.Pow(Y, 2));
+
+    public Vector2 Negate()
+    {
+        return new Vector2(-X, -Y);
+    }
     
     public Vector2 Distance(Vector2 other)
     {
@@ -57,6 +62,11 @@ public record struct Vector2(float X, float Y)
     public static Vector2 operator /(Vector2 left, float right)
     {
         return new Vector2(left.X / right, left.Y / right);
+    }
+    
+    public static implicit operator Vector2(Vector2Int vector)
+    {
+        return new Vector2(vector.X, vector.Y);
     }
 
     public static implicit operator Vector2(Point point)

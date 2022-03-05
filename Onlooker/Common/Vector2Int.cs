@@ -12,6 +12,11 @@ public record struct Vector2Int(int X, int Y)
 
         return new Vector2Int(Math.Abs(relative.X), Math.Abs(relative.Y));
     }
+    
+    public Vector2Int Negate()
+    {
+        return new Vector2Int(-X, -Y);
+    }
 
     public Vector2Int RelativeTo(Vector2Int other)
     {
@@ -46,6 +51,11 @@ public record struct Vector2Int(int X, int Y)
     public static Vector2Int operator /(Vector2Int left, Vector2Int right)
     {
         return new Vector2Int(left.X / right.X, left.Y / right.Y);
+    }
+    
+    public static implicit operator Vector2Int(Vector2 vector)
+    {
+        return new Vector2Int((int)vector.X, (int)vector.Y);
     }
     
     public static implicit operator Vector2Int(Point point)
