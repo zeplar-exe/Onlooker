@@ -6,6 +6,8 @@ using Onlooker.Common.Extensions;
 using Onlooker.Common.Helpers;
 using Onlooker.Common.MethodOutput;
 using Onlooker.IntermediateConfiguration.GUI.Processing.Commands;
+using Onlooker.IntermediateConfiguration.Modules;
+using Onlooker.IntermediateConfiguration.Modules.Entities;
 using Onlooker.Monogame;
 using Onlooker.Monogame.Graphics;
 using Onlooker.ObjectProperties;
@@ -60,8 +62,8 @@ public class ButtonElement : GuiElement
                 }
             }
         };
-        
-        Font = GameManager.Current.Configuration.CommonConfig.Fonts.Information;
+
+        Font = ModuleRoot.Current.GetPersistentModule<CommonFontsModule>().Information;
         Background = TextureHelper.CreateSolidColor(Color.BlueViolet);
     }
     

@@ -1,6 +1,8 @@
 using Microsoft.Xna.Framework;
 using Onlooker.Common.Args;
 using Onlooker.IntermediateConfiguration.GUI.Processing;
+using Onlooker.IntermediateConfiguration.Modules;
+using Onlooker.IntermediateConfiguration.Modules.Entities;
 using Onlooker.Monogame.Graphics;
 
 namespace Onlooker.Monogame.Controllers;
@@ -11,7 +13,7 @@ public class MainMenuController : GameController
     
     protected override void OnEnable()
     {
-        Gui = GameManager.Current.Configuration.GuiConfig.MainMenu;
+        Gui = ModuleRoot.Current.GetPersistentModule<GuiModule>().MainMenu;
         Gui.Root.Enabled = true;
         
         GameManager.Current.HookController(Gui.Root);

@@ -1,4 +1,4 @@
-namespace Onlooker.IntermediateConfiguration.Game;
+namespace Onlooker.IntermediateConfiguration;
 
 public enum UpdateStatusType
 {

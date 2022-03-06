@@ -8,8 +8,11 @@ public class AppLogger : IAsyncDisposable
     private ConcurrentDictionary<string, StreamWriter> StreamCache { get; }
 
     public const string LoadingLog = "configuration_loading.log";
-    
+    public const string ErrorLog = "error.log";
+
     public string LogDirectory { get; }
+
+    public static AppLogger Current => GameManager.Current.Logger;
     
     public AppLogger(string logDirectory)
     {

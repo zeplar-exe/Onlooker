@@ -22,7 +22,7 @@ public abstract class ConfigFile : IDisposable
     public static IEnumerable<TConfig> FromDirectory<TConfig>(DirectoryInfo directory) where TConfig : ConfigFile
     {
         return directory
-            .EnumerateFiles(Extension, SearchOption.TopDirectoryOnly)
+            .EnumerateFiles($"*{Extension}", SearchOption.TopDirectoryOnly)
             .Select(file => (TConfig)Activator.CreateInstance(typeof(TConfig), file)!);
     }
 

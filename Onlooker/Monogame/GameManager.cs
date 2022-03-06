@@ -4,6 +4,7 @@ using Onlooker.Common;
 using Onlooker.Common.Args;
 using Onlooker.Common.Helpers;
 using Onlooker.IntermediateConfiguration;
+using Onlooker.IntermediateConfiguration.Modules;
 using Onlooker.Monogame.Controllers;
 using Onlooker.Monogame.Graphics;
 using Onlooker.Monogame.Logging;
@@ -22,7 +23,7 @@ public class GameManager : Game
     
     public MainController MainController { get; }
     public InputFrameworkController Input { get; }
-    public ConfigurationRoot Configuration { get; }
+    public ModuleRoot ModuleRoot { get; }
     public AppLogger Logger { get; }
 
     public int PixelsPerCoordinate { get; set; }
@@ -45,7 +46,7 @@ public class GameManager : Game
         PixelsPerCoordinate = 25;
         
         Graphics = new GraphicsDeviceManager(this);
-        Configuration = new ConfigurationRoot();
+        ModuleRoot = new ModuleRoot(FileSystemHelper.FromWorkingDirectory("configuration"));
         Controllers = new List<GameController>();
 
         Directory.CreateDirectory(logDirectory);

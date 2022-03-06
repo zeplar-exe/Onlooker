@@ -1,8 +1,8 @@
 using System.Text;
 
-namespace Onlooker.IntermediateConfiguration.Game;
+namespace Onlooker.IntermediateConfiguration;
 
-public readonly record struct ConfigWriteStatus(string Message, WriteStatusType Type)
+public readonly record struct ConfigUpdateStatus(string Message, UpdateStatusType Type)
 {
     public override string ToString()
     {

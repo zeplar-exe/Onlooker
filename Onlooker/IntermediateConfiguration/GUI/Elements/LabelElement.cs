@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Onlooker.Common;
 using Onlooker.Common.Extensions;
 using Onlooker.Common.Helpers;
+using Onlooker.IntermediateConfiguration.Modules;
+using Onlooker.IntermediateConfiguration.Modules.Entities;
 using Onlooker.Monogame;
 using Onlooker.Monogame.Graphics;
 using Onlooker.ObjectProperties;
@@ -29,7 +31,7 @@ public class LabelElement : GuiElement
         ScaleToRect = new BooleanProperty(false);
         Padding = new PaddingProperty(Onlooker.Common.Padding.Empty);
         
-        Font = GameManager.Current.Configuration.CommonConfig.Fonts.Information!;
+        Font = ModuleRoot.Current.GetPersistentModule<CommonFontsModule>().Information;
         Background = TextureHelper.CreateSolidColor(Color.BlueViolet);
         
         Rect.ValueChanged += (_, e) =>

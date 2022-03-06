@@ -40,7 +40,7 @@ public class EntityStatsModule : IModule
                 case "boolean":
                     break;
                 default:
-                    GameManager.Current.Logger.Log(
+                    AppLogger.Current.Log(
                         AppLogger.LoadingLog, 
                         LogMessageBuilder.TimestampedMessage(
                             new ConfigUpdateStatus(

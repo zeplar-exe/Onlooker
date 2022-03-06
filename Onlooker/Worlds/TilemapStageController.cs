@@ -16,7 +16,7 @@ public class TilemapStageController : GameController
     public Vector2Property CameraViewportSize { get; }
     public FloatProperty CameraMoveSpeed { get; }
     
-    public Matrix2D<WorldTile> Tilemap { get; set; }
+    public Matrix2D<WorldTile>? Tilemap { get; set; }
 
     public TilemapStageController()
     {

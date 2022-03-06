@@ -4,6 +4,8 @@ using Onlooker.Common.Extensions;
 using Onlooker.Generation;
 using Onlooker.IntermediateConfiguration;
 using Onlooker.IntermediateConfiguration.Game.World.Terrain;
+using Onlooker.IntermediateConfiguration.Modules;
+using Onlooker.IntermediateConfiguration.Modules.Entities;
 using Onlooker.Monogame.Graphics;
 using Onlooker.Worlds;
 
@@ -40,13 +42,12 @@ public class RandomMapController : GameController
         var heightMap = noise.Generate(size, 100);
         var temperatureMap = noise.Generate(size, 100);
         var humidityMap = noise.Generate(size, 100);
-        var terrainTypes = ConfigurationRoot.Current.GameConfig.WorldConfig.TerrainTypes.TypeConfigs;
-
-        var index = 0d;
+        var terrainTypes = ModuleRoot.Current.GetModule<WorldTerrainTypeModule>()
+            .TerrainTypeConfigs;
 
         for (var xIndex = 0; xIndex < size.X; xIndex++)
         {
-            for (var yIndex = 0; yIndex < size.X; yIndex++)
+            for (var yIndex = 0; yIndex < size.Y; yIndex++)
             {
                 var height = heightMap[xIndex, yIndex];
                 var temperature = temperatureMap[xIndex, yIndex];
