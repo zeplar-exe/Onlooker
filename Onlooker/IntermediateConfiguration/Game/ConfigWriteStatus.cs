@@ -1,13 +1,17 @@
+using System.Text;
+
 namespace Onlooker.IntermediateConfiguration.Game;
 
-public readonly struct ConfigWriteStatus
+public readonly record struct ConfigWriteStatus(string Message, WriteStatusType Type)
 {
-    public string Message { get; }
-    public WriteStatusType Type { get; }
-
-    public ConfigWriteStatus(string message, WriteStatusType type)
+    public override string ToString()
     {
-        Message = message;
-        Type = type;
+        var builder = new StringBuilder();
+
+        builder.Append(Type);
+        builder.Append(' ');
+        builder.Append(Message);
+
+        return builder.ToString();
     }
 }
