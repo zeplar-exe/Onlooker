@@ -33,7 +33,7 @@ public class LoadingScreenController : GameController
     private void OnLoadProgress(object? _, ConfigUpdateStatus status)
     {
         LastMessage = status.Message;
-        GameManager.Current.Logger.Log(AppLogger.ConfigLog, LogMessageBuilder.TimestampedMessage(LastMessage));
+        GameManager.Current.Logger.Log(AppLogger.LoadingLog, LogMessageBuilder.TimestampedMessage(LastMessage));
 
         if (status.Type == UpdateStatusType.Completed)
         {

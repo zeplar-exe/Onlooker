@@ -7,7 +7,7 @@ public class AppLogger : IAsyncDisposable
 {
     private ConcurrentDictionary<string, StreamWriter> StreamCache { get; }
 
-    public const string ConfigLog = "configuration_loading.log";
+    public const string LoadingLog = "configuration_loading.log";
     
     public string LogDirectory { get; }
     
@@ -17,16 +17,16 @@ public class AppLogger : IAsyncDisposable
         StreamCache = new ConcurrentDictionary<string, StreamWriter>();
     }
 
-    public void Log(string file, LogMessageBuilder builder)
+    public void Log(string fileName, LogMessageBuilder builder)
     {
-        Log(file, builder.ToString());
+        Log(fileName, builder.ToString());
     }
 
-    public async void Log(string file, string log)
+    public async void Log(string fileName, string log)
     {
-        if (!StreamCache.TryGetValue(file, out var writer))
+        if (!StreamCache.TryGetValue(fileName, out var writer))
         {
-            var location = Path.Join(LogDirectory, file);
+            var location = Path.Join(LogDirectory, fileName);
 
             if (File.Exists(location))
             {
@@ -40,7 +40,7 @@ public class AppLogger : IAsyncDisposable
             }
             
             writer.AutoFlush = false;
-            StreamCache[file] = writer;
+            StreamCache[fileName] = writer;
         }
         
         await writer.WriteLineAsync(log);
@@ -56,10 +56,10 @@ public class AppLogger : IAsyncDisposable
 
     public async ValueTask DisposeAsync()
     {
-        foreach (var stream in StreamCache)
+        foreach (var writer in StreamCache.Values)
         {
-            await stream.Value.FlushAsync();
-            await stream.Value.DisposeAsync();
+            await writer.FlushAsync();
+            await writer.DisposeAsync();
         }
         
         GC.SuppressFinalize(this);
