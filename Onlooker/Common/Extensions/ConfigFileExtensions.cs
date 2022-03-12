@@ -10,7 +10,7 @@ public static class ConfigFileExtensions
     {
         foreach (var update in configFile.UpdateFromStream(stream))
         {
-            AppLogger.Current.Log(
+            AppLogger.Log(
                 AppLogger.LoadingLog,
                 LogMessageBuilder.TimestampedMessage(update.ToString()));
         }
@@ -20,7 +20,7 @@ public static class ConfigFileExtensions
     {
         foreach (var update in configFile.WriteToStream(stream))
         {
-            AppLogger.Current.Log(
+            AppLogger.Log(
                 AppLogger.LoadingLog,
                 LogMessageBuilder.TimestampedMessage(update.ToString()));
         }

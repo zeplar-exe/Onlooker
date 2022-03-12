@@ -3,29 +3,26 @@ using System.Text;
 
 namespace Onlooker.Monogame.Logging;
 
-public class AppLogger : IAsyncDisposable
+public static class AppLogger
 {
-    private ConcurrentDictionary<string, StreamWriter> StreamCache { get; }
+    private static ConcurrentDictionary<string, StreamWriter> StreamCache { get; }
 
     public const string LoadingLog = "configuration_loading.log";
     public const string ErrorLog = "error.log";
 
-    public string LogDirectory { get; }
+    public static string? LogDirectory { get; set; }
 
-    public static AppLogger Current => GameManager.Current.Logger;
-    
-    public AppLogger(string logDirectory)
+    static AppLogger()
     {
-        LogDirectory = logDirectory;
         StreamCache = new ConcurrentDictionary<string, StreamWriter>();
     }
 
-    public void Log(string fileName, LogMessageBuilder builder)
+    public static void Log(string fileName, LogMessageBuilder builder)
     {
         Log(fileName, builder.ToString());
     }
 
-    public async void Log(string fileName, string log)
+    public static async void Log(string fileName, string log)
     {
         if (!StreamCache.TryGetValue(fileName, out var writer))
         {
@@ -49,7 +46,7 @@ public class AppLogger : IAsyncDisposable
         await writer.WriteLineAsync(log);
     }
 
-    public async Task FlushAsync()
+    public static async Task FlushAsync()
     {
         foreach (var stream in StreamCache)
         {
@@ -57,14 +54,12 @@ public class AppLogger : IAsyncDisposable
         }
     }
 
-    public async ValueTask DisposeAsync()
+    public static async void Dispose()
     {
         foreach (var writer in StreamCache.Values)
         {
             await writer.FlushAsync();
             await writer.DisposeAsync();
         }
-        
-        GC.SuppressFinalize(this);
     }
 }

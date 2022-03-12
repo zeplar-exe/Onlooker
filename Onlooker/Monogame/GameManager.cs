@@ -24,7 +24,6 @@ public class GameManager : Game
     public MainController MainController { get; }
     public InputFrameworkController Input { get; }
     public ModuleRoot ModuleRoot { get; }
-    public AppLogger Logger { get; }
 
     public int PixelsPerCoordinate { get; set; }
     public bool EnableControllersOnHook { get; set; }
@@ -50,8 +49,8 @@ public class GameManager : Game
         Controllers = new List<GameController>();
 
         Directory.CreateDirectory(logDirectory);
-        
-        Logger = new AppLogger(logDirectory);
+
+        AppLogger.LogDirectory = logDirectory;
 
         MainController = new MainController { Enabled = true };
         Input = new InputFrameworkController { Enabled = true };
@@ -64,7 +63,8 @@ public class GameManager : Game
 
     public async void InitAsync()
     {
-        await AsyncHelper.OnInterval(Logger.FlushAsync, TimeSpan.FromSeconds(5), CancellationToken.None);
+        await AsyncHelper.OnInterval(AppLogger.FlushAsync, TimeSpan.FromSeconds(5), CancellationToken.None);
+        // TODO: Make interval configurable
     }
 
     public void HookController(GameController controller)
@@ -81,9 +81,9 @@ public class GameManager : Game
     
     public bool UnhookController(GameController controller) => Controllers.Remove(controller);
 
-    protected override async void OnExiting(object sender, EventArgs args)
+    protected override void OnExiting(object sender, EventArgs args)
     {
-        await Logger.DisposeAsync();
+        AppLogger.Dispose();
         TextureHelper.Dispose();
     }
 
@@ -116,9 +116,12 @@ public class GameManager : Game
                 var args = new CancellationEventArgs();
                 
                 controller.OnDisposing(args);
-                
+
                 if (!args.Cancel)
-                    Controllers.Remove(controller);
+                {
+                    UnhookController(controller);
+                    continue;
+                }
             }
             
             if (controller.IsLocked())
