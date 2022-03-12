@@ -22,18 +22,13 @@ public class GuiProcessor
 
         if (root == null)
             return new OutputResult<FileProcessingOutput, GuiDocument>(
-                new FileProcessingOutput(
-                    ProcessingOutputType.Failure,
-                    string.Format(XmlProcessingOutput.DocumentRootNull, wrapper.Name)),
+                FileProcessingOutput.Failure(string.Format(XmlProcessingOutput.DocumentRootNull, wrapper.Name)), 
                 result);
-        
 
         AddChildren(root, result.Root);
 
         return new OutputResult<FileProcessingOutput, GuiDocument>(
-            new FileProcessingOutput(
-                ProcessingOutputType.Success,
-                string.Format(XmlProcessingOutput.DocumentProcessSuccess, wrapper.Name)),
+            FileProcessingOutput.Success(string.Format(XmlProcessingOutput.DocumentProcessSuccess, wrapper.Name)),
             result);
     }
 
@@ -48,10 +43,6 @@ public class GuiProcessor
                 case "vertical_layout":
                     currentElement = new VerticalLayoutElement();
                     break;
-            }
-            
-            switch (element.Name.ToString())
-            {
                 case "label":
                     currentElement = new LabelElement();
                     break;
@@ -63,7 +54,9 @@ public class GuiProcessor
             if (currentElement != null)
             {
                 currentElement.LoadFromXml(element);
+                
                 AddChildren(element, currentElement);
+                
                 gui.Children.Add(currentElement);
             }
         }
