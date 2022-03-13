@@ -1,14 +1,12 @@
 using System.Xml.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Onlooker.Common;
 using Onlooker.Common.Extensions;
 using Onlooker.Common.Helpers;
 using Onlooker.Common.MethodOutput;
 using Onlooker.IntermediateConfiguration.GUI.Processing.Commands;
 using Onlooker.IntermediateConfiguration.Modules;
 using Onlooker.IntermediateConfiguration.Modules.Entities;
-using Onlooker.Monogame;
 using Onlooker.Monogame.Graphics;
 using Onlooker.ObjectProperties;
 using Vector2 = Microsoft.Xna.Framework.Vector2;

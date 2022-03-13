@@ -1,7 +1,5 @@
 using Onlooker.Common.Extensions;
 using Onlooker.IntermediateConfiguration.Game.World.Terrain;
-using Onlooker.Monogame;
-using Onlooker.Monogame.Logging;
 
 namespace Onlooker.IntermediateConfiguration.Modules.Entities;
 

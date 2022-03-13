@@ -1,8 +1,4 @@
-using System.Text;
-using Jammo.ParserTools;
 using Jammo.ParserTools.Lexing;
-using Jammo.ParserTools.Tokenization;
-using Jammo.ParserTools.Tools;
 using Onlooker.Common.MethodOutput;
 using Onlooker.Common.StringResources.Gui;
 

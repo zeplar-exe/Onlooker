@@ -1,8 +1,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Onlooker.Common.Extensions;
-using Onlooker.IntermediateConfiguration.Game.Entities.Moods;
 using Onlooker.Monogame;
-using Onlooker.Monogame.Logging;
 using SpriteFontPlus;
 
 namespace Onlooker.IntermediateConfiguration.Modules.Entities;

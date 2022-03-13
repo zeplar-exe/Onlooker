@@ -3,12 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Onlooker.Common;
 using Onlooker.Common.Args;
 using Onlooker.Common.Helpers;
-using Onlooker.IntermediateConfiguration;
 using Onlooker.IntermediateConfiguration.Modules;
 using Onlooker.Monogame.Controllers;
 using Onlooker.Monogame.Graphics;
 using Onlooker.Monogame.Logging;
-using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace Onlooker.Monogame;
 

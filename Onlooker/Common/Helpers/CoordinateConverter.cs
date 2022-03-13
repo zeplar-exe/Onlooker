@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Onlooker.Monogame;
-using Onlooker.Monogame.Graphics;
 
 namespace Onlooker.Common.Helpers;
 

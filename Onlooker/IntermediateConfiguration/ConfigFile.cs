@@ -1,5 +1,4 @@
 using Onlooker.Common.StringResources.Configuration;
-using Onlooker.IntermediateConfiguration.Game;
 using SettingsConfig;
 using SettingsConfig.Serialization;
 

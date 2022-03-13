@@ -1,8 +1,6 @@
 using Onlooker.Common.Extensions;
 using Onlooker.Common.StringResources.Configuration.Stats;
-using Onlooker.IntermediateConfiguration.Game;
 using Onlooker.IntermediateConfiguration.Game.Entities.Stats;
-using Onlooker.Monogame;
 using Onlooker.Monogame.Logging;
 using SettingsConfig;
 

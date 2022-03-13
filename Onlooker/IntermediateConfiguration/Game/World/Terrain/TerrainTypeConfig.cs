@@ -1,5 +1,3 @@
-using Onlooker.Common.Extensions;
-
 namespace Onlooker.IntermediateConfiguration.Game.World.Terrain;
 
 public class TerrainTypeConfig : DescriptiveConfigFile

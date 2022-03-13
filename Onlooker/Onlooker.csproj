@@ -80,6 +80,8 @@
         <AutoGen>True</AutoGen>
         <DependentUpon>CommandParseOutput.resx</DependentUpon>
       </Compile>
+      <Compile Remove="Common\Percentage.cs" />
+      <Compile Remove="Common\Helpers\GuiHelper.cs" />
     </ItemGroup>
 
     <ItemGroup>

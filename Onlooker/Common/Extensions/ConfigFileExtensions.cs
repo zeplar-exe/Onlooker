@@ -1,5 +1,4 @@
 using Onlooker.IntermediateConfiguration;
-using Onlooker.Monogame;
 using Onlooker.Monogame.Logging;
 
 namespace Onlooker.Common.Extensions;

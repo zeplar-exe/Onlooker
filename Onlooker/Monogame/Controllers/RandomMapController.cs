@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 using Onlooker.Common;
 using Onlooker.Common.Extensions;
 using Onlooker.Generation;
-using Onlooker.IntermediateConfiguration;
 using Onlooker.IntermediateConfiguration.Game.World.Terrain;
 using Onlooker.IntermediateConfiguration.Modules;
 using Onlooker.IntermediateConfiguration.Modules.Entities;

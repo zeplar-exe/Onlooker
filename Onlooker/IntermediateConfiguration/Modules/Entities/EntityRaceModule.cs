@@ -1,7 +1,5 @@
 using Onlooker.Common.Extensions;
 using Onlooker.IntermediateConfiguration.Game.Entities.Races;
-using Onlooker.Monogame;
-using Onlooker.Monogame.Logging;
 
 namespace Onlooker.IntermediateConfiguration.Modules.Entities;
 

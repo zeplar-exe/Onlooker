@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using Onlooker.Monogame;
-using Onlooker.Monogame.Logging;
 
 namespace Onlooker;
 
