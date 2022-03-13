@@ -22,25 +22,25 @@ public class LabelElement : GuiElement
     public BooleanProperty ScaleToRect { get; }
     public PaddingProperty Padding { get; }
     
-    public LabelElement() : base(new RectangleProperty(new Rectangle(0, 0, 200, 200)))
+    public LabelElement()
     {
         Text = new StringProperty("");
         FontSize = new IntegerProperty(14);
         ScaleToText = new BooleanProperty(false);
         ScaleToRect = new BooleanProperty(false);
-        Padding = new PaddingProperty(Onlooker.Common.Padding.Empty);
+        Padding = new PaddingProperty(Common.Padding.Empty);
         
         Font = ModuleRoot.Current.GetPersistentModule<CommonFontsModule>().Information;
         Background = TextureHelper.CreateSolidColor(Color.BlueViolet);
         
-        Rect.ValueChanged += (_, e) =>
+        RectChanged += (_, e) =>
         {
             if (ScaleToRect)
             {
-                var size = Font!.MeasureString(Text);
-                var rectSize = new Vector2(Rect.Value.Width, Rect.Value.Height);
+                var size = Font.MeasureString(Text);
+                var (xSize, ySize) = Rect.Size;
 
-                if (size.X < rectSize.X || size.Y < rectSize.Y)
+                if (size.X < xSize || size.Y < ySize)
                 {
                     // Something something fontsize
                 }
@@ -51,12 +51,13 @@ public class LabelElement : GuiElement
         {
             if (ScaleToText)
             {
-                var size = Font!.MeasureString(Text);
-                var rectSize = new Vector2(Rect.Value.Width, Rect.Value.Height);
+                var size = Font.MeasureString(Text);
+                var rectSize = new Vector2(Rect.Width, Rect.Height);
                 
                 if (size.X > rectSize.X || size.Y > rectSize.Y)
                 {
-                    Rect.Value = new Rectangle(Rect.Value.Location, new Point((int)size.X, (int)size.Y));
+                    Width.Property.Value = (int)size.X;
+                    Height.Property.Value = (int)size.X;
                 }
             }
         };
@@ -68,10 +69,9 @@ public class LabelElement : GuiElement
         
         ScaleToText.Value = element.Attribute("rect_scales")?.Value.SafeParseBool() ?? ScaleToText.Value;
         ScaleToRect.Value = element.Attribute("text_scales")?.Value.SafeParseBool() ?? ScaleToRect.Value;
-        Rect.Value = new Rectangle(0, 0, 50, 50);
         Text.Value = element.Attribute("text")?.Value;
         FontSize.Value = element.Attribute("font_size")?.Value.SafeParseInt() ?? FontSize.Value;
-        Padding.Value = Onlooker.Common.Padding.FromXml(element);
+        Padding.Value = Common.Padding.FromXml(element);
         // TODO: Font, Background, Padding
     }
 

@@ -1,15 +1,15 @@
-using Onlooker.Common;
+using Onlooker.ObjectProperties;
 
 namespace Onlooker.IntermediateConfiguration.GUI.Processing.Numeric;
 
-public abstract class NumericValue
+public class NumericValue
 {
-    public int NumericConstant { get; }
-    
-    protected NumericValue(int numericConstant)
+    public IntegerProperty Property { get; set; }
+    public NumericType Type { get; set; }
+
+    public NumericValue(int value, NumericType type)
     {
-        NumericConstant = numericConstant;
+        Property = new IntegerProperty(value);
+        Type = type;
     }
-    
-    public abstract int Calculate(ScreenOrigin origin);
 }

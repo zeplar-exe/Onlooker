@@ -6,11 +6,6 @@ namespace Onlooker.IntermediateConfiguration.GUI.Elements;
 
 public class RootElement : GuiElement
 {
-    public RootElement() : base(new RectangleProperty(Rectangle.Empty))
-    {
-        
-    }
-
     public override bool IsLocked()
     {
         return false;

@@ -16,7 +16,7 @@
 
     <ItemGroup>
         <None Update="configuration\**\*.*">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
     </ItemGroup>
 

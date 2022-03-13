@@ -1,6 +1,7 @@
 using Jammo.ParserTools;
 using Jammo.ParserTools.Lexing;
 using Onlooker.Common.MethodOutput;
+using Onlooker.Common.MethodOutput.OutputTypes;
 using Onlooker.Common.StringResources.Gui;
 
 namespace Onlooker.IntermediateConfiguration.GUI.Processing.Numeric;
@@ -15,7 +16,7 @@ public class NumericValueParser
                 new OperationOutput(
                     OperationOutputType.Failure,
                     string.Format(NumericValueOutput.InvalidNumericFormat, value)),
-                new PixelValue(0));
+                new NumericValue(0, NumericType.Pixels));
         }
         
         var navigator = new Lexer(value).ToNavigator();
@@ -26,7 +27,7 @@ public class NumericValueParser
                 new OperationOutput(
                     OperationOutputType.Failure,
                     string.Format(NumericValueOutput.InvalidNumericFormat, value)),
-                new PixelValue(0));
+                new NumericValue(0, NumericType.Pixels));
         }
         
         var number = int.Parse(first.ToString());
@@ -43,13 +44,13 @@ public class NumericValueParser
                         new OperationOutput(
                             OperationOutputType.Success,
                             NumericValueOutput.ValidNumericFormat),
-                        new ScreenPercentageValue(number));
+                        new NumericValue(number, NumericType.ScreenPercentage));
                 default:
                     return new OutputResult<OperationOutput, NumericValue>(
                         new OperationOutput(
                             OperationOutputType.Failure,
                             string.Format(NumericValueOutput.InvalidNumericFormat, value)),
-                        new PixelValue(0));
+                        new NumericValue(0, NumericType.ScreenPercentage));
             }
         }
         
@@ -57,6 +58,6 @@ public class NumericValueParser
             new OperationOutput(
                 OperationOutputType.Success,
                 string.Format(NumericValueOutput.ValidNumericFormat, value)),
-            new PixelValue(number));
+            new NumericValue(number, NumericType.Pixels));
     }
 }

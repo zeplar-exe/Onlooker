@@ -5,25 +5,68 @@ using Onlooker.IntermediateConfiguration.GUI.Processing.Numeric;
 using Onlooker.Monogame.Controllers;
 using Onlooker.Monogame.Graphics;
 using Onlooker.ObjectProperties;
+using Onlooker.ObjectProperties.Binding;
 
 namespace Onlooker.IntermediateConfiguration.GUI.Elements;
 
 public abstract class GuiElement : GameController
 {
-    public RectangleProperty Rect { get; }
+    public NumericValue X { get; }
+    public NumericValue Y { get; }
+    
+    public NumericValue Width { get; }
+    public NumericValue Height { get; }
+    
+    public event EventHandler<ObjectPropertyValueChangedArgs<Rectangle>>? RectChanged;
+
+    public Rectangle Rect
+    {
+        get
+        {
+            return new Rectangle(
+                CreatePixelValue(X, ScreenOrigin.XPosition).Property, 
+                CreatePixelValue(Y, ScreenOrigin.YPosition).Property,
+                CreatePixelValue(Width, ScreenOrigin.Width).Property, 
+                CreatePixelValue(Height, ScreenOrigin.Height).Property);
+        }
+    }
+
     public List<GuiElement> Children { get; }
     public int ZIndex { get; }
 
     protected GuiElement()
     {
-        Rect = new RectangleProperty(new Rectangle(0, 0, 50, 50));
+        X = new NumericValue(0, NumericType.Pixels);
+        Y = new NumericValue(0, NumericType.Pixels);
+        
+        Width = new NumericValue(50, NumericType.Pixels);
+        Height = new NumericValue(50, NumericType.Pixels);
+        
         Children = new List<GuiElement>();
-    }
 
-    protected GuiElement(Rectangle rectangle)
-    {
-        Rect = new RectangleProperty(rectangle);
-        Children = new List<GuiElement>();
+        X.Property.ValueChanged += (sender, args) =>
+        {
+            RectChanged?.Invoke(sender, new ObjectPropertyValueChangedArgs<Rectangle>(
+                new Rectangle(args.OldValue, Rect.Y, Rect.Width, Rect.Height), Rect));
+        };
+        
+        Y.Property.ValueChanged += (sender, args) =>
+        {
+            RectChanged?.Invoke(sender, new ObjectPropertyValueChangedArgs<Rectangle>(
+                new Rectangle(Rect.X, args.OldValue, Rect.Width, Rect.Height), Rect));
+        };
+        
+        Width.Property.ValueChanged += (sender, args) =>
+        {
+            RectChanged?.Invoke(sender, new ObjectPropertyValueChangedArgs<Rectangle>(
+                new Rectangle(Rect.X, Rect.Y, args.OldValue, Rect.Height), Rect));
+        };
+        
+        Height.Property.ValueChanged += (sender, args) =>
+        {
+            RectChanged?.Invoke(sender, new ObjectPropertyValueChangedArgs<Rectangle>(
+                new Rectangle(Rect.X, Rect.Y, Rect.Width, args.OldValue), Rect));
+        };
     }
 
     public override void Update(GameTime time)
@@ -44,11 +87,76 @@ public abstract class GuiElement : GameController
 
         var xOutput = numericParser.Parse(element.Attribute("x_pos")?.Value ?? "0");
         var yOutput = numericParser.Parse(element.Attribute("y_pos")?.Value ?? "0");
-        var widthOutput = numericParser.Parse(element.Attribute("width")?.Value ?? "50");
-        var heightOutput = numericParser.Parse(element.Attribute("height")?.Value ?? "50");
+        var widthOutput = numericParser.Parse(element.Attribute("width")?.Value ?? "80");
+        var heightOutput = numericParser.Parse(element.Attribute("height")?.Value ?? "80");
+        
+        // TODO: Handle output messages
 
-        Rect.Value = new Rectangle(
-            xOutput.Value.Calculate(ScreenOrigin.XPosition), yOutput.Value.Calculate(ScreenOrigin.YPosition), 
-            widthOutput.Value.Calculate(ScreenOrigin.Width), heightOutput.Value.Calculate(ScreenOrigin.Height));
+        X.Type = xOutput.Value.Type;
+        X.Property.Value = xOutput.Value.Property.Value;
+        
+        Y.Type = yOutput.Value.Type;
+        Y.Property.Value = yOutput.Value.Property.Value;
+        
+        Width.Type = widthOutput.Value.Type;
+        Width.Property.Value = widthOutput.Value.Property.Value;
+        
+        Height.Type = heightOutput.Value.Type;
+        Height.Property.Value = heightOutput.Value.Property.Value;
+    }
+    
+    public NumericValue CreatePixelValue(NumericValue value, ScreenOrigin origin)
+    {
+        switch (value.Type)
+        {
+            case NumericType.Pixels:
+                return value;
+            case NumericType.ParentPercentage:
+                switch (origin)
+                {
+                    case ScreenOrigin.XPosition:
+                        return new NumericValue(
+                            Math2.FloorToInt(X.Property.Value / 100d * value.Property.Value), 
+                            NumericType.Pixels);
+                    case ScreenOrigin.YPosition:
+                        return new NumericValue(
+                            Math2.FloorToInt(Y.Property.Value / 100d * value.Property.Value), 
+                            NumericType.Pixels);
+                    case ScreenOrigin.Width:
+                        return new NumericValue(
+                            Math2.FloorToInt(Width.Property.Value / 100d * value.Property.Value), 
+                            NumericType.Pixels);
+                    case ScreenOrigin.Height:
+                        return new NumericValue(
+                            Math2.FloorToInt(Height.Property.Value / 100d * value.Property.Value), 
+                            NumericType.Pixels);
+                }
+                break;
+            case NumericType.ScreenPercentage:
+                switch (origin)
+                {
+                    case ScreenOrigin.XPosition:
+                        return new NumericValue(
+                            Math2.FloorToInt(CommonValues.ScreenWidth.X / 100d * value.Property), 
+                            NumericType.Pixels);
+                    case ScreenOrigin.YPosition:
+                        return new NumericValue(
+                            Math2.FloorToInt(CommonValues.ScreenHeight.X / 100d * value.Property), 
+                            NumericType.Pixels);
+                    case ScreenOrigin.Width:
+                        return new NumericValue(
+                            Math2.FloorToInt(CommonValues.ScreenWidth.X / 100d * value.Property), 
+                            NumericType.Pixels);
+                    case ScreenOrigin.Height:
+                        return new NumericValue(
+                            Math2.FloorToInt(CommonValues.ScreenHeight.X / 100d * value.Property), 
+                            NumericType.Pixels);
+                }
+                break;
+            default:
+                return value;
+        }
+
+        return value;
     }
 }

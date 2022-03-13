@@ -26,20 +26,20 @@ public class ButtonElement : GuiElement
 
     public event EventHandler? OnClick;
     
-    public ButtonElement() : base(new RectangleProperty(new Rectangle(0, 0, 200, 200)))
+    public ButtonElement()
     {
         Text = new StringProperty("");
         FontSize = new IntegerProperty(14);
         ScaleToText = new BooleanProperty(false);
         ScaleToRect = new BooleanProperty(false);
-        Padding = new PaddingProperty(Onlooker.Common.Padding.Empty);
+        Padding = new PaddingProperty(Common.Padding.Empty);
 
-        Rect.ValueChanged += (_, e) =>
+        RectChanged += (_, e) =>
         {
             if (ScaleToRect)
             {
                 var size = Font!.MeasureString(Text);
-                var rectSize = new Vector2(Rect.Value.Width, Rect.Value.Height);
+                var rectSize = new Vector2(Rect.Width, Rect.Height);
 
                 if (size.X < rectSize.X || size.Y < rectSize.Y)
                 {
@@ -53,11 +53,12 @@ public class ButtonElement : GuiElement
             if (ScaleToText)
             {
                 var size = Font!.MeasureString(Text);
-                var rectSize = new Vector2(Rect.Value.Width, Rect.Value.Height);
+                var rectSize = new Vector2(Rect.Width, Rect.Height);
                 
                 if (size.X > rectSize.X || size.Y > rectSize.Y)
                 {
-                    Rect.Value = new Rectangle(Rect.Value.Location, new Point((int)size.X, (int)size.Y));
+                    X.Property.Value = (int)size.X;
+                    Y.Property.Value = (int)size.Y;
                 }
             }
         };
@@ -74,7 +75,7 @@ public class ButtonElement : GuiElement
         ScaleToRect.Value = element.Attribute("text_scales")?.Value.SafeParseBool() ?? ScaleToRect.Value;
         Text.Value = element.Attribute("text")?.Value;
         FontSize.Value = element.Attribute("font_size")?.Value.SafeParseInt() ?? FontSize.Value;
-        Padding.Value = Onlooker.Common.Padding.FromXml(element);
+        Padding.Value = Common.Padding.FromXml(element);
 
         var onClickCommand = element.Attribute("on_click")?.Value;
 

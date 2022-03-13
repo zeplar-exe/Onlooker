@@ -7,17 +7,22 @@ namespace Onlooker.IntermediateConfiguration.GUI.Elements;
 public class VerticalLayoutElement : GuiElement
 {
     public PaddingProperty Padding { get; }
+    public BooleanProperty KeepWidthOnChildren { get; }
 
-    public VerticalLayoutElement() : base(new RectangleProperty(new Rectangle(0, 0, 200, 200)))
+    public VerticalLayoutElement()
     {
-        Padding = new PaddingProperty(Onlooker.Common.Padding.Empty);
+        Padding = new PaddingProperty(Common.Padding.Empty);
+        KeepWidthOnChildren = new BooleanProperty(false);
     }
     
     public override void LoadFromXml(XElement element)
     {
         base.LoadFromXml(element);
         
-        Padding.Value = Onlooker.Common.Padding.FromXml(element);
+        Padding.Value = Common.Padding.FromXml(element);
+
+        bool.TryParse(element.Value, out var keepWidth); // keepWidth is null if failed anyway
+        KeepWidthOnChildren.Value = keepWidth;
         
         Enum.TryParse<PaddingPreset>(element.Attribute("padding_generator")?.Value, true, out var paddingPreset);
 
@@ -42,11 +47,15 @@ public class VerticalLayoutElement : GuiElement
         
         foreach (var child in Children)
         {
-            child.Rect.Value = new Rectangle(
-                child.Rect.Value.X, y,
-                child.Rect.Value.Width, child.Rect.Value.Width);
+            child.Y.Property.Value = y;
 
-            y += child.Rect.Value.Height;
+            if (KeepWidthOnChildren)
+            {
+                child.Width.Property.Value = Width.Property.Value;
+                child.Width.Type = Width.Type;
+            }
+
+            y += child.Height.Property.Value;
         }
         
         base.Update(time);
