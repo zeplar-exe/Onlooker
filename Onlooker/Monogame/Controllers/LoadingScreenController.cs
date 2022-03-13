@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 using Onlooker.Common;
 using Onlooker.IntermediateConfiguration.Modules;
 using Onlooker.IntermediateConfiguration.Modules.Common;
-using Onlooker.IntermediateConfiguration.Modules.Entities;
 using Onlooker.Monogame.Graphics;
 
 namespace Onlooker.Monogame.Controllers;

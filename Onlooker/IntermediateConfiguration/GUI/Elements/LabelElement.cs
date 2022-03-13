@@ -5,7 +5,6 @@ using Onlooker.Common.Extensions;
 using Onlooker.Common.Helpers;
 using Onlooker.IntermediateConfiguration.Modules;
 using Onlooker.IntermediateConfiguration.Modules.Common;
-using Onlooker.IntermediateConfiguration.Modules.Entities;
 using Onlooker.Monogame.Graphics;
 using Onlooker.ObjectProperties;
 using Vector2 = Microsoft.Xna.Framework.Vector2;

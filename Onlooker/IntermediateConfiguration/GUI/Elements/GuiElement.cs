@@ -4,7 +4,6 @@ using Onlooker.Common;
 using Onlooker.IntermediateConfiguration.GUI.Processing.Numeric;
 using Onlooker.Monogame.Controllers;
 using Onlooker.Monogame.Graphics;
-using Onlooker.ObjectProperties;
 using Onlooker.ObjectProperties.Binding;
 
 namespace Onlooker.IntermediateConfiguration.GUI.Elements;

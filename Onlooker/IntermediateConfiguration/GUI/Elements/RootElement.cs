@@ -1,6 +1,4 @@
 using System.Xml.Linq;
-using Microsoft.Xna.Framework;
-using Onlooker.ObjectProperties;
 
 namespace Onlooker.IntermediateConfiguration.GUI.Elements;
 
