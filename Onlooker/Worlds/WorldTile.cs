@@ -1,8 +1,9 @@
 using Microsoft.Xna.Framework;
 using Onlooker.Common;
+using Onlooker.Common._2D;
 using Onlooker.IntermediateConfiguration.Game.World.Terrain;
 using Onlooker.ObjectProperties;
-using Vector2 = Onlooker.Common.Vector2;
+using Vector2 = Onlooker.Common._2D.Vector2;
 
 namespace Onlooker.Worlds;
 

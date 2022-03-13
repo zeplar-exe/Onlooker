@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 
-namespace Onlooker.Common;
+namespace Onlooker.Common._2D;
 
 public record struct Vector2Int(int X, int Y)
 {

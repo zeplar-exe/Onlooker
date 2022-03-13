@@ -1,11 +1,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Onlooker.Common;
+using Onlooker.Common._2D;
 using Onlooker.Common.Helpers;
 using Onlooker.Monogame.Controllers;
 using Onlooker.Monogame.Graphics;
 using Onlooker.ObjectProperties;
-using Vector2 = Onlooker.Common.Vector2;
+using Vector2 = Onlooker.Common._2D.Vector2;
 
 namespace Onlooker.Worlds;
 

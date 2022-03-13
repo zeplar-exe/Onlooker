@@ -11,7 +11,7 @@ public class VerticalLayoutElement : GuiElement
 
     public VerticalLayoutElement()
     {
-        Padding = new PaddingProperty(Common.Padding.Empty);
+        Padding = new PaddingProperty(Common._2D.Padding.Empty);
         KeepWidthOnChildren = new BooleanProperty(false);
     }
     
@@ -19,7 +19,7 @@ public class VerticalLayoutElement : GuiElement
     {
         base.LoadFromXml(element);
         
-        Padding.Value = Common.Padding.FromXml(element);
+        Padding.Value = Common._2D.Padding.FromXml(element);
 
         bool.TryParse(element.Value, out var keepWidth); // keepWidth is null if failed anyway
         KeepWidthOnChildren.Value = keepWidth;

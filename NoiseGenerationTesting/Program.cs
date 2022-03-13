@@ -1,4 +1,5 @@
 ﻿using Onlooker.Common;
+using Onlooker.Common._2D;
 using Onlooker.Generation;
 using SFML.Graphics;
 using SFML.System;

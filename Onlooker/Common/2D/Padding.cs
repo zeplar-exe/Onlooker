@@ -1,7 +1,7 @@
 using System.Xml.Linq;
 using Onlooker.Common.Extensions;
 
-namespace Onlooker.Common;
+namespace Onlooker.Common._2D;
 
 public record struct Padding(int Up, int Down, int Left, int Right)
 {

@@ -1,6 +1,6 @@
 using System.Collections;
 
-namespace Onlooker.Common;
+namespace Onlooker.Common._2D;
 
 public class Matrix2D<T> : IEnumerable<T>
 {

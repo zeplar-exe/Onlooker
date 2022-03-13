@@ -3,7 +3,7 @@ using Onlooker.Monogame;
 namespace Onlooker.IntermediateConfiguration.Modules;
 
 public class ModuleRoot
-{ // TODO: For termination error messages, add ReportError or something
+{
     private Dictionary<int, IModule> PersistentModules { get; }
 
     public DirectoryInfo Directory { get; }

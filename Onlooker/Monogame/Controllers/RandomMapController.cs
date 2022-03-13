@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Onlooker.Common;
+using Onlooker.Common._2D;
 using Onlooker.Common.Extensions;
 using Onlooker.Generation;
 using Onlooker.IntermediateConfiguration.Game.World.Terrain;
@@ -7,6 +8,7 @@ using Onlooker.IntermediateConfiguration.Modules;
 using Onlooker.IntermediateConfiguration.Modules.Entities;
 using Onlooker.Monogame.Graphics;
 using Onlooker.Worlds;
+using Vector2 = Onlooker.Common._2D.Vector2;
 
 namespace Onlooker.Monogame.Controllers;
 
@@ -34,7 +36,7 @@ public class RandomMapController : GameController
             Tilemap = new Matrix2D<WorldTile>(size),
             CameraViewportSize =
             {
-                Value = new Common.Vector2(50, 50)
+                Value = new Vector2(50, 50)
             }
         };
 
@@ -62,7 +64,7 @@ public class RandomMapController : GameController
                 {
                     Position =
                     {
-                        Value = new Common.Vector2(xIndex * WorldTileSquared + 1, yIndex * WorldTileSquared + 1)
+                        Value = new Vector2(xIndex * WorldTileSquared + 1, yIndex * WorldTileSquared + 1)
                     },
                     Size = {
                         Value = new Vector2Int(WorldTileSquared, WorldTileSquared)

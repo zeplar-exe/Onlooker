@@ -27,7 +27,7 @@ public class LabelElement : GuiElement
         FontSize = new IntegerProperty(14);
         ScaleToText = new BooleanProperty(false);
         ScaleToRect = new BooleanProperty(false);
-        Padding = new PaddingProperty(Common.Padding.Empty);
+        Padding = new PaddingProperty(Common._2D.Padding.Empty);
         
         Font = ModuleRoot.Current.GetPersistentModule<CommonFontsModule>().Information;
         Background = TextureHelper.CreateSolidColor(Color.BlueViolet);
@@ -70,7 +70,7 @@ public class LabelElement : GuiElement
         ScaleToRect.Value = element.Attribute("text_scales")?.Value.SafeParseBool() ?? ScaleToRect.Value;
         Text.Value = element.Attribute("text")?.Value;
         FontSize.Value = element.Attribute("font_size")?.Value.SafeParseInt() ?? FontSize.Value;
-        Padding.Value = Common.Padding.FromXml(element);
+        Padding.Value = Common._2D.Padding.FromXml(element);
         // TODO: Font, Background, Padding
     }
 

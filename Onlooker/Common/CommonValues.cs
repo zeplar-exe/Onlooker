@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Onlooker.Monogame;
+using Vector2 = Onlooker.Common._2D.Vector2;
 
 namespace Onlooker.Common;
 

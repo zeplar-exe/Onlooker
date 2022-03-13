@@ -1,6 +1,7 @@
 using System.Xml.Linq;
 using Microsoft.Xna.Framework;
 using Onlooker.Common;
+using Onlooker.Common._2D;
 using Onlooker.IntermediateConfiguration.GUI.Processing.Numeric;
 using Onlooker.Monogame.Controllers;
 using Onlooker.Monogame.Graphics;

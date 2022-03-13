@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Vector2 = Onlooker.Common._2D.Vector2;
 
 namespace Onlooker.Common.Extensions;
 

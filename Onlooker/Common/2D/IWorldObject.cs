@@ -1,6 +1,6 @@
 using Onlooker.ObjectProperties;
 
-namespace Onlooker.Common;
+namespace Onlooker.Common._2D;
 
 public interface IWorldObject
 {
