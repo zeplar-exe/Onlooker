@@ -27,7 +27,7 @@ public class RandomMapController : GameController
     }
     
     public void Generate(Vector2Int size, NoiseGenerator noise)
-    { // TODO: Maybe use sampling to get the nearest 5 for each map
+    {
         if (TilemapController != null)
             TilemapController.Disposed = true;
         
@@ -43,8 +43,7 @@ public class RandomMapController : GameController
         var heightMap = noise.Generate(size, 100);
         var temperatureMap = noise.Generate(size, 100);
         var humidityMap = noise.Generate(size, 100);
-        var terrainTypes = ModuleRoot.Current.GetModule<WorldTerrainTypeModule>()
-            .TerrainTypeConfigs;
+        var terrainTypes = ModuleRoot.Current.GetModule<WorldTerrainTypeModule>().TerrainTypeConfigs;
 
         for (var xIndex = 0; xIndex < size.X; xIndex++)
         {
@@ -54,11 +53,10 @@ public class RandomMapController : GameController
                 var temperature = temperatureMap[xIndex, yIndex];
                 var humidity = humidityMap[xIndex, yIndex];
             
-                var terrain = terrainTypes
-                    .MinBy(t => CalculateCloseness(t, height, temperature, humidity));
+                var terrain = terrainTypes.MinBy(t => CalculateCloseness(t, height, temperature, humidity));
             
                 if (terrain == null)
-                    continue;
+                    continue; // TODO: Handle this case, should terminate or use default terrain
 
                 var tile = new WorldTile(terrain)
                 {
@@ -75,7 +73,6 @@ public class RandomMapController : GameController
             }
         }
         
-        // TODO: Move this stuff to TilemapGenerator
         TilemapController.Enabled = true;
         GameManager.Current.HookController(TilemapController);
 

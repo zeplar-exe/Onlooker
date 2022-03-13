@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Input;
 using Onlooker.Common;
 using Onlooker.Common._2D;
 using Onlooker.Common.Helpers;
+using Onlooker.Monogame;
 using Onlooker.Monogame.Controllers;
 using Onlooker.Monogame.Graphics;
 using Onlooker.ObjectProperties;
@@ -51,7 +52,8 @@ public class TilemapStageController : GameController
 
         if (InputFrameworkController.Current.IsLeftMouseHeld())
         {
-            offset += (Vector2)InputFrameworkController.Current.GetMouseDelta();
+            offset -= (Vector2)InputFrameworkController.Current.GetMouseDelta();
+            // Need to use -= here because math or something for intended behavior of pulling to the right moving left
         }
         
         CameraPosition.Value += offset;
@@ -65,8 +67,8 @@ public class TilemapStageController : GameController
         var cameraRect = new Rectangle(
             new Point((int)CameraPosition.Value.X, (int)CameraPosition.Value.Y), 
             CameraViewportSize.Value);
-        // Console.WriteLine(cameraRect);
-        // Console.WriteLine(CameraPosition); // this is stupid
+        var widthMultiplier = CommonValues.ScreenWidth.X / CameraViewportSize.Value.X;
+        var heightMultiplier = CommonValues.ScreenHeight.Y / CameraViewportSize.Value.Y;
         
         for (var x = 0; x < Tilemap.Width; x++)
         {
@@ -74,13 +76,30 @@ public class TilemapStageController : GameController
             {
                 var tile = Tilemap[x, y];
                 var rect = CoordinateConverter.ToScreenCoordinates(tile.CreateRect());
+                
+                if (rect.Right < cameraRect.Left)
+                    break;
 
+                if (rect.Bottom < cameraRect.Top)
+                    break;
+                
+                if (rect.Left > cameraRect.Right)
+                    goto ExitTilemapDraw; // this is a perfectly valid usage of goto
+                
                 if (!cameraRect.Intersects(rect))
                     continue;
+
+                var drawRect = new Rectangle(
+                     Math2.FloorToInt((rect.X - CameraPosition.Value.X) * widthMultiplier) + 1, 
+                     Math2.FloorToInt((rect.Y - CameraPosition.Value.Y) * heightMultiplier) + 1, 
+                     Math2.FloorToInt(rect.Width * widthMultiplier), 
+                     Math2.FloorToInt(rect.Height * heightMultiplier));
                 
-                canvas.Draw(Layers.World, new TextureGraphic(tile.Source.IconTexture, rect));
+                canvas.Draw(Layers.World, new TextureGraphic(tile.Source.IconTexture, drawRect));
             }
         }
+        
+        ExitTilemapDraw: ;
     }
 
     public override bool IsLocked()

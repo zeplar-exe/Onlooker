@@ -1,0 +1,7 @@
+id="deep_ocean"
+display_name="Deep Ocean"
+description="An ocean who's depths are to be discovered.."
+icon="rel::sprites/deep_ocean.png"
+height=0
+temperature=34
+humidity=10

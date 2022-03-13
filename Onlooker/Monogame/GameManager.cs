@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using Onlooker.Common;
 using Onlooker.Common.Args;
 using Onlooker.Common.Helpers;
@@ -25,6 +26,8 @@ public class GameManager : Game
 
     public int PixelsPerCoordinate { get; set; }
     public bool EnableControllersOnHook { get; set; }
+    
+    public MouseHandler MouseHandler { get; set; }
 
     public static GameController? FindControllerById(Guid id) => Current.Controllers.Find(c => c.Id == id);
 
@@ -40,7 +43,7 @@ public class GameManager : Game
         Window.AllowUserResizing = false; // TODO: Handle window resizing
         Window.AllowAltF4 = true;
 
-        PixelsPerCoordinate = 25;
+        PixelsPerCoordinate = 10;
         
         Graphics = new GraphicsDeviceManager(this);
         ModuleRoot = new ModuleRoot(FileSystemHelper.FromWorkingDirectory("configuration"));
@@ -100,6 +103,7 @@ public class GameManager : Game
         Time.LastUpdate = gameTime;
         
         UpdateControllers(gameTime);
+        HandleMouse(gameTime);
         HandlePossibleResize(gameTime);
         
         base.Update(gameTime);
@@ -126,6 +130,26 @@ public class GameManager : Game
                 continue;
 
             controller.Update(time);
+        }
+    }
+
+    private Point? MouseLockPosition { get; set; }
+    
+    private void HandleMouse(GameTime time)
+    {
+        switch (MouseHandler)
+        {
+            case MouseHandler.Free:
+                MouseLockPosition = null;
+                break;
+            case MouseHandler.Locked:
+                MouseLockPosition ??= Mouse.GetState().Position;
+                Mouse.SetPosition(MouseLockPosition.Value.X, MouseLockPosition.Value.Y);
+                break;
+            case MouseHandler.LockedCenter:
+                MouseLockPosition = new Point(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2);
+                Mouse.SetPosition(MouseLockPosition.Value.X, MouseLockPosition.Value.Y);
+                break;
         }
     }
     
