@@ -9,11 +9,6 @@ namespace Onlooker.IntermediateConfiguration.GUI.Processing;
 
 public class GuiProcessor
 {
-    public GuiProcessor()
-    {
-        
-    }
-
     public OutputResult<FileProcessingOutput, GuiDocument> ProcessFrontendXml(XDocumentWrapper wrapper)
     {
         var root = wrapper.Document.Root;

@@ -11,12 +11,7 @@ public class LoadingScreenController : GameController
 {
     public bool LoadingCompleted { get; private set; }
 
-    public LoadingScreenController()
-    {
-        
-    }
-
-    public async void Load()
+    public void Load()
     {
         ModuleRoot.Current.GetPersistentModule<CommonGraphicsModule>(); // Create persistent modules
         ModuleRoot.Current.GetPersistentModule<CommonFontsModule>();

@@ -33,7 +33,7 @@ public class ButtonElement : GuiElement
         ScaleToRect = new BooleanProperty(false);
         Padding = new PaddingProperty(Common._2D.Padding.Empty);
 
-        RectChanged += (_, e) =>
+        RectChanged += (_, _) =>
         {
             if (ScaleToRect)
             {
@@ -47,7 +47,7 @@ public class ButtonElement : GuiElement
             }
         };
 
-        Text.ValueChanged += (_, e) =>
+        Text.ValueChanged += (_, _) =>
         {
             if (ScaleToText)
             {

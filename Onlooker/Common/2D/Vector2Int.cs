@@ -65,7 +65,7 @@ public record struct Vector2Int(int X, int Y)
     
     public static implicit operator Point(Vector2Int vector)
     {
-        return new Point((int)vector.X, (int)vector.Y);
+        return new Point(vector.X, vector.Y);
     }
     
     public override string ToString()

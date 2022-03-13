@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using Onlooker.Common;
 using Onlooker.Common._2D;
 using Onlooker.IntermediateConfiguration.Game.World.Terrain;
 using Onlooker.ObjectProperties;

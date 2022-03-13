@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using Onlooker.Common;
 using Onlooker.Common._2D;
 using Onlooker.Common.Extensions;
 using Onlooker.Generation;
@@ -14,7 +13,7 @@ namespace Onlooker.Monogame.Controllers;
 
 public class RandomMapController : GameController
 {
-    private Vector2Int Size { get; set; }
+    public Vector2Int Size { get; set; }
     public TilemapStageController? TilemapController { get; private set; }
     
     public int WorldTileSquared { get; set; }

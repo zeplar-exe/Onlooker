@@ -22,6 +22,8 @@ public static class TextureHelper
         {
             texture = new Texture2D(GameManager.Current.GraphicsDevice, 1, 1);
             texture.SetData(color.CreateArray());
+
+            TextureCache[color] = texture;
         }
 
         return texture;

@@ -32,7 +32,7 @@ public abstract class GuiElement : GameController
     }
 
     public List<GuiElement> Children { get; }
-    public int ZIndex { get; }
+    public int ZIndex { get; set; }
 
     protected GuiElement()
     {

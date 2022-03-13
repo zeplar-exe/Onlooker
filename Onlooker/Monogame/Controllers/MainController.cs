@@ -1,6 +1,5 @@
 using Jammo.ParserTools.Tools;
 using Microsoft.Xna.Framework;
-using Onlooker.Common;
 using Onlooker.Common._2D;
 using Onlooker.Generation;
 using Onlooker.Monogame.Controllers.Transitions;

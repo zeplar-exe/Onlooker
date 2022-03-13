@@ -11,6 +11,6 @@ public class MoodConfig : DescriptiveConfigFile
 
     public MoodConfig(FileInfo source) : base(source)
     {
-        
+        StatOffset = new Dictionary<string, SettingValue>();
     }
 }

@@ -32,7 +32,7 @@ public class LabelElement : GuiElement
         Font = ModuleRoot.Current.GetPersistentModule<CommonFontsModule>().Information;
         Background = TextureHelper.CreateSolidColor(Color.BlueViolet);
         
-        RectChanged += (_, e) =>
+        RectChanged += (_, _) =>
         {
             if (ScaleToRect)
             {
@@ -46,7 +46,7 @@ public class LabelElement : GuiElement
             }
         };
 
-        Text.ValueChanged += (_, e) =>
+        Text.ValueChanged += (_, _) =>
         {
             if (ScaleToText)
             {

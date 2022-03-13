@@ -60,7 +60,7 @@ public abstract class ConfigFile : IDisposable
         else
         {
             yield return new ConfigWriteStatus(
-                string.Format(ConfigurationProgress.DeserializeSuccess, Source.Name, exception!.GetType().Name),
+                string.Format(ConfigurationProgress.DeserializeSuccess, Source.Name, exception.GetType().Name),
                 WriteStatusType.Corruption);
         }
     }

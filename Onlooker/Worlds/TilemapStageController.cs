@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Input;
 using Onlooker.Common;
 using Onlooker.Common._2D;
 using Onlooker.Common.Helpers;
-using Onlooker.Monogame;
 using Onlooker.Monogame.Controllers;
 using Onlooker.Monogame.Graphics;
 using Onlooker.ObjectProperties;

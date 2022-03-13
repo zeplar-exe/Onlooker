@@ -1,6 +1,4 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Onlooker.Common;
 using Onlooker.Common._2D;
 using Onlooker.Monogame.Graphics;
 using Onlooker.ObjectProperties;
@@ -9,7 +7,6 @@ namespace Onlooker.Monogame.Controllers;
 
 public class SolidColorController : GameController
 {
-    private Texture2D? Texture { get; set; }
     public RectangleProperty Rectangle { get; }
     public ColorProperty Color { get; set; }
     private int ZIndex { get; }

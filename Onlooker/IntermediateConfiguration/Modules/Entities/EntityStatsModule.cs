@@ -44,7 +44,6 @@ public class EntityStatsModule : IModule
                             new ConfigUpdateStatus(
                                 string.Format(StatsConfigurationProgress.InvalidType, file),
                                 UpdateStatusType.Invalid).ToString()));
-                        ;
                     break;
             }
         }
