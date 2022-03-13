@@ -1,5 +1,6 @@
 using Jammo.ParserTools.Lexing;
 using Onlooker.Common.MethodOutput;
+using Onlooker.Common.MethodOutput.OutputTypes;
 using Onlooker.Common.StringResources.Gui;
 
 namespace Onlooker.IntermediateConfiguration.GUI.Processing.Commands;

@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Onlooker.Common.Extensions;
 using Onlooker.Monogame;
 
-namespace Onlooker.IntermediateConfiguration.Modules.Entities;
+namespace Onlooker.IntermediateConfiguration.Modules.Common;
 
 public class CommonGraphicsModule : IModule
 {

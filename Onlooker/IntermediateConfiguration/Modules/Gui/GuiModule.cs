@@ -5,7 +5,7 @@ using Onlooker.IntermediateConfiguration.GUI.Processing;
 using Onlooker.Monogame;
 using Onlooker.Monogame.Logging;
 
-namespace Onlooker.IntermediateConfiguration.Modules.Entities;
+namespace Onlooker.IntermediateConfiguration.Modules.Gui;
 
 public class GuiModule : IModule
 {

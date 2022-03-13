@@ -1,5 +1,6 @@
 using System.Xml.Linq;
 using Onlooker.Common.MethodOutput;
+using Onlooker.Common.MethodOutput.OutputTypes;
 using Onlooker.Common.StringResources.Xml;
 using Onlooker.Common.Wrappers;
 using Onlooker.IntermediateConfiguration.GUI.Elements;

@@ -3,7 +3,7 @@ using Onlooker.Common.Extensions;
 using Onlooker.Monogame;
 using SpriteFontPlus;
 
-namespace Onlooker.IntermediateConfiguration.Modules.Entities;
+namespace Onlooker.IntermediateConfiguration.Modules.Common;
 
 public class CommonFontsModule : IModule
 {

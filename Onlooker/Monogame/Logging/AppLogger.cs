@@ -1,5 +1,7 @@
 using System.Collections.Concurrent;
 using System.Text;
+using Onlooker.Common.MethodOutput;
+using Onlooker.Common.MethodOutput.OutputTypes;
 
 namespace Onlooker.Monogame.Logging;
 
