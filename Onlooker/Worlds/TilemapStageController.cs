@@ -15,6 +15,7 @@ public class TilemapStageController : GameController
     public Vector2Property CameraPosition { get; }
     public Vector2Property CameraViewportSize { get; }
     public FloatProperty CameraMoveSpeed { get; }
+    public FloatProperty CameraZoomSpeed { get; }
     
     public Matrix2D<WorldTile>? Tilemap { get; set; }
 
@@ -23,6 +24,7 @@ public class TilemapStageController : GameController
         CameraViewportSize = new Vector2Property(new Vector2(10, 10));
         CameraPosition = new Vector2Property(new Vector2(0, 0));
         CameraMoveSpeed = new FloatProperty(10f);
+        CameraZoomSpeed = new FloatProperty(5f);
     }
     
     public override void Update(GameTime time)
@@ -31,7 +33,7 @@ public class TilemapStageController : GameController
         
         if (InputFrameworkController.Current.IsKeyHeld(Keys.W))
         {
-            offset.Y += CameraMoveSpeed.Value;
+            offset.Y -= CameraMoveSpeed.Value;
         }
         
         if (InputFrameworkController.Current.IsKeyHeld(Keys.A))
@@ -41,7 +43,7 @@ public class TilemapStageController : GameController
         
         if (InputFrameworkController.Current.IsKeyHeld(Keys.S))
         {
-            offset.Y -= CameraMoveSpeed.Value;
+            offset.Y += CameraMoveSpeed.Value;
         }
         
         if (InputFrameworkController.Current.IsKeyHeld(Keys.D))
@@ -56,6 +58,11 @@ public class TilemapStageController : GameController
         }
         
         CameraPosition.Value += offset;
+
+        var scroll = InputFrameworkController.Current.GetScrollDelta();
+        
+        CameraViewportSize.Value += new Vector2(CameraZoomSpeed, CameraZoomSpeed) * -scroll.Y;
+        // needs negation so scrolling forward zooms in
     }
 
     public override void Draw(DrawCanvas canvas, GameTime time)
