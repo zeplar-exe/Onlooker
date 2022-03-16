@@ -3,26 +3,35 @@ using System.Text;
 
 namespace Onlooker.Monogame.Logging;
 
-public static class AppLogger
+public class AppLogger
 {
-    private static ConcurrentDictionary<string, StreamWriter> StreamCache { get; }
+    private ConcurrentDictionary<string, StreamWriter> StreamCache { get; }
+    private static ConcurrentDictionary<string, AppLogger> Channels { get; }
 
-    public const string LoadingLog = "configuration_loading.log";
-    public const string ErrorLog = "error.log";
-
-    public static string? LogDirectory { get; set; }
+    public string LogDirectory { get; }
 
     static AppLogger()
     {
-        StreamCache = new ConcurrentDictionary<string, StreamWriter>();
+        Channels = new ConcurrentDictionary<string, AppLogger>();
     }
 
-    public static void Log(string fileName, LogMessageBuilder builder)
+    private AppLogger(string logDirectory)
+    {
+        StreamCache = new ConcurrentDictionary<string, StreamWriter>();
+        LogDirectory = logDirectory;
+    }
+    
+    public static AppLogger Channel(string directory)
+    {
+        return Channels.GetOrAdd(directory, d => new AppLogger(d));
+    }
+
+    public void Log(string fileName, LogMessageBuilder builder)
     {
         Log(fileName, builder.ToString());
     }
 
-    public static async void Log(string fileName, string log)
+    public async void Log(string fileName, string log)
     {
         if (!StreamCache.TryGetValue(fileName, out var writer))
         {
@@ -46,7 +55,7 @@ public static class AppLogger
         await writer.WriteLineAsync(log);
     }
 
-    public static async Task FlushAsync()
+    public async Task FlushAsync()
     {
         foreach (var stream in StreamCache)
         {
@@ -54,12 +63,31 @@ public static class AppLogger
         }
     }
 
-    public static async void Dispose()
+    public static async Task FlushAll()
     {
-        foreach (var writer in StreamCache.Values)
+        foreach (var channel in Channels)
         {
+            await channel.Value.FlushAsync();
+        }
+    }
+
+    public async void Dispose()
+    {
+        foreach (var (key, _) in StreamCache)
+        {
+            if (!StreamCache.Remove(key, out var writer))
+                continue;
+            
             await writer.FlushAsync();
             await writer.DisposeAsync();
+        }
+    }
+    
+    public static void DisposeAll()
+    {
+        foreach (var channel in Channels)
+        {
+            channel.Value.Dispose();
         }
     }
 }

@@ -89,7 +89,7 @@ public abstract class GuiElement : GameController
         var heightOutput = numericParser.Parse(element.Attribute("height")?.Value ?? "80");
 
         // TODO: Handle output messages, clean this entire process
-        
+
         xOutput.Value.CopyTo(X);
         yOutput.Value.CopyTo(Y);
         widthOutput.Value.CopyTo(Width);

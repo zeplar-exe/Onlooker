@@ -51,8 +51,6 @@ public class GameManager : Game
 
         Directory.CreateDirectory(logDirectory);
 
-        AppLogger.LogDirectory = logDirectory;
-
         MainController = new MainController { Enabled = true };
         Input = new InputFrameworkController { Enabled = true };
         
@@ -64,7 +62,7 @@ public class GameManager : Game
 
     public async void InitAsync()
     {
-        await AsyncHelper.OnInterval(AppLogger.FlushAsync, TimeSpan.FromSeconds(5), CancellationToken.None);
+        await AsyncHelper.OnInterval(AppLogger.FlushAll, TimeSpan.FromSeconds(5), CancellationToken.None);
         // TODO: Make interval configurable
     }
 
@@ -84,7 +82,7 @@ public class GameManager : Game
 
     protected override void OnExiting(object sender, EventArgs args)
     {
-        AppLogger.Dispose();
+        AppLogger.DisposeAll();
         TextureHelper.Dispose();
     }
 

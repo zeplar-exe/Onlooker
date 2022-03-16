@@ -29,11 +29,11 @@ public class GuiModule : IModule
         switch (result.Output.Type)
         {
             case ProcessingOutputType.Success:
-                AppLogger.Log(AppLogger.LoadingLog, result.Output.ToString());
+                AppLoggerCommon.ConfigurationChannel.Log(AppLoggerCommon.ConfigLoadingLog, result.Output.ToString());
                 break;
             case ProcessingOutputType.Corrupt:
             case ProcessingOutputType.Failure:
-                AppLogger.Log(AppLogger.ErrorLog, result.Output.ToString());
+                AppLoggerCommon.ErrorChannel.Log(AppLoggerCommon.ErrorLog, result.Output.ToString());
                 break;
         }
 
