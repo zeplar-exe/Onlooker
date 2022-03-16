@@ -2,9 +2,13 @@ using System.Xml.Linq;
 using Microsoft.Xna.Framework;
 using Onlooker.Common;
 using Onlooker.Common._2D;
+using Onlooker.Common.Extensions;
+using Onlooker.Common.MethodOutput;
 using Onlooker.IntermediateConfiguration.GUI.Processing.Numeric;
 using Onlooker.Monogame.Controllers;
 using Onlooker.Monogame.Graphics;
+using Onlooker.Monogame.Logging;
+using Onlooker.ObjectProperties;
 using Onlooker.ObjectProperties.Binding;
 
 namespace Onlooker.IntermediateConfiguration.GUI.Elements;
@@ -19,17 +23,11 @@ public abstract class GuiElement : GameController
     
     public event EventHandler<ObjectPropertyValueChangedArgs<Rectangle>>? RectChanged;
 
-    public Rectangle Rect
-    {
-        get
-        {
-            return new Rectangle(
-                CreatePixelValue(X, ScreenOrigin.XPosition).Property, 
-                CreatePixelValue(Y, ScreenOrigin.YPosition).Property,
-                CreatePixelValue(Width, ScreenOrigin.Width).Property, 
-                CreatePixelValue(Height, ScreenOrigin.Height).Property);
-        }
-    }
+    public Rectangle Rect => new(
+        CreatePixelValue(X, ScreenOrigin.XPosition).Property, 
+        CreatePixelValue(Y, ScreenOrigin.YPosition).Property,
+        CreatePixelValue(Width, ScreenOrigin.Width).Property, 
+        CreatePixelValue(Height, ScreenOrigin.Height).Property);
 
     public List<GuiElement> Children { get; }
     public int ZIndex { get; set; }
@@ -89,22 +87,22 @@ public abstract class GuiElement : GameController
         var yOutput = numericParser.Parse(element.Attribute("y_pos")?.Value ?? "0");
         var widthOutput = numericParser.Parse(element.Attribute("width")?.Value ?? "80");
         var heightOutput = numericParser.Parse(element.Attribute("height")?.Value ?? "80");
-        
-        // TODO: Handle output messages
 
-        X.Type = xOutput.Value.Type;
-        X.Property.Value = xOutput.Value.Property.Value;
+        // TODO: Handle output messages, clean this entire process
         
-        Y.Type = yOutput.Value.Type;
-        Y.Property.Value = yOutput.Value.Property.Value;
+        xOutput.Value.CopyTo(X);
+        yOutput.Value.CopyTo(Y);
+        widthOutput.Value.CopyTo(Width);
+        heightOutput.Value.CopyTo(Height);
         
-        Width.Type = widthOutput.Value.Type;
-        Width.Property.Value = widthOutput.Value.Property.Value;
-        
-        Height.Type = heightOutput.Value.Type;
-        Height.Property.Value = heightOutput.Value.Property.Value;
+        ZIndex = element.Attribute("z")?.Value.SafeParseInt() ?? ZIndex;
     }
-    
+
+    private void ParseAttributeToProperty()
+    {
+        
+    }
+
     public NumericValue CreatePixelValue(NumericValue value, ScreenOrigin origin)
     {
         switch (value.Type)
