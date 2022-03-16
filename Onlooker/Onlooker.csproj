@@ -18,6 +18,9 @@
         <None Update="configuration\**\*.*">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+        <None Update="Defaults\Fonts\error.ttf">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
     <ItemGroup>
@@ -52,6 +55,16 @@
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>CommandParseOutput.Designer.cs</LastGenOutput>
       </EmbeddedResource>
+      <EmbeddedResource Update="Common\StringResources\Configuration\Stats\StatsConfigurationProgress.en.resx">
+        <DependentUpon>StatsConfigurationProgress.resx</DependentUpon>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Common\StringResources\Configuration\ConfigurationProgress.en.resx">
+        <DependentUpon>ConfigurationProgress.resx</DependentUpon>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Common\StringResources\ResourceLoadOutput.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>ResourceLoadOutput.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
     </ItemGroup>
 
     <ItemGroup>
@@ -82,6 +95,11 @@
       </Compile>
       <Compile Remove="Common\Percentage.cs" />
       <Compile Remove="Common\Helpers\GuiHelper.cs" />
+      <Compile Update="Common\StringResources\ResourceLoadOutput.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>ResourceLoadOutput.resx</DependentUpon>
+      </Compile>
     </ItemGroup>
 
     <ItemGroup>
