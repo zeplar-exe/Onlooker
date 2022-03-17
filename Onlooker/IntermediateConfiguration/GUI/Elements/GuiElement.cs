@@ -98,11 +98,6 @@ public abstract class GuiElement : GameController
         ZIndex = element.Attribute("z")?.Value.SafeParseInt() ?? ZIndex;
     }
 
-    private void ParseAttributeToProperty()
-    {
-        
-    }
-
     public NumericValue CreatePixelValue(NumericValue value, ScreenOrigin origin)
     {
         switch (value.Type)

@@ -1,5 +1,6 @@
 using System.Xml.Linq;
 using Microsoft.Xna.Framework;
+using Onlooker.IntermediateConfiguration.GUI.Processing.Numeric;
 using Onlooker.ObjectProperties;
 
 namespace Onlooker.IntermediateConfiguration.GUI.Elements;
@@ -7,12 +8,12 @@ namespace Onlooker.IntermediateConfiguration.GUI.Elements;
 public class VerticalLayoutElement : GuiElement
 {
     public PaddingProperty Padding { get; }
-    public BooleanProperty KeepWidthOnChildren { get; }
+    public BooleanProperty SyncWidth { get; }
 
     public VerticalLayoutElement()
     {
         Padding = new PaddingProperty(Common._2D.Padding.Empty);
-        KeepWidthOnChildren = new BooleanProperty(false);
+        SyncWidth = new BooleanProperty(false);
     }
     
     public override void LoadFromXml(XElement element)
@@ -21,8 +22,8 @@ public class VerticalLayoutElement : GuiElement
         
         Padding.Value = Common._2D.Padding.FromXml(element);
 
-        bool.TryParse(element.Value, out var keepWidth); // keepWidth is null if failed anyway
-        KeepWidthOnChildren.Value = keepWidth;
+        bool.TryParse(element.Attribute("sync_width")?.Value, out var keepWidth); // keepWidth is null if failed anyway
+        SyncWidth.Value = keepWidth;
         
         Enum.TryParse<PaddingPreset>(element.Attribute("padding_generator")?.Value, true, out var paddingPreset);
 
@@ -43,19 +44,20 @@ public class VerticalLayoutElement : GuiElement
     
     public override void Update(GameTime time)
     {
-        var y = 0;
+        var y = Y.Copy();
         
         foreach (var child in Children)
         {
-            child.Y.Property.Value = y;
+            X.CopyTo(child.X);
+            y.CopyTo(child.Y);
 
-            if (KeepWidthOnChildren)
+            if (SyncWidth)
             {
                 child.Width.Property.Value = Width.Property.Value;
                 child.Width.Type = Width.Type;
             }
 
-            y += child.Height.Property.Value;
+            y.Property.Value += child.Height.Property.Value;
         }
         
         base.Update(time);

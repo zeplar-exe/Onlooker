@@ -60,7 +60,7 @@ public class GameManager : Game
         InitAsync();
     }
 
-    public async void InitAsync()
+    private async void InitAsync()
     {
         await AsyncHelper.OnInterval(AppLogger.FlushAll, TimeSpan.FromSeconds(5), CancellationToken.None);
         // TODO: Make interval configurable

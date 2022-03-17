@@ -13,6 +13,11 @@ public class NumericValue
         Type = type;
     }
 
+    public NumericValue Copy()
+    {
+        return new NumericValue(Property.Value, Type);
+    }
+
     public void CopyTo(NumericValue value)
     {
         value.Property.Value = Property.Value;

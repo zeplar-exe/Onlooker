@@ -1,5 +1,5 @@
 <frontend_root>    
-    <vertical_layout padding_generator="center">
+    <vertical_layout padding_generator="center" x_pos="25%">
         <label text="Onlooker" font_size="18"
                width="150" height="150"
                rect_scales="true"/>
