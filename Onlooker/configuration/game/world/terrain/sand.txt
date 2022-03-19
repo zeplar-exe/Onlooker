@@ -1,0 +1,7 @@
+id="sand"
+display_name="DISPLAY_NAME"
+description="DESCRIPTION"
+icon="rel::sprites/SPRITE_NAME"
+height=HEIGHT
+temperature=TEMPERATURE
+humidity=HUMIDITY
