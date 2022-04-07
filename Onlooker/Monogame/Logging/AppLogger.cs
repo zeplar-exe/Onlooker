@@ -1,5 +1,4 @@
 using System.Collections.Concurrent;
-using System.Text;
 
 namespace Onlooker.Monogame.Logging;
 
@@ -43,9 +42,8 @@ public class AppLogger
             }
             else
             {
-                writer = new StreamWriter(
-                    File.Open(location, FileMode.Append, FileAccess.Write, FileShare.Read),
-                    Encoding.Default);
+                Directory.CreateDirectory(Path.GetDirectoryName(location)!);
+                writer = File.CreateText(location);
             }
             
             writer.AutoFlush = false;

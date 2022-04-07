@@ -1,0 +1,5 @@
+log_level=0 
+# 0  Success and Failure
+# 1  Success Only
+# 2  Failure Only
+# 3  None 
