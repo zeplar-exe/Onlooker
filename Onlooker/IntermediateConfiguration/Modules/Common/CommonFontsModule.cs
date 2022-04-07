@@ -13,14 +13,22 @@ public class CommonFontsModule : IModule
     {
         var directory = root.Directory.ToRelativeDirectory("common/fonts");
 
-        var file = new FileInfo(Path.Join(directory.FullName, "information.ttf"));
-                
-        if (!file.Exists)
+        var information = GetSpriteFont(directory.ToRelativeFile("information.ttf"));
+
+        if (information == null)
         {
             GameManager.Current.Exit();
             
             return;
         }
+
+        Information = information;
+    }
+
+    private SpriteFont? GetSpriteFont(FileInfo file)
+    {
+        if (!file.Exists)
+            return null;
                 
         var bake = TtfFontBaker.Bake(
             File.ReadAllBytes(file.FullName),
@@ -36,7 +44,7 @@ public class CommonFontsModule : IModule
             }
         );
 
-        Information = bake.CreateSpriteFont(GameManager.Current.GraphicsDevice);
+        return bake.CreateSpriteFont(GameManager.Current.GraphicsDevice);
     }
 
     public void Write(ModuleRoot root)

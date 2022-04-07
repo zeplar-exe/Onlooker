@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Onlooker.Common.Extensions;
+using Onlooker.Common.Helpers;
 using Onlooker.Monogame;
 
 namespace Onlooker.IntermediateConfiguration.Modules.Common;
@@ -11,16 +12,18 @@ public class CommonGraphicsModule : IModule
     public void Init(ModuleRoot root)
     {
         var directory = root.Directory.ToRelativeDirectory("common/graphics");
-        var loadingScreen = new FileInfo(Path.Join(directory.FullName, "loading_screen.png"));
-                
-        if (!loadingScreen.Exists)
+        
+        LoadingScreen = GetTexture(directory.ToRelativeFile("loading_screen.png"));
+    }
+
+    private Texture2D GetTexture(FileInfo file)
+    {
+        if (!file.Exists)
         {
-            GameManager.Current.Exit();
-            
-            return;
+            return TextureHelper.MissingTexture;
         }
                 
-        LoadingScreen = Texture2D.FromFile(GameManager.Current.GraphicsDevice, loadingScreen.FullName);
+        return Texture2D.FromFile(GameManager.Current.GraphicsDevice, file.FullName);
     }
 
     public void Write(ModuleRoot root)
