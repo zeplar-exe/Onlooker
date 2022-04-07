@@ -8,7 +8,7 @@ public abstract class ConfigFile : IDisposable
 {
     private const uint SerializationDepth = 100u;
 
-    public const string Extension = ".txt";
+    public const string Extension = ".yasf";
 
     [SettingsDeserializer.Ignore]
     public FileInfo Source { get; }
