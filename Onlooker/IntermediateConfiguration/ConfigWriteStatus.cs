@@ -9,7 +9,7 @@ public readonly record struct ConfigWriteStatus(string Message, WriteStatusType 
         var builder = new StringBuilder();
 
         builder.Append(Type);
-        builder.Append(' ');
+        builder.Append(": ");
         builder.Append(Message);
 
         return builder.ToString();
