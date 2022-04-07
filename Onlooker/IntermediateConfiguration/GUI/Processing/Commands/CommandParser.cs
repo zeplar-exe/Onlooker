@@ -46,7 +46,7 @@ public class CommandParser
             return new OutputResult<OperationOutput, Action>(
                 new OperationOutput(
                     OperationOutputType.Success,
-                    CommandParseOutput.ValidCommandFormat),
+                    string.Format(CommandParseOutput.ValidCommandFormat, value)),
                 action);
         }
         

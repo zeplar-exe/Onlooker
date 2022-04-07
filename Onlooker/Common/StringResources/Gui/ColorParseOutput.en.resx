@@ -1,11 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-
 <root>
-    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-        <xsd:element name="root" msdata:IsDataSet="true">
-            
-        </xsd:element>
-    </xsd:schema>
     <resheader name="resmimetype">
         <value>text/microsoft-resx</value>
     </resheader>
@@ -18,10 +11,13 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
-    <data name="InvalidCommandFormat" xml:space="preserve">
-        <value>The given command does not correspond to "A.B.C" formatting.</value>
+    <data name="InvalidColorFormat" xml:space="preserve">
+        <value>Invalid color '{0}'.</value>
     </data>
-    <data name="ValidCommandFormat" xml:space="preserve">
-        <value>Successfully parsed '{0}'.</value>
+    <data name="ValidColorFormat" xml:space="preserve">
+        <value>Successfuly parsed color '{0}'.</value>
+    </data>
+    <data name="InvalidColorName" xml:space="preserve">
+        <value>The color named '{0}' is not defined.</value>
     </data>
 </root>

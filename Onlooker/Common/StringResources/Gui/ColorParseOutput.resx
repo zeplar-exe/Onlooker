@@ -18,10 +18,13 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
-    <data name="InvalidCommandFormat" xml:space="preserve">
-        <value>The given command does not correspond to "A.B.C" formatting.</value>
+    <data name="InvalidColorFormat" xml:space="preserve">
+        <value>Invalid color '{0}'.</value>
     </data>
-    <data name="ValidCommandFormat" xml:space="preserve">
-        <value>Successfully parsed '{0}'.</value>
+    <data name="ValidColorFormat" xml:space="preserve">
+        <value>Successfuly parsed color '{0}'.</value>
+    </data>
+    <data name="InvalidColorName" xml:space="preserve">
+        <value>The color named '{0}' is not defined.</value>
     </data>
 </root>

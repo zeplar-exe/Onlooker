@@ -22,14 +22,14 @@ namespace Onlooker.Common.StringResources.Gui {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class CommandParseOutput {
+    internal class ColorParseOutput {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal CommandParseOutput() {
+        internal ColorParseOutput() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Onlooker.Common.StringResources.Gui {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Onlooker.Common.StringResources.Gui.CommandParseOutput", typeof(CommandParseOutput).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Onlooker.Common.StringResources.Gui.ColorParseOutput", typeof(ColorParseOutput).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,20 +61,29 @@ namespace Onlooker.Common.StringResources.Gui {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The given command does not correspond to &quot;A.B.C&quot; formatting..
+        ///   Looks up a localized string similar to Invalid color &apos;{0}&apos;..
         /// </summary>
-        internal static string InvalidCommandFormat {
+        internal static string InvalidColorFormat {
             get {
-                return ResourceManager.GetString("InvalidCommandFormat", resourceCulture);
+                return ResourceManager.GetString("InvalidColorFormat", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Successfully parsed &apos;{0}&apos;..
+        ///   Looks up a localized string similar to The color named &apos;{0}&apos; is not defined..
         /// </summary>
-        internal static string ValidCommandFormat {
+        internal static string InvalidColorName {
             get {
-                return ResourceManager.GetString("ValidCommandFormat", resourceCulture);
+                return ResourceManager.GetString("InvalidColorName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfuly parsed color &apos;{0}&apos;..
+        /// </summary>
+        internal static string ValidColorFormat {
+            get {
+                return ResourceManager.GetString("ValidColorFormat", resourceCulture);
             }
         }
     }
