@@ -1,5 +1,5 @@
-using SettingsConfig.Serialization;
-using SettingsConfig.Settings;
+using YASF.Serialization;
+using YASF.Settings;
 
 namespace Onlooker.IntermediateConfiguration.Game.Entities.Personality;
 

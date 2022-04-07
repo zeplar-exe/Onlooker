@@ -8,25 +8,25 @@ namespace Onlooker.IntermediateConfiguration.GUI.Processing.Numeric;
 
 public class NumericValueParser
 {
-    public OutputResult<OperationOutput, NumericValue> Parse(string value)
+    public OutputResult<OperationOutput, NumericValue> Parse(string? text)
     {
-        if (string.IsNullOrWhiteSpace(value))
+        if (string.IsNullOrWhiteSpace(text))
         {
             return new OutputResult<OperationOutput, NumericValue>(
                 new OperationOutput(
                     OperationOutputType.Failure,
-                    string.Format(NumericValueOutput.InvalidNumericFormat, value)),
+                    string.Format(NumericValueOutput.InvalidNumericFormat, text)),
                 new NumericValue(0, NumericType.Pixels));
         }
         
-        var navigator = new Lexer(value).ToNavigator();
+        var navigator = new Lexer(text.Trim()).ToNavigator();
+        navigator.TryMoveNext(out var first);
         
-        if (!navigator.TryMoveNext(out var first) || !first.Is(LexerTokenId.Numeric))
+        if (!first.Is(LexerTokenId.Numeric))
         {
             return new OutputResult<OperationOutput, NumericValue>(
-                new OperationOutput(
-                    OperationOutputType.Failure,
-                    string.Format(NumericValueOutput.InvalidNumericFormat, value)),
+                OperationOutput.Failure(
+                    string.Format(NumericValueOutput.InvalidNumericFormat, text)),
                 new NumericValue(0, NumericType.Pixels));
         }
         
@@ -49,7 +49,7 @@ public class NumericValueParser
                     return new OutputResult<OperationOutput, NumericValue>(
                         new OperationOutput(
                             OperationOutputType.Failure,
-                            string.Format(NumericValueOutput.InvalidNumericFormat, value)),
+                            string.Format(NumericValueOutput.InvalidNumericFormat, text)),
                         new NumericValue(0, NumericType.ScreenPercentage));
             }
         }
@@ -57,7 +57,7 @@ public class NumericValueParser
         return new OutputResult<OperationOutput, NumericValue>(
             new OperationOutput(
                 OperationOutputType.Success,
-                string.Format(NumericValueOutput.ValidNumericFormat, value)),
+                string.Format(NumericValueOutput.ValidNumericFormat, text)),
             new NumericValue(number, NumericType.Pixels));
     }
 }

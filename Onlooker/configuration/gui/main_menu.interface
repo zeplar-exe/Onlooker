@@ -2,6 +2,7 @@
     <vertical_layout padding_generator="center" x_pos="25%">
         <label text="Onlooker" font_size="18"
                width="150" height="150"
+               rect_fill="200, 100, 50, 255"
                rect_scales="true"/>
         <button text="Play" font_size="18"
                 width="80" height="80"

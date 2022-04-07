@@ -1,6 +1,6 @@
 using Onlooker.Common.StringResources.Configuration;
-using SettingsConfig;
-using SettingsConfig.Serialization;
+using YASF;
+using YASF.Serialization;
 
 namespace Onlooker.IntermediateConfiguration;
 

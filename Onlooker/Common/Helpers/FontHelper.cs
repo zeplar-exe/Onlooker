@@ -1,5 +1,4 @@
 using System.Reflection;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Onlooker.Common.Extensions;
 using Onlooker.Common.MethodOutput;

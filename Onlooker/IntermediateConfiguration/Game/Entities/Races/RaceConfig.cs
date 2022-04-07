@@ -1,4 +1,4 @@
-using SettingsConfig.Serialization;
+using YASF.Serialization;
 
 namespace Onlooker.IntermediateConfiguration.Game.Entities.Races;
 

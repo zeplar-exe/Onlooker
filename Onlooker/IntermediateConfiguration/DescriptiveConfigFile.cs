@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Onlooker.Common.Helpers;
 using Onlooker.Common.StringResources.Configuration;
 using Onlooker.Monogame;
-using SettingsConfig;
-using SettingsConfig.Serialization;
-using SettingsConfig.Settings;
+using YASF;
+using YASF.Serialization;
+using YASF.Settings;
 
 namespace Onlooker.IntermediateConfiguration;
 

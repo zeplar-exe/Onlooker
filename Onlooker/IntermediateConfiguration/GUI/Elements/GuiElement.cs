@@ -1,10 +1,13 @@
 using System.Xml.Linq;
 using Microsoft.Xna.Framework;
-using Onlooker.Common;
 using Onlooker.Common._2D;
 using Onlooker.Common.Extensions;
 using Onlooker.Common.MethodOutput;
+using Onlooker.Common.MethodOutput.OutputTypes;
+using Onlooker.IntermediateConfiguration.GUI.Processing.Colors;
 using Onlooker.IntermediateConfiguration.GUI.Processing.Numeric;
+using Onlooker.IntermediateConfiguration.Modules;
+using Onlooker.IntermediateConfiguration.Modules.Settings;
 using Onlooker.Monogame.Controllers;
 using Onlooker.Monogame.Graphics;
 using Onlooker.Monogame.Logging;
@@ -21,13 +24,15 @@ public abstract class GuiElement : GameController
     public NumericValue Width { get; }
     public NumericValue Height { get; }
     
+    public ColorProperty RectFill { get; }
+    
     public event EventHandler<ObjectPropertyValueChangedArgs<Rectangle>>? RectChanged;
 
     public Rectangle Rect => new(
-        CreatePixelValue(X, ScreenOrigin.XPosition).Property, 
-        CreatePixelValue(Y, ScreenOrigin.YPosition).Property,
-        CreatePixelValue(Width, ScreenOrigin.Width).Property, 
-        CreatePixelValue(Height, ScreenOrigin.Height).Property);
+        X.ToPixels(this, ScreenOrigin.XPosition).Property, 
+        Y.ToPixels(this, ScreenOrigin.YPosition).Property,
+        Width.ToPixels(this, ScreenOrigin.Width).Property, 
+        Height.ToPixels(this, ScreenOrigin.Height).Property);
 
     public List<GuiElement> Children { get; }
     public int ZIndex { get; set; }
@@ -39,6 +44,8 @@ public abstract class GuiElement : GameController
         
         Width = new NumericValue(50, NumericType.Pixels);
         Height = new NumericValue(50, NumericType.Pixels);
+
+        RectFill = new ColorProperty(Color.Transparent);
         
         Children = new List<GuiElement>();
 
@@ -75,81 +82,78 @@ public abstract class GuiElement : GameController
 
     public override void Draw(DrawCanvas canvas, GameTime time)
     {
+        canvas.Draw(ZIndex, new RectangleGraphic(RectFill, Rect));
+        
         foreach (var child in Children)
             child.Draw(canvas, time);
     }
 
     public virtual void LoadFromXml(XElement element)
     {
-        var numericParser = new NumericValueParser();
-
-        var xOutput = numericParser.Parse(element.Attribute("x_pos")?.Value ?? "0");
-        var yOutput = numericParser.Parse(element.Attribute("y_pos")?.Value ?? "0");
-        var widthOutput = numericParser.Parse(element.Attribute("width")?.Value ?? "80");
-        var heightOutput = numericParser.Parse(element.Attribute("height")?.Value ?? "80");
-
-        // TODO: Handle output messages, clean this entire process
-
-        xOutput.Value.CopyTo(X);
-        yOutput.Value.CopyTo(Y);
-        widthOutput.Value.CopyTo(Width);
-        heightOutput.Value.CopyTo(Height);
+        if (element.Attribute("x_pos").IsNotNull(out var xPosAttribute))
+            ParseNumericValue(xPosAttribute).CopyTo(X);
         
+        if (element.Attribute("y_pos").IsNotNull(out var yPosAttribute))
+            ParseNumericValue(yPosAttribute).CopyTo(X);
+        
+        if (element.Attribute("width").IsNotNull(out var widthAttribute))
+            ParseNumericValue(widthAttribute).CopyTo(X);
+        
+        if (element.Attribute("height").IsNotNull(out var heightAttribute))
+            ParseNumericValue(heightAttribute).CopyTo(X);
+        
+        if (element.Attribute("rect_fill").IsNotNull(out var rectFillAttribute))
+            RectFill.Value = ParseColor(rectFillAttribute);
+
         ZIndex = element.Attribute("z")?.Value.SafeParseInt() ?? ZIndex;
     }
 
-    public NumericValue CreatePixelValue(NumericValue value, ScreenOrigin origin)
+    protected NumericValue ParseNumericValue(XAttribute? attribute, string attributeDefault = "")
     {
-        switch (value.Type)
-        {
-            case NumericType.Pixels:
-                return value;
-            case NumericType.ParentPercentage:
-                switch (origin)
-                {
-                    case ScreenOrigin.XPosition:
-                        return new NumericValue(
-                            Math2.FloorToInt(X.Property.Value / 100d * value.Property.Value), 
-                            NumericType.Pixels);
-                    case ScreenOrigin.YPosition:
-                        return new NumericValue(
-                            Math2.FloorToInt(Y.Property.Value / 100d * value.Property.Value), 
-                            NumericType.Pixels);
-                    case ScreenOrigin.Width:
-                        return new NumericValue(
-                            Math2.FloorToInt(Width.Property.Value / 100d * value.Property.Value), 
-                            NumericType.Pixels);
-                    case ScreenOrigin.Height:
-                        return new NumericValue(
-                            Math2.FloorToInt(Height.Property.Value / 100d * value.Property.Value), 
-                            NumericType.Pixels);
-                }
-                break;
-            case NumericType.ScreenPercentage:
-                switch (origin)
-                {
-                    case ScreenOrigin.XPosition:
-                        return new NumericValue(
-                            Math2.FloorToInt(CommonValues.ScreenWidth.X / 100d * value.Property), 
-                            NumericType.Pixels);
-                    case ScreenOrigin.YPosition:
-                        return new NumericValue(
-                            Math2.FloorToInt(CommonValues.ScreenHeight.X / 100d * value.Property), 
-                            NumericType.Pixels);
-                    case ScreenOrigin.Width:
-                        return new NumericValue(
-                            Math2.FloorToInt(CommonValues.ScreenWidth.X / 100d * value.Property), 
-                            NumericType.Pixels);
-                    case ScreenOrigin.Height:
-                        return new NumericValue(
-                            Math2.FloorToInt(CommonValues.ScreenHeight.X / 100d * value.Property), 
-                            NumericType.Pixels);
-                }
-                break;
-            default:
-                return value;
-        }
+        var parser = new NumericValueParser();
+
+        var (output, value) = parser.Parse(attribute?.Value ?? attributeDefault);
+        
+        LogGuiOutput(output);
 
         return value;
+    }
+
+    protected Color ParseColor(XAttribute? attribute, string attributeDefault = "")
+    {
+        var parser = new ColorParser();
+
+        var (output, value) = parser.Parse(attribute?.Value ?? attributeDefault);
+
+        LogGuiOutput(output);
+
+        return value;
+    }
+
+    protected void LogGuiOutput(params OperationOutput[] outputs)
+    {
+        var guiSettings = ModuleRoot.Current.GetModule<SettingsModule>().GuiSettings;
+        
+        foreach (var output in outputs)
+        {
+            if (guiSettings.LogLevel is not LogLevel.None)
+                return;
+            
+            switch (output.Type)
+            {
+                case OperationOutputType.Success:
+                    if (guiSettings.LogLevel is not LogLevel.SuccessAndFailure or LogLevel.SuccessOnly)
+                        continue;
+                    break;
+                case OperationOutputType.Failure:
+                    if (guiSettings.LogLevel is not LogLevel.SuccessAndFailure or LogLevel.FailureOnly)
+                        continue;
+                    break;
+            }
+            
+            AppLoggerCommon.GuiLogChannel.Log(
+                AppLoggerCommon.GuiLog,
+                LogMessageBuilder.TimestampedMessage(output.ToString()));
+        }
     }
 }

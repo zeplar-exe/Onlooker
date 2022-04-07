@@ -1,6 +1,5 @@
 using System.Xml.Linq;
 using Microsoft.Xna.Framework;
-using Onlooker.IntermediateConfiguration.GUI.Processing.Numeric;
 using Onlooker.ObjectProperties;
 
 namespace Onlooker.IntermediateConfiguration.GUI.Elements;
@@ -44,6 +43,8 @@ public class VerticalLayoutElement : GuiElement
     
     public override void Update(GameTime time)
     {
+        base.Update(time);
+        
         var y = Y.Copy();
         
         foreach (var child in Children)
@@ -59,8 +60,6 @@ public class VerticalLayoutElement : GuiElement
 
             y.Property.Value += child.Height.Property.Value;
         }
-        
-        base.Update(time);
     }
 
     public override bool IsLocked()

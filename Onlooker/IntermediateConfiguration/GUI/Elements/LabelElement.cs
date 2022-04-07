@@ -1,7 +1,6 @@
 using System.Text;
 using System.Xml.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Onlooker.Common.Extensions;
 using Onlooker.Common.Helpers;
 using Onlooker.Common.MethodOutput;
@@ -16,7 +15,6 @@ namespace Onlooker.IntermediateConfiguration.GUI.Elements;
 
 public class LabelElement : TextElement
 {
-    public Texture2D Background { get; set; }
     public BooleanProperty ScaleToText { get; }
     public BooleanProperty ScaleToRect { get; }
     public PaddingProperty Padding { get; }
@@ -29,7 +27,7 @@ public class LabelElement : TextElement
         Padding = new PaddingProperty(Common._2D.Padding.Empty);
         
         Font = ModuleRoot.Current.GetPersistentModule<CommonFontsModule>().Information;
-        Background = TextureHelper.CreateSolidColor(Color.BlueViolet);
+        RectFill.Value = Color.BlueViolet;
         
         RectChanged += (_, _) =>
         {
@@ -75,6 +73,8 @@ public class LabelElement : TextElement
 
     public override void Draw(DrawCanvas canvas, GameTime time)
     {
+        base.Draw(canvas, time);
+        
         if (Font == null)
         {
             var ((outputType, outputMessage), errorFont) = FontHelper.GetDefaultFont("error");
@@ -92,10 +92,7 @@ public class LabelElement : TextElement
             return;
         }
         
-        canvas.Draw(ZIndex, new TextureGraphic(Background, Rect));
         canvas.Draw(ZIndex, new StringGraphic(Text.ToBuilder(), Font, Rect));
-        
-        base.Draw(canvas, time);
     }
 
     public override bool IsLocked()

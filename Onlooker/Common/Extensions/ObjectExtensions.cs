@@ -16,4 +16,11 @@ public static class ObjectExtensions
     {
         return new List<T> { o };
     }
+
+    public static bool IsNotNull<T>(this T? o, out T notNull)
+    {
+        notNull = o ?? default!;
+
+        return o != null;
+    }
 }

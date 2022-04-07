@@ -18,7 +18,6 @@ public class ButtonElement : GuiElement
     public StringProperty Text { get; }
     public SpriteFont Font { get; set; }
     public IntegerProperty FontSize { get; }
-    public Texture2D Background { get; set; }
     public BooleanProperty ScaleToText { get; }
     public BooleanProperty ScaleToRect { get; }
     public PaddingProperty Padding { get; }
@@ -32,6 +31,8 @@ public class ButtonElement : GuiElement
         ScaleToText = new BooleanProperty(false);
         ScaleToRect = new BooleanProperty(false);
         Padding = new PaddingProperty(Common._2D.Padding.Empty);
+
+        RectFill.Value = Color.BlueViolet;
 
         RectChanged += (_, _) =>
         {
@@ -63,7 +64,6 @@ public class ButtonElement : GuiElement
         };
 
         Font = ModuleRoot.Current.GetPersistentModule<CommonFontsModule>().Information;
-        Background = TextureHelper.CreateSolidColor(Color.BlueViolet);
     }
     
     public override void LoadFromXml(XElement element)
@@ -92,6 +92,8 @@ public class ButtonElement : GuiElement
 
     public override void Update(GameTime time)
     {
+        base.Update(time);
+        
         if (ContinuedPress)
         {
             if (!MouseHelper.IsLeftButtonHeldOverRect(Rect))
@@ -111,13 +113,12 @@ public class ButtonElement : GuiElement
             if (MouseHelper.IsLeftButtonPressedOverRect(Rect))
                 ContinuedPress = true;
         }
-
-        base.Update(time);
     }
 
     public override void Draw(DrawCanvas canvas, GameTime time)
     {
-        canvas.Draw(ZIndex, new TextureGraphic(Background, Rect));
+        base.Draw(canvas, time);
+        
         canvas.Draw(ZIndex, new StringGraphic(Text.ToBuilder(), Font, Rect));
     }
 
