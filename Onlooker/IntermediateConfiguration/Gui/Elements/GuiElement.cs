@@ -151,9 +151,7 @@ public abstract class GuiElement : GameController
                     break;
             }
             
-            AppLoggerCommon.GuiLogChannel.Log(
-                AppLoggerCommon.GuiErrorLog,
-                LogMessageBuilder.TimestampedMessage(output.ToString()));
+            AppLoggerCommon.GuiErrorLog(LogMessageBuilder.TimestampedMessage(output.ToString()));
         }
     }
 }

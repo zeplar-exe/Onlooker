@@ -81,7 +81,7 @@ public class LabelElement : TextElement
 
             if (outputType is not ProcessingOutputType.Success)
             {
-                AppLoggerCommon.ErrorChannel.Log(AppLoggerCommon.ErrorLog, LogMessageBuilder.TimestampedMessage(outputMessage));
+                AppLoggerCommon.ErrorLog(LogMessageBuilder.TimestampedMessage(outputMessage));
                 
                 return;
             }

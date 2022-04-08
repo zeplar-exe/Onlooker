@@ -38,10 +38,8 @@ public class EntityStatsModule : IModule
                 case "boolean":
                     break;
                 default:
-                    AppLoggerCommon.ConfigurationChannel.Log(
-                        AppLoggerCommon.ConfigLoadingLog, 
-                        LogMessageBuilder.TimestampedMessage(
-                            new ConfigUpdateStatus(
+                    AppLoggerCommon.ConfigLoadingLog( 
+                        LogMessageBuilder.TimestampedMessage(new ConfigUpdateStatus(
                                 string.Format(StatsConfigurationProgress.InvalidType, file),
                                 UpdateStatusType.Invalid).ToString()));
                     break;

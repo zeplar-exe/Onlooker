@@ -9,9 +9,7 @@ public static class ConfigFileExtensions
     {
         foreach (var update in configFile.UpdateFromStream(stream))
         {
-            AppLoggerCommon.ConfigurationChannel.Log(
-                AppLoggerCommon.ConfigLoadingLog,
-                LogMessageBuilder.TimestampedMessage(update.ToString()));
+            AppLoggerCommon.ConfigLoadingLog(LogMessageBuilder.TimestampedMessage(update.ToString()));
         }
     }
     
@@ -19,9 +17,7 @@ public static class ConfigFileExtensions
     {
         foreach (var update in configFile.WriteToStream(stream))
         {
-            AppLoggerCommon.ConfigurationChannel.Log(
-                AppLoggerCommon.ConfigLoadingLog,
-                LogMessageBuilder.TimestampedMessage(update.ToString()));
+            AppLoggerCommon.ConfigLoadingLog(LogMessageBuilder.TimestampedMessage(update.ToString()));
         }
     }
 }

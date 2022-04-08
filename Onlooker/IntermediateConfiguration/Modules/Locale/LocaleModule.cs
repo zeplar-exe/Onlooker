@@ -44,7 +44,7 @@ public class LocaleModule : IModule
 
                         foreach (var error in document.Errors)
                         {
-                            AppLoggerCommon.LocaleChannel.Log(AppLoggerCommon.LocaleErrorLog, 
+                            AppLoggerCommon.LocaleErrorLog(
                                 string.Format(YasfError.FileAndContext, error.Message, error.Context, file.FullName));
                         }
                         
@@ -56,7 +56,7 @@ public class LocaleModule : IModule
 
                         if (document.Root == null)
                         {
-                            AppLoggerCommon.ConfigurationChannel.Log(AppLoggerCommon.ConfigLoadingLog,
+                            AppLoggerCommon.ConfigLoadingLog(
                                 string.Format(XmlProcessingOutput.DocumentRootNull, file.FullName));
                             
                             continue;
