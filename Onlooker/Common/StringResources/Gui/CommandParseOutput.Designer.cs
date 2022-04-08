@@ -61,7 +61,7 @@ namespace Onlooker.Common.StringResources.Gui {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The given command does not correspond to &quot;A.B.C&quot; formatting..
+        ///   Looks up a localized string similar to The command &apos;{0}&apos; does not correspond to &quot;A.B.C&quot; formatting..
         /// </summary>
         internal static string InvalidCommandFormat {
             get {

@@ -8,6 +8,7 @@ using Onlooker.IntermediateConfiguration.GUI.Processing.Commands;
 using Onlooker.IntermediateConfiguration.Modules;
 using Onlooker.IntermediateConfiguration.Modules.Common;
 using Onlooker.Monogame.Graphics;
+using Onlooker.Monogame.Logging;
 using Onlooker.ObjectProperties;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
@@ -82,6 +83,8 @@ public class ButtonElement : GuiElement
         {
             var parser = new CommandParser();
             var output = parser.Parse(onClickCommand);
+            
+            AppLoggerCommon.ErrorLog(LogMessageBuilder.TimestampedMessage(output.ToString()));
 
             if (output.Output.Type == OperationOutputType.Success)
                 OnClick += (_, _) => output.Value.Invoke();

@@ -19,7 +19,7 @@
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
     <data name="InvalidCommandFormat" xml:space="preserve">
-        <value>The given command does not correspond to "A.B.C" formatting.</value>
+        <value>The command '{0}' does not correspond to "A.B.C" formatting.</value>
     </data>
     <data name="ValidCommandFormat" xml:space="preserve">
         <value>Successfully parsed '{0}'.</value>
