@@ -5,6 +5,7 @@ using Onlooker.Common;
 using Onlooker.Common.Args;
 using Onlooker.Common.Helpers;
 using Onlooker.IntermediateConfiguration.Modules;
+using Onlooker.IntermediateConfiguration.Modules.Settings;
 using Onlooker.IntermediateConfiguration.Settings;
 using Onlooker.Monogame.Controllers;
 using Onlooker.Monogame.Graphics;
@@ -63,8 +64,9 @@ public class GameManager : Game
 
     private async void InitAsync()
     {
-        await AsyncHelper.OnInterval(AppLogger.FlushAll, TimeSpan.FromSeconds(5), CancellationToken.None);
-        // TODO: Make interval configurable
+        var interval = ModuleRoot.GetModule<SettingsModule>().LogSettings.Interval;
+        
+        await AsyncHelper.OnInterval(AppLogger.FlushAll, TimeSpan.FromMilliseconds(interval), CancellationToken.None);
     }
 
     public void HookController(GameController controller)
