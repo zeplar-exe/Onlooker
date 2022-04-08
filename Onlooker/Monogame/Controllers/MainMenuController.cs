@@ -13,7 +13,7 @@ public class MainMenuController : GameController
     
     protected override void OnEnable()
     {
-        Gui = ModuleRoot.Current.GetPersistentModule<GuiModule>().MainMenu;
+        Gui = ModuleRoot.Current.GetModule<GuiModule>().MainMenu;
         Gui.Root.Enabled = true;
         
         GameManager.Current.HookController(Gui.Root);

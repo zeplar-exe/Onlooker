@@ -5,6 +5,7 @@ using Onlooker.Common;
 using Onlooker.Common.Args;
 using Onlooker.Common.Helpers;
 using Onlooker.IntermediateConfiguration.Modules;
+using Onlooker.IntermediateConfiguration.Settings;
 using Onlooker.Monogame.Controllers;
 using Onlooker.Monogame.Graphics;
 using Onlooker.Monogame.Logging;

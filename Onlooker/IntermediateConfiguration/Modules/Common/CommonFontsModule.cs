@@ -25,6 +25,11 @@ public class CommonFontsModule : IModule
         Information = information;
     }
 
+    public void Write(ModuleRoot root)
+    {
+        throw new NotImplementedException();
+    }
+
     private SpriteFont? GetSpriteFont(FileInfo file)
     {
         if (!file.Exists)
@@ -45,10 +50,5 @@ public class CommonFontsModule : IModule
         );
 
         return bake.CreateSpriteFont(GameManager.Current.GraphicsDevice);
-    }
-
-    public void Write(ModuleRoot root)
-    {
-        
     }
 }

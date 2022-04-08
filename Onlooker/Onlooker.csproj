@@ -29,6 +29,7 @@
     <ItemGroup>
       <Folder Include="configuration\common\fonts" />
       <Folder Include="configuration\gui\documentation\frontend\examples" />
+      <Folder Include="configuration\locale\English" />
     </ItemGroup>
 
     <ItemGroup>

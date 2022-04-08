@@ -42,6 +42,6 @@ public class GuiModule : IModule
 
     public void Write(ModuleRoot root)
     {
-        
+        throw new NotImplementedException();
     }
 }

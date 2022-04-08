@@ -152,7 +152,7 @@ public abstract class GuiElement : GameController
             }
             
             AppLoggerCommon.GuiLogChannel.Log(
-                AppLoggerCommon.GuiLog,
+                AppLoggerCommon.GuiErrorLog,
                 LogMessageBuilder.TimestampedMessage(output.ToString()));
         }
     }

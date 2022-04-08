@@ -9,12 +9,14 @@ namespace Onlooker.Monogame.Controllers;
 
 public class LoadingScreenController : GameController
 {
+    private CommonGraphicsModule GraphicsModule { get; set; }
+    
     public bool LoadingCompleted { get; private set; }
 
     public void Load()
     {
-        ModuleRoot.Current.GetPersistentModule<CommonGraphicsModule>(); // Create persistent modules
-        ModuleRoot.Current.GetPersistentModule<CommonFontsModule>();
+        GraphicsModule = ModuleRoot.Current.GetModule<CommonGraphicsModule>(); // Create persistent modules
+        ModuleRoot.Current.GetModule<CommonFontsModule>();
         
         LoadingCompleted = true;
     }
@@ -27,7 +29,7 @@ public class LoadingScreenController : GameController
     public override void Draw(DrawCanvas canvas, GameTime time)
     {
         // Null coalesce is required to prevent errors while config groups have not yet loaded
-        var texture = ModuleRoot.Current.GetPersistentModule<CommonGraphicsModule>().LoadingScreen;
+        var texture = ModuleRoot.Current.GetModule<CommonGraphicsModule>().LoadingScreen;
         
         canvas.Draw(Layers.PriorityUI, new TextureGraphic(texture, CommonValues.ScreenRect));
     }

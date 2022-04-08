@@ -4,7 +4,7 @@ namespace Onlooker.IntermediateConfiguration.Modules;
 
 public class ModuleRoot
 {
-    private Dictionary<int, IModule> PersistentModules { get; }
+    private Dictionary<int, IModule> LoadedModules { get; }
 
     public DirectoryInfo Directory { get; }
 
@@ -13,34 +13,34 @@ public class ModuleRoot
     public ModuleRoot(string directory)
     {
         Directory = new DirectoryInfo(directory);
-        PersistentModules = new Dictionary<int, IModule>();
+        LoadedModules = new Dictionary<int, IModule>();
+    }
+
+    public void UpdateAll()
+    {
+        foreach (var module in LoadedModules)
+        {
+            module.Value.Init(this);
+        }
     }
     
     public TModule GetModule<TModule>() where TModule : IModule, new()
     {
-        var module = new TModule();
-        module.Init(this);
-
-        return module;
-    }
-
-    public TModule GetPersistentModule<TModule>() where TModule : IModule, new()
-    {
         var hash = typeof(TModule).GetHashCode();
-        
-        if (!PersistentModules.TryGetValue(hash, out var module))
+    
+        if (!LoadedModules.TryGetValue(hash, out var module))
         {
             module = new TModule();
             module.Init(this);
-            
-            PersistentModules[hash] = module;
+        
+            LoadedModules[hash] = module;
         }
 
         return (TModule)module;
     }
 
-    public void UnloadPersistentModule<TModule>() where TModule : IModule
+    public bool UnloadModule<TModule>() where TModule : IModule
     {
-        PersistentModules.Remove(typeof(TModule).GetHashCode());
+        return LoadedModules.Remove(typeof(TModule).GetHashCode());
     }
 }

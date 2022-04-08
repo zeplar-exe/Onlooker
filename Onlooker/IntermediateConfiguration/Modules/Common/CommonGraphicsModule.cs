@@ -16,6 +16,11 @@ public class CommonGraphicsModule : IModule
         LoadingScreen = GetTexture(directory.ToRelativeFile("loading_screen.png"));
     }
 
+    public void Write(ModuleRoot root)
+    {
+        throw new NotImplementedException();
+    }
+
     private Texture2D GetTexture(FileInfo file)
     {
         if (!file.Exists)
@@ -24,10 +29,5 @@ public class CommonGraphicsModule : IModule
         }
                 
         return Texture2D.FromFile(GameManager.Current.GraphicsDevice, file.FullName);
-    }
-
-    public void Write(ModuleRoot root)
-    {
-        
     }
 }
