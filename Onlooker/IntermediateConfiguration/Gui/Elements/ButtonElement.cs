@@ -64,7 +64,7 @@ public class ButtonElement : GuiElement
             }
         };
 
-        Font = ModuleRoot.Current.GetModule<CommonFontsModule>().Information;
+        Font = IModule.Get<CommonFontsModule>().Information;
     }
     
     public override void LoadFromXml(XElement element)

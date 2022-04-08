@@ -42,7 +42,7 @@ public class RandomMapController : GameController
         var heightMap = noise.Generate(size, 100);
         var temperatureMap = noise.Generate(size, 100);
         var humidityMap = noise.Generate(size, 100);
-        var terrainTypes = ModuleRoot.Current.GetModule<WorldTerrainTypeModule>().TerrainTypeConfigs;
+        var terrainTypes = IModule.Get<WorldTerrainTypeModule>().TerrainTypeConfigs;
 
         for (var xIndex = 0; xIndex < size.X; xIndex++)
         {

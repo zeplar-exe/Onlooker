@@ -26,7 +26,7 @@ public class LabelElement : TextElement
         ScaleToRect = new BooleanProperty(false);
         Padding = new PaddingProperty(Common._2D.Padding.Empty);
         
-        Font = ModuleRoot.Current.GetModule<CommonFontsModule>().Information;
+        Font = IModule.Get<CommonFontsModule>().Information;
         RectFill.Value = Color.BlueViolet;
         
         RectChanged += (_, _) =>

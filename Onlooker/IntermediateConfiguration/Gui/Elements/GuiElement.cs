@@ -132,7 +132,7 @@ public abstract class GuiElement : GameController
 
     protected void LogGuiOutput(params OperationOutput[] outputs)
     {
-        var guiSettings = ModuleRoot.Current.GetModule<SettingsModule>().GuiSettings;
+        var guiSettings = IModule.Get<SettingsModule>().GuiSettings;
         
         foreach (var output in outputs)
         {

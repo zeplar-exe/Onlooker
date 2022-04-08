@@ -15,8 +15,8 @@ public class LoadingScreenController : GameController
 
     public void Load()
     {
-        GraphicsModule = ModuleRoot.Current.GetModule<CommonGraphicsModule>(); // Create persistent modules
-        ModuleRoot.Current.GetModule<CommonFontsModule>();
+        GraphicsModule = IModule.Get<CommonGraphicsModule>(); // Create persistent modules
+        IModule.Get<CommonFontsModule>();
         
         LoadingCompleted = true;
     }
@@ -29,7 +29,7 @@ public class LoadingScreenController : GameController
     public override void Draw(DrawCanvas canvas, GameTime time)
     {
         // Null coalesce is required to prevent errors while config groups have not yet loaded
-        var texture = ModuleRoot.Current.GetModule<CommonGraphicsModule>().LoadingScreen;
+        var texture = IModule.Get<CommonGraphicsModule>().LoadingScreen;
         
         canvas.Draw(Layers.PriorityUI, new TextureGraphic(texture, CommonValues.ScreenRect));
     }
