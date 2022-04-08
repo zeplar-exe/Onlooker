@@ -79,6 +79,9 @@
       <EmbeddedResource Update="Common\StringResources\Gui\CommandParseOutput.en.resx">
         <DependentUpon>CommandParseOutput.resx</DependentUpon>
       </EmbeddedResource>
+      <EmbeddedResource Update="Common\StringResources\ResourceLoadOutput.en.resx">
+        <DependentUpon>ResourceLoadOutput.resx</DependentUpon>
+      </EmbeddedResource>
     </ItemGroup>
 
     <ItemGroup>

@@ -122,14 +122,5 @@ namespace Onlooker.Common.StringResources.Configuration {
                 return ResourceManager.GetString("IconLoaded", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to WARNING: The property &apos;{0}&apos; has a ConfigLocation attribute, but is readonly..
-        /// </summary>
-        internal static string ReadonlyConfigGroupProperty {
-            get {
-                return ResourceManager.GetString("ReadonlyConfigGroupProperty", resourceCulture);
-            }
-        }
     }
 }
