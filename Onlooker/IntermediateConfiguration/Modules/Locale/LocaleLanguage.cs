@@ -11,11 +11,11 @@ public class LocaleLanguage
         XmlDefinitions = new Dictionary<string, XmlLocaleDefinitions>();
     }
 
-    public string? GetRawXmlAttribute(string key)
+    public string? GetRawXmlAttribute(string key, string attributeName)
     {
         if (!XmlDefinitions.TryGetValue(key, out var xml))
             return null;
 
-        return xml.Attributes.TryGetValue(key, out var attribute) ? attribute : null;
+        return xml.Attributes.TryGetValue(attributeName, out var attribute) ? attribute : null;
     }
 }
