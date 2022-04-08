@@ -18,22 +18,7 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
-    <data name="FileLoaded" xml:space="preserve">
-        <value>Loaded '{0}'.</value>
-    </data>
-    <data name="DeserializeFailure" xml:space="preserve">
-        <value>Failed to deserialize '{0}' due to {1}</value>
-    </data>
-    <data name="DeserializeSuccess" xml:space="preserve">
-        <value>Successfully deserialized '{0}'</value>
-    </data>
-    <data name="FileReceivedInvalidFile" xml:space="preserve">
-        <value>'{0}' received a file that does not exist '{1}'.</value>
-    </data>
-    <data name="FileReceivedIncorrectIconFormat" xml:space="preserve">
-        <value>'{0}' received an icon with an incorrect format '{1}'.</value>
-    </data>
-    <data name="IconLoaded" xml:space="preserve">
-        <value>Successfully loaded icon '{0}'.</value>
+    <data name="FileAndContext" xml:space="preserve">
+        <value>YASF Error: {0} at {1} in {2}</value>
     </data>
 </root>

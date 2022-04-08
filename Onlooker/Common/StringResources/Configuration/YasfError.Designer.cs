@@ -22,14 +22,14 @@ namespace Onlooker.Common.StringResources.Configuration {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ConfigurationProgress {
+    internal class YasfError {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ConfigurationProgress() {
+        internal YasfError() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Onlooker.Common.StringResources.Configuration {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Onlooker.Common.StringResources.Configuration.ConfigurationProgress", typeof(ConfigurationProgress).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Onlooker.Common.StringResources.Configuration.YasfError", typeof(YasfError).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,56 +61,11 @@ namespace Onlooker.Common.StringResources.Configuration {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to deserialize &apos;{0}&apos; due to {1}.
+        ///   Looks up a localized string similar to YASF Error: {0} at {1} in {2}.
         /// </summary>
-        internal static string DeserializeFailure {
+        internal static string FileAndContext {
             get {
-                return ResourceManager.GetString("DeserializeFailure", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Successfully deserialized &apos;{0}&apos;.
-        /// </summary>
-        internal static string DeserializeSuccess {
-            get {
-                return ResourceManager.GetString("DeserializeSuccess", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Loaded &apos;{0}&apos;..
-        /// </summary>
-        internal static string FileLoaded {
-            get {
-                return ResourceManager.GetString("FileLoaded", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &apos;{0}&apos; received an icon with an incorrect format &apos;{1}&apos;..
-        /// </summary>
-        internal static string FileReceivedIncorrectIconFormat {
-            get {
-                return ResourceManager.GetString("FileReceivedIncorrectIconFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &apos;{0}&apos; received a file that does not exist &apos;{1}&apos;..
-        /// </summary>
-        internal static string FileReceivedInvalidFile {
-            get {
-                return ResourceManager.GetString("FileReceivedInvalidFile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Successfully loaded icon &apos;{0}&apos;..
-        /// </summary>
-        internal static string IconLoaded {
-            get {
-                return ResourceManager.GetString("IconLoaded", resourceCulture);
+                return ResourceManager.GetString("FileAndContext", resourceCulture);
             }
         }
     }

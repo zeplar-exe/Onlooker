@@ -1,5 +1,7 @@
 using System.Xml.Linq;
 using Onlooker.Common.Extensions;
+using Onlooker.Common.StringResources.Configuration;
+using Onlooker.Common.StringResources.Xml;
 using Onlooker.Monogame.Logging;
 using YASF;
 
@@ -40,19 +42,25 @@ public class LocaleModule : IModule
                             language.YasfDefinitions[setting.Key] = new YasfLocaleDefinition(file, setting);
                         }
 
-                        //foreach (var error in document.Errors)
-                        //{
-                            //AppLoggerCommon.LocaleChannel.Log(AppLoggerCommon.LocaleErrorLog, ); 
-                            // resx here and for internal errors
-                            // better resx error messages with line numbers and stuff
-                        //}
+                        foreach (var error in document.Errors)
+                        {
+                            AppLoggerCommon.LocaleChannel.Log(AppLoggerCommon.LocaleErrorLog, 
+                                string.Format(YasfError.FileAndContext, error.Message, error.Context, file.FullName));
+                        }
                         
                         break;
                     }
                     case ".xml":
                     {
                         var document = XDocument.Load(file.OpenRead());
-                        // TODO: document root null and handle exceptions
+
+                        if (document.Root == null)
+                        {
+                            AppLoggerCommon.ConfigurationChannel.Log(AppLoggerCommon.ConfigLoadingLog,
+                                string.Format(XmlProcessingOutput.DocumentRootNull, file.FullName));
+                            
+                            continue;
+                        }
 
                         foreach (var element in document.Root.Elements())
                         {

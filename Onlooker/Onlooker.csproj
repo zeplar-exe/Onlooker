@@ -29,7 +29,6 @@
     <ItemGroup>
       <Folder Include="configuration\common\fonts" />
       <Folder Include="configuration\gui\documentation\frontend\examples" />
-      <Folder Include="configuration\locale\English" />
     </ItemGroup>
 
     <ItemGroup>
@@ -82,6 +81,10 @@
       <EmbeddedResource Update="Common\StringResources\ResourceLoadOutput.en.resx">
         <DependentUpon>ResourceLoadOutput.resx</DependentUpon>
       </EmbeddedResource>
+      <EmbeddedResource Update="Common\StringResources\Configuration\YasfError.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>YasfError.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
     </ItemGroup>
 
     <ItemGroup>
@@ -121,6 +124,11 @@
         <DesignTime>True</DesignTime>
         <AutoGen>True</AutoGen>
         <DependentUpon>ColorParseOutput.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Common\StringResources\Configuration\YasfError.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>YasfError.resx</DependentUpon>
       </Compile>
     </ItemGroup>
 
