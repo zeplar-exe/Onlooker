@@ -9,8 +9,8 @@ namespace Onlooker.IntermediateConfiguration.Modules.Locale;
 
 public class LocaleModule : IModule
 {
-    public static LocaleLanguage GetLanguage(string name) =>
-        IModule.Get<LocaleModule>().Languages[name];
+    public static LocaleLanguage? GetLanguage(string name) =>
+        IModule.Get<LocaleModule>().Languages.TryGetValue(name, out var language) ? language : null;
 
     public Dictionary<string, LocaleLanguage> Languages { get; }
 

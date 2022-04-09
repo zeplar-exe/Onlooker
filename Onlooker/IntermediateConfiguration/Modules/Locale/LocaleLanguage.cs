@@ -11,6 +11,12 @@ public class LocaleLanguage
         XmlDefinitions = new Dictionary<string, XmlLocaleDefinitions>();
     }
 
+    public string? GetRawYasfText(string key)
+    {
+        return YasfDefinitions.TryGetValue(key, out var yasf) ? yasf.StringValue : null;
+
+    }
+
     public string? GetRawXmlAttribute(string key, string attributeName)
     {
         if (!XmlDefinitions.TryGetValue(key, out var xml))

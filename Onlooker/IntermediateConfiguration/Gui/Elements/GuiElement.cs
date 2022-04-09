@@ -5,6 +5,7 @@ using Onlooker.Common.Extensions;
 using Onlooker.Common.MethodOutput;
 using Onlooker.Common.MethodOutput.OutputTypes;
 using Onlooker.IntermediateConfiguration.GUI.Processing.Colors;
+using Onlooker.IntermediateConfiguration.GUI.Processing.Commands;
 using Onlooker.IntermediateConfiguration.GUI.Processing.Numeric;
 using Onlooker.IntermediateConfiguration.Modules;
 using Onlooker.IntermediateConfiguration.Modules.Settings;
@@ -25,6 +26,7 @@ public abstract class GuiElement : GameController
     public NumericValue Height { get; }
     
     public ColorProperty RectFill { get; }
+    public PaddingProperty Padding { get; }
     
     public event EventHandler<ObjectPropertyValueChangedArgs<Rectangle>>? RectChanged;
 
@@ -46,6 +48,7 @@ public abstract class GuiElement : GameController
         Height = new NumericValue(50, NumericType.Pixels);
 
         RectFill = new ColorProperty(Color.Transparent);
+        Padding = new PaddingProperty(Common._2D.Padding.Empty);
         
         Children = new List<GuiElement>();
 
@@ -111,7 +114,6 @@ public abstract class GuiElement : GameController
     protected NumericValue ParseNumericValue(XAttribute? attribute, string attributeDefault = "")
     {
         var parser = new NumericValueParser();
-
         var (output, value) = parser.Parse(attribute?.Value ?? attributeDefault);
         
         LogGuiOutput(output);
@@ -122,9 +124,18 @@ public abstract class GuiElement : GameController
     protected Color ParseColor(XAttribute? attribute, string attributeDefault = "")
     {
         var parser = new ColorParser();
-
         var (output, value) = parser.Parse(attribute?.Value ?? attributeDefault);
 
+        LogGuiOutput(output);
+
+        return value;
+    }
+
+    protected CommandWrapper ParseCommand(XAttribute? attribute, string attributeDefault = "")
+    {
+        var parser = new CommandParser();
+        var (output, value) = parser.Parse(attribute?.Value ?? attributeDefault);
+        
         LogGuiOutput(output);
 
         return value;

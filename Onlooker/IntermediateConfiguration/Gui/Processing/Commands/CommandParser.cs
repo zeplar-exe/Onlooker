@@ -38,9 +38,6 @@ public class CommandParser
 
                             state.MoveTo(navigator.AtEnd ? ParserState.Completed : ParserState.ParseSeparator);
                             break;
-                        case LexerTokenId.LeftParenthesis:
-                            state.MoveTo(ParserState.ParseParameterList);
-                            break;
                         default:
                             return InvalidCommand(value);
                     }
@@ -57,6 +54,9 @@ public class CommandParser
                         case LexerTokenId.Period:
                             state.MoveTo(ParserState.ParseNameOrParameters);
                             break;
+                        case LexerTokenId.LeftParenthesis:
+                            state.MoveTo(ParserState.ParseParameterList);
+                            break;
                         default:
                             return InvalidCommand(value);
                     }
@@ -70,7 +70,7 @@ public class CommandParser
                         case LexerTokenId.Alphabetic:
                         case LexerTokenId.AlphaNumeric:
                             parameters.Add(token.ToString());
-                            state.MoveTo(ParserState.ParseParameterListSeperator);
+                            state.MoveTo(ParserState.ParseParameterListSeparator);
                             break;
                         case LexerTokenId.Whitespace:
                             break;
@@ -86,16 +86,16 @@ public class CommandParser
                     
                     break;
                 }
-                case ParserState.ParseParameterListSeperator:
-                    if (navigator.AtEnd)
-                        return InvalidCommand(value);
-                    
+                case ParserState.ParseParameterListSeparator:
                     switch (token.Id)
                     {
                         case LexerTokenId.Whitespace:
                             break;
                         case LexerTokenId.Comma:
                             state.MoveTo(ParserState.ParseParameterList);
+                            break;
+                        case LexerTokenId.RightParenthesis:
+                            state.MoveTo(ParserState.Completed);
                             break;
                         default:
                             return InvalidCommand(value);
@@ -119,8 +119,7 @@ public class CommandParser
 
         if (commandPath.Count == 0)
             return InvalidCommand(value);
-
-        var commandNavigator = commandPath.ToNavigator();
+        
         var first = commandPath.First();
         
         Type commandContext;
@@ -177,7 +176,7 @@ public class CommandParser
         ParseNameOrParameters,
         ParseSeparator,
         ParseParameterList,
-        ParseParameterListSeperator,
+        ParseParameterListSeparator,
         Completed
     }
 }

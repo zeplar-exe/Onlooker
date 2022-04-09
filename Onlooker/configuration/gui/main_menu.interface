@@ -1,17 +1,17 @@
 <frontend_root>    
     <vertical_layout padding_generator="center" x_pos="25%">
-        <label text="Onlooker" font_size="18"
+        <label locale_text="LocaleService.Yasf(display_title)" font_size="18"
                width="150" height="150"
                rect_fill="200, 100, 50, 255"
                rect_scales="true"/>
-        <button text="Play" font_size="18"
+        <button locale_text="LocaleService.Yasf(play_button)" font_size="18"
                 width="80" height="80"
                 padding_down="30" rect_scales="true"
                 on_click="GameInternal.Play"/>
-        <button text="Settings" font_size="18"
+        <button locale_text="LocaleService.Yasf(settings_button)" font_size="18"
                 width="80" height="80"
                 padding_down="30" rect_scales="true"/>
-        <button text="Exit" font_size="18"
+        <button locale_text="LocaleService.Yasf(exit_button)" font_size="18"
                 width="80" height="80"
                 rect_scales="true"/>
     </vertical_layout>

@@ -7,6 +7,7 @@ public class SettingsModule : IModule
 {
     public GuiSettingsConfig GuiSettings { get; set; }
     public LogSettingsConfig LogSettings { get; set; }
+    public LocaleSettingsConfig LocaleSettings { get; set; }
     
     public void Init(ModuleRoot root)
     {
@@ -17,11 +18,15 @@ public class SettingsModule : IModule
 
         LogSettings = new LogSettingsConfig(directory.ToRelativeFile("log.yasf"));
         LogSettings.UpdateAndLogFromStream(LogSettings.Source.OpenRead());
+
+        LocaleSettings = new LocaleSettingsConfig(directory.ToRelativeFile("locale.yasf"));
+        LocaleSettings.UpdateAndLogFromStream(LocaleSettings.Source.OpenRead());
     }
 
     public void Write(ModuleRoot root)
     {
         GuiSettings.WriteAndLogToStream(GuiSettings.Source.OpenRead());
         LogSettings.WriteAndLogToStream(LogSettings.Source.OpenRead());
+        LocaleSettings.WriteAndLogToStream(LocaleSettings.Source.OpenRead());
     }
 }
