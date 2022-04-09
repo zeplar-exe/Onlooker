@@ -33,7 +33,7 @@ public class GameManager : Game
 
     public static GameController? FindControllerById(Guid id) => Current.Controllers.Find(c => c.Id == id);
 
-    public GameManager(string title, string logDirectory)
+    public GameManager(string title)
     {
         if (Current != null)
             throw new InvalidOperationException("A game manager has already been created.");
@@ -50,8 +50,6 @@ public class GameManager : Game
         Graphics = new GraphicsDeviceManager(this);
         ModuleRoot = new ModuleRoot(FileSystemHelper.FromWorkingDirectory("configuration"));
         Controllers = new List<GameController>();
-
-        Directory.CreateDirectory(logDirectory);
 
         MainController = new MainController { Enabled = true };
         Input = new InputFrameworkController { Enabled = true };
