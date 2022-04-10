@@ -4,7 +4,7 @@ using Onlooker.Common.MethodOutput;
 using Onlooker.Common.MethodOutput.OutputTypes;
 using Onlooker.Common.StringResources.Gui;
 
-namespace Onlooker.IntermediateConfiguration.GUI.Processing.Numeric;
+namespace Onlooker.IntermediateConfiguration.Gui.Processing.Numeric;
 
 public class NumericValueParser
 {

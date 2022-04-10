@@ -1,7 +1,7 @@
 using System.Reflection;
 using System.Reflection.Emit;
 
-namespace Onlooker.IntermediateConfiguration.GUI.Processing.Commands;
+namespace Onlooker.IntermediateConfiguration.Gui.Processing.Commands;
 
 public class CommandWrapper
 {

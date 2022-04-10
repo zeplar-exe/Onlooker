@@ -13,9 +13,14 @@ public static class FontHelper
 {
     private static Dictionary<string, SpriteFont> FontCache { get; }
 
+    static FontHelper()
+    {
+        FontCache = new Dictionary<string, SpriteFont>();
+    }
+
     public static OutputResult<FileProcessingOutput, SpriteFont?> GetDefaultFont(string name)
     {
-        if (FontCache.TryGetValue(name, out var cacheFont))
+        if (!FontCache.TryGetValue(name, out var cacheFont))
         {
             return new OutputResult<FileProcessingOutput, SpriteFont?>(
                 FileProcessingOutput.Success(ResourceLoadOutput.LoadedResourceFromCache), cacheFont);

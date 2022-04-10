@@ -2,7 +2,7 @@ using Onlooker.IntermediateConfiguration.Modules;
 using Onlooker.IntermediateConfiguration.Modules.Locale;
 using Onlooker.IntermediateConfiguration.Modules.Settings;
 
-namespace Onlooker.IntermediateConfiguration.GUI.Processing.Commands;
+namespace Onlooker.IntermediateConfiguration.Gui.Processing.Commands;
 
 public static class LocaleServiceCommands
 {

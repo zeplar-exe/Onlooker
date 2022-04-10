@@ -14,8 +14,8 @@
     <data name="DocumentRootNull" xml:space="preserve">
         <value>The given document ({0}) cannot be processed as it does not have a non-null Root element.</value>
     </data>
-    <data name="InvalidXmlDocument" xml:space="preserve">
-        <value>The given document ({0}) cannot be processed as it does not adhere to the given schema ({1}).</value>
+    <data name="InvalidDocumentRootName" xml:space="preserve">
+        <value>The given document ({0}) cannot be processed as it's root is not named '{1}'.</value>
     </data>
     <data name="DocumentProcessSuccess" xml:space="preserve">
         <value>Successfully processed '{0}'.</value>

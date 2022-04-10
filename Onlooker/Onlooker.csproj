@@ -114,7 +114,6 @@
         <DependentUpon>CommandParseOutput.resx</DependentUpon>
       </Compile>
       <Compile Remove="Common\Percentage.cs" />
-      <Compile Remove="Common\Helpers\GuiHelper.cs" />
       <Compile Update="Common\StringResources\ResourceLoadOutput.Designer.cs">
         <DesignTime>True</DesignTime>
         <AutoGen>True</AutoGen>

@@ -2,11 +2,13 @@ using System.Xml.Linq;
 using Microsoft.Xna.Framework;
 using Onlooker.Common._2D;
 using Onlooker.Common.Extensions;
+using Onlooker.Common.Helpers;
 using Onlooker.Common.MethodOutput;
 using Onlooker.Common.MethodOutput.OutputTypes;
-using Onlooker.IntermediateConfiguration.GUI.Processing.Colors;
-using Onlooker.IntermediateConfiguration.GUI.Processing.Commands;
-using Onlooker.IntermediateConfiguration.GUI.Processing.Numeric;
+using Onlooker.IntermediateConfiguration.Gui.Events;
+using Onlooker.IntermediateConfiguration.Gui.Processing.Colors;
+using Onlooker.IntermediateConfiguration.Gui.Processing.Commands;
+using Onlooker.IntermediateConfiguration.Gui.Processing.Numeric;
 using Onlooker.IntermediateConfiguration.Modules;
 using Onlooker.IntermediateConfiguration.Modules.Settings;
 using Onlooker.Monogame.Controllers;
@@ -15,9 +17,9 @@ using Onlooker.Monogame.Logging;
 using Onlooker.ObjectProperties;
 using Onlooker.ObjectProperties.Binding;
 
-namespace Onlooker.IntermediateConfiguration.GUI.Elements;
+namespace Onlooker.IntermediateConfiguration.Gui.Elements;
 
-public abstract class GuiElement : GameController
+public abstract class GuiElement
 {
     public NumericValue X { get; }
     public NumericValue Y { get; }
@@ -27,6 +29,24 @@ public abstract class GuiElement : GameController
     
     public ColorProperty RectFill { get; }
     public PaddingProperty Padding { get; }
+
+    public event EventHandler<MouseEventArgs>? OnMouseEnter;
+    public event EventHandler<MouseEventArgs>? OnMouseLeave;
+    
+    public event EventHandler<MouseEventArgs>? OnLeftMouseButtonPressed;
+    public event EventHandler<MouseEventArgs>? OnLeftMouseButtonMove;
+    public event EventHandler<MouseEventArgs>? OnLeftMouseButtonHeld;
+    public event EventHandler<MouseEventArgs>? OnLeftMouseButtonReleased;
+    
+    public event EventHandler<MouseEventArgs>? OnRightMouseButtonPressed;
+    public event EventHandler<MouseEventArgs>? OnRightMouseButtonMove;
+    public event EventHandler<MouseEventArgs>? OnRightMouseButtonHeld;
+    public event EventHandler<MouseEventArgs>? OnRightMouseButtonReleased;
+    
+    public event EventHandler<MouseEventArgs>? OnMiddleMouseButtonPressed;
+    public event EventHandler<MouseEventArgs>? OnMiddleMouseButtonMove;
+    public event EventHandler<MouseEventArgs>? OnMiddleMouseButtonHeld;
+    public event EventHandler<MouseEventArgs>? OnMiddleMouseButtonReleased;
     
     public event EventHandler<ObjectPropertyValueChangedArgs<Rectangle>>? RectChanged;
 
@@ -77,13 +97,13 @@ public abstract class GuiElement : GameController
         };
     }
 
-    public override void Update(GameTime time)
+    public virtual void Update(GameTime time)
     {
         foreach (var child in Children)
             child.Update(time);
     }
 
-    public override void Draw(DrawCanvas canvas, GameTime time)
+    public virtual void Draw(DrawCanvas canvas, GameTime time)
     {
         canvas.Draw(ZIndex, new RectangleGraphic(RectFill, Rect));
         
@@ -94,75 +114,20 @@ public abstract class GuiElement : GameController
     public virtual void LoadFromXml(XElement element)
     {
         if (element.Attribute("x_pos").IsNotNull(out var xPosAttribute))
-            ParseNumericValue(xPosAttribute).CopyTo(X);
+            GuiHelper.ParseNumericValue(xPosAttribute).CopyTo(X);
         
         if (element.Attribute("y_pos").IsNotNull(out var yPosAttribute))
-            ParseNumericValue(yPosAttribute).CopyTo(X);
+            GuiHelper.ParseNumericValue(yPosAttribute).CopyTo(X);
         
         if (element.Attribute("width").IsNotNull(out var widthAttribute))
-            ParseNumericValue(widthAttribute).CopyTo(X);
+            GuiHelper.ParseNumericValue(widthAttribute).CopyTo(X);
         
         if (element.Attribute("height").IsNotNull(out var heightAttribute))
-            ParseNumericValue(heightAttribute).CopyTo(X);
+            GuiHelper.ParseNumericValue(heightAttribute).CopyTo(X);
         
         if (element.Attribute("rect_fill").IsNotNull(out var rectFillAttribute))
-            RectFill.Value = ParseColor(rectFillAttribute);
+            RectFill.Value = GuiHelper.ParseColor(rectFillAttribute);
 
         ZIndex = element.Attribute("z")?.Value.SafeParseInt() ?? ZIndex;
-    }
-
-    protected NumericValue ParseNumericValue(XAttribute? attribute, string attributeDefault = "")
-    {
-        var parser = new NumericValueParser();
-        var (output, value) = parser.Parse(attribute?.Value ?? attributeDefault);
-        
-        LogGuiOutput(output);
-
-        return value;
-    }
-
-    protected Color ParseColor(XAttribute? attribute, string attributeDefault = "")
-    {
-        var parser = new ColorParser();
-        var (output, value) = parser.Parse(attribute?.Value ?? attributeDefault);
-
-        LogGuiOutput(output);
-
-        return value;
-    }
-
-    protected CommandWrapper ParseCommand(XAttribute? attribute, string attributeDefault = "")
-    {
-        var parser = new CommandParser();
-        var (output, value) = parser.Parse(attribute?.Value ?? attributeDefault);
-        
-        LogGuiOutput(output);
-
-        return value;
-    }
-
-    protected void LogGuiOutput(params OperationOutput[] outputs)
-    {
-        var guiSettings = IModule.Get<SettingsModule>().GuiSettings;
-        
-        foreach (var output in outputs)
-        {
-            if (guiSettings.LogLevel is not LogLevel.None)
-                return;
-            
-            switch (output.Type)
-            {
-                case OperationOutputType.Success:
-                    if (guiSettings.LogLevel is not LogLevel.SuccessAndFailure or LogLevel.SuccessOnly)
-                        continue;
-                    break;
-                case OperationOutputType.Failure:
-                    if (guiSettings.LogLevel is not LogLevel.SuccessAndFailure or LogLevel.FailureOnly)
-                        continue;
-                    break;
-            }
-            
-            AppLoggerCommon.GuiErrorLog(LogMessageBuilder.TimestampedMessage(output.ToString()));
-        }
     }
 }

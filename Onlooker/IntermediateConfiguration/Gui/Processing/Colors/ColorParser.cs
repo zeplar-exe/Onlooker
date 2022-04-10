@@ -7,7 +7,7 @@ using Onlooker.Common.MethodOutput;
 using Onlooker.Common.MethodOutput.OutputTypes;
 using Onlooker.Common.StringResources.Gui;
 
-namespace Onlooker.IntermediateConfiguration.GUI.Processing.Colors;
+namespace Onlooker.IntermediateConfiguration.Gui.Processing.Colors;
 
 public class ColorParser
 {

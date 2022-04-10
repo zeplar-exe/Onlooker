@@ -1,13 +1,14 @@
 using System.Xml.Linq;
 using Microsoft.Xna.Framework;
 using Onlooker.Common.Helpers;
+using Onlooker.IntermediateConfiguration.Gui.Events;
 using Onlooker.Monogame.Graphics;
 
-namespace Onlooker.IntermediateConfiguration.GUI.Elements;
+namespace Onlooker.IntermediateConfiguration.Gui.Elements;
 
 public class ButtonElement : TextElement
 {
-    public event EventHandler? OnClick;
+    public event EventHandler<MouseEventArgs>? OnClick;
     
     public ButtonElement()
     {
@@ -22,7 +23,7 @@ public class ButtonElement : TextElement
 
         if (onClickCommand != null)
         {
-            OnClick += (_, _) => ParseCommand(element.Attribute("on_click")).Invoke();
+            OnClick += (_, _) => GuiHelper.ParseCommand(element.Attribute("on_click")).Invoke();
         }
     }
     
@@ -38,7 +39,7 @@ public class ButtonElement : TextElement
             {
                 if (MouseHelper.IsLeftButtonReleasedOverRect(Rect))
                 {
-                    OnClick?.Invoke(this,EventArgs.Empty);
+                    OnClick?.Invoke(this, new MouseEventArgs());
                 }
                 else
                 {
@@ -58,10 +59,5 @@ public class ButtonElement : TextElement
         base.Draw(canvas, time);
         
         canvas.Draw(ZIndex, new StringGraphic(Text.ToBuilder(), Font, Rect));
-    }
-
-    public override bool IsLocked()
-    {
-        return false;
     }
 }

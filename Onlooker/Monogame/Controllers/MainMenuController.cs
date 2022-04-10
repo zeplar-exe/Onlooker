@@ -1,6 +1,8 @@
 using Microsoft.Xna.Framework;
 using Onlooker.Common.Args;
-using Onlooker.IntermediateConfiguration.GUI.Processing;
+using Onlooker.Common.Extensions;
+using Onlooker.Common.Helpers;
+using Onlooker.IntermediateConfiguration.Gui;
 using Onlooker.IntermediateConfiguration.Modules;
 using Onlooker.IntermediateConfiguration.Modules.Gui;
 using Onlooker.Monogame.Graphics;
@@ -9,19 +11,26 @@ namespace Onlooker.Monogame.Controllers;
 
 public class MainMenuController : GameController
 {
-    public GuiDocument Gui { get; set; }
+    public GuiDisplay Gui { get; set; }
+
+    public MainMenuController()
+    {
+        Gui = new GuiDisplay();
+    }
     
     protected override void OnEnable()
     {
-        Gui = IModule.Get<GuiModule>().MainMenu;
-        Gui.Root.Enabled = true;
+        var menuRoot = IModule.Get<GuiModule>().MainMenu;
         
-        GameManager.Current.HookController(Gui.Root);
+        Gui.Root.Children.Overwrite(menuRoot.ChildElements);
+        Gui.Enabled = true;
+        
+        GameManager.Current.HookController(Gui);
     }
 
     protected override void OnDisable()
     {
-        Gui.Root.Enabled = false;
+        Gui.Enabled = false;
     }
 
     public override void Update(GameTime time)
@@ -36,7 +45,7 @@ public class MainMenuController : GameController
 
     public override void OnDisposing(CancellationEventArgs args)
     {
-        Gui.Root.Disposed = true;
+        Gui.Disposed = true;
     }
 
     public override bool IsLocked()

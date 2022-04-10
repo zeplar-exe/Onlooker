@@ -1,9 +1,9 @@
 using Onlooker.Common;
 using Onlooker.Common._2D;
-using Onlooker.IntermediateConfiguration.GUI.Elements;
+using Onlooker.IntermediateConfiguration.Gui.Elements;
 using Onlooker.ObjectProperties;
 
-namespace Onlooker.IntermediateConfiguration.GUI.Processing.Numeric;
+namespace Onlooker.IntermediateConfiguration.Gui.Processing.Numeric;
 
 public class NumericValue
 {

@@ -1,7 +1,8 @@
 using Onlooker.Common.Extensions;
 using Onlooker.Common.MethodOutput;
 using Onlooker.Common.Wrappers;
-using Onlooker.IntermediateConfiguration.GUI.Processing;
+using Onlooker.IntermediateConfiguration.Gui;
+using Onlooker.IntermediateConfiguration.Gui.Processing;
 using Onlooker.Monogame;
 using Onlooker.Monogame.Logging;
 
@@ -9,7 +10,7 @@ namespace Onlooker.IntermediateConfiguration.Modules.Gui;
 
 public class GuiModule : IModule
 {
-    public GuiDocument MainMenu { get; set; }
+    public FrontendRoot MainMenu { get; set; }
     
     public void Init(ModuleRoot root)
     {
@@ -24,20 +25,20 @@ public class GuiModule : IModule
         }
 
         var processor = new GuiProcessor();
-        var result = processor.ProcessFrontendXml(XDocumentWrapper.Create(mainMenu));
+        var (output, document) = processor.ProcessFrontendXml(XDocumentWrapper.Create(mainMenu));
 
-        switch (result.Output.Type)
+        switch (output.Type)
         {
             case ProcessingOutputType.Success:
-                AppLoggerCommon.ConfigLoadingLog(result.Output.ToString());
+                AppLoggerCommon.ConfigLoadingLog(output.ToString());
                 break;
             case ProcessingOutputType.Corrupt:
             case ProcessingOutputType.Failure:
-                AppLoggerCommon.ErrorLog(result.Output.ToString());
+                AppLoggerCommon.ErrorLog(output.ToString());
                 break;
         }
 
-        MainMenu = result.Value;
+        MainMenu = document;
     }
 
     public void Write(ModuleRoot root)

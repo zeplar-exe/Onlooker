@@ -7,7 +7,7 @@ using Onlooker.IntermediateConfiguration.Modules.Common;
 using Onlooker.Monogame.Graphics;
 using Onlooker.Monogame.Logging;
 
-namespace Onlooker.IntermediateConfiguration.GUI.Elements;
+namespace Onlooker.IntermediateConfiguration.Gui.Elements;
 
 public class LabelElement : TextElement
 {
@@ -39,10 +39,5 @@ public class LabelElement : TextElement
         }
         
         canvas.Draw(ZIndex, new StringGraphic(Text.ToBuilder(), Font, Rect));
-    }
-
-    public override bool IsLocked()
-    {
-        return false;
     }
 }

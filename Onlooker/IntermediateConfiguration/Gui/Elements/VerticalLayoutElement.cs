@@ -2,7 +2,7 @@ using System.Xml.Linq;
 using Microsoft.Xna.Framework;
 using Onlooker.ObjectProperties;
 
-namespace Onlooker.IntermediateConfiguration.GUI.Elements;
+namespace Onlooker.IntermediateConfiguration.Gui.Elements;
 
 public class VerticalLayoutElement : GuiElement
 {
@@ -60,11 +60,6 @@ public class VerticalLayoutElement : GuiElement
 
             y.Property.Value += child.Height.Property.Value;
         }
-    }
-
-    public override bool IsLocked()
-    {
-        return false;
     }
 }
 

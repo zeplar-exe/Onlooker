@@ -79,11 +79,11 @@ namespace Onlooker.Common.StringResources.Xml {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The given document ({0}) cannot be processed as it does not adhere to the given schema ({1})..
+        ///   Looks up a localized string similar to The given document ({0}) cannot be processed as it&apos;s root is not named &apos;{1}&apos;..
         /// </summary>
-        internal static string InvalidXmlDocument {
+        internal static string InvalidDocumentRootName {
             get {
-                return ResourceManager.GetString("InvalidXmlDocument", resourceCulture);
+                return ResourceManager.GetString("InvalidDocumentRootName", resourceCulture);
             }
         }
     }

@@ -1,36 +1,44 @@
 using System.Xml.Linq;
+using Onlooker.Common.Extensions;
 using Onlooker.Common.MethodOutput;
 using Onlooker.Common.MethodOutput.OutputTypes;
 using Onlooker.Common.StringResources.Xml;
 using Onlooker.Common.Wrappers;
-using Onlooker.IntermediateConfiguration.GUI.Elements;
+using Onlooker.IntermediateConfiguration.Gui.Elements;
 
-namespace Onlooker.IntermediateConfiguration.GUI.Processing;
+namespace Onlooker.IntermediateConfiguration.Gui.Processing;
 
 public class GuiProcessor
 {
-    public OutputResult<FileProcessingOutput, GuiDocument> ProcessFrontendXml(XDocumentWrapper wrapper)
+    private const string RootElementName = "frontend_root";
+    
+    public OutputResult<FileProcessingOutput, FrontendRoot> ProcessFrontendXml(XDocumentWrapper wrapper)
     {
         var root = wrapper.Document.Root;
-        var result = new GuiDocument();
+        var result = new FrontendRoot();
 
         if (root == null)
-            return new OutputResult<FileProcessingOutput, GuiDocument>(
-                FileProcessingOutput.Failure(string.Format(XmlProcessingOutput.DocumentRootNull, wrapper.Name)), 
+            return new OutputResult<FileProcessingOutput, FrontendRoot>(
+                FileProcessingOutput.Failure(XmlProcessingOutput.DocumentRootNull.Format(wrapper.Name)), 
                 result);
 
-        AddChildren(root, result.Root);
+        if (root.Name != RootElementName)
+            return new OutputResult<FileProcessingOutput, FrontendRoot>(
+                FileProcessingOutput.Failure(XmlProcessingOutput.InvalidDocumentRootName.Format(wrapper.Name, root.Name)),
+                result);
 
-        return new OutputResult<FileProcessingOutput, GuiDocument>(
-            FileProcessingOutput.Success(string.Format(XmlProcessingOutput.DocumentProcessSuccess, wrapper.Name)),
+        AddChildren(root, result.ChildElements);
+
+        return new OutputResult<FileProcessingOutput, FrontendRoot>(
+            FileProcessingOutput.Success(XmlProcessingOutput.DocumentProcessSuccess.Format(wrapper.Name)),
             result);
     }
 
-    private static void AddChildren(XElement xml, GuiElement gui)
+    private static void AddChildren(XElement xml, ICollection<GuiElement> gui)
     {
         foreach (var element in xml.Elements())
         {
-            GuiElement? currentElement = null;
+            GuiElement currentElement;
             
             switch (element.Name.ToString())
             {
@@ -43,16 +51,15 @@ public class GuiProcessor
                 case "button":
                     currentElement = new ButtonElement();
                     break;
+                default:
+                    continue;
             }
-
-            if (currentElement != null)
-            {
-                currentElement.LoadFromXml(element);
-                
-                AddChildren(element, currentElement);
-                
-                gui.Children.Add(currentElement);
-            }
+            
+            currentElement.LoadFromXml(element);
+            
+            AddChildren(element, currentElement.Children);
+            
+            gui.Add(currentElement);
         }
     }
 }

@@ -2,12 +2,12 @@ using System.Xml.Linq;
 using Microsoft.Xna.Framework.Graphics;
 using Onlooker.Common._2D;
 using Onlooker.Common.Extensions;
-using Onlooker.IntermediateConfiguration.GUI.Processing.Commands;
+using Onlooker.Common.Helpers;
 using Onlooker.IntermediateConfiguration.Modules;
 using Onlooker.IntermediateConfiguration.Modules.Common;
 using Onlooker.ObjectProperties;
 
-namespace Onlooker.IntermediateConfiguration.GUI.Elements;
+namespace Onlooker.IntermediateConfiguration.Gui.Elements;
 
 public abstract class TextElement : GuiElement
 {
@@ -79,7 +79,7 @@ public abstract class TextElement : GuiElement
 
         if (text == null)
         {
-            text = ParseCommand(element.Attribute("locale_text")).Invoke<string>() ?? string.Empty;
+            text = GuiHelper.ParseCommand(element.Attribute("locale_text")).Invoke<string>() ?? string.Empty;
         }
 
         Text.Value = text;

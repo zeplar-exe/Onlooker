@@ -6,7 +6,7 @@ using Onlooker.Common.MethodOutput;
 using Onlooker.Common.MethodOutput.OutputTypes;
 using Onlooker.Common.StringResources.Gui;
 
-namespace Onlooker.IntermediateConfiguration.GUI.Processing.Commands;
+namespace Onlooker.IntermediateConfiguration.Gui.Processing.Commands;
 
 public class CommandParser
 {
