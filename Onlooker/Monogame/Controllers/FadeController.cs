@@ -20,7 +20,7 @@ public class FadeController : GameController
 
     public override void OnStart()
     {
-        GameManager.Current.HookController(DisplayRectangle);
+        HookController(DisplayRectangle);
     }
     
     public void QueueFadeTo(Color color, AnimationSettings settings)

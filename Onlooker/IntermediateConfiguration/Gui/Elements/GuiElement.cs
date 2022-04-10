@@ -17,7 +17,9 @@ public abstract class GuiElement
     public NumericValue Y { get; }
     
     public NumericValue Width { get; }
+    public NumericValue DesiredWidth { get; }
     public NumericValue Height { get; }
+    public NumericValue DesiredHeight { get; }
     
     public ColorProperty RectFill { get; }
     public PaddingProperty Padding { get; }
@@ -56,8 +58,8 @@ public abstract class GuiElement
         X = new NumericValue(0, NumericType.Pixels);
         Y = new NumericValue(0, NumericType.Pixels);
         
-        Width = new NumericValue(50, NumericType.Pixels);
-        Height = new NumericValue(50, NumericType.Pixels);
+        DesiredWidth = new NumericValue(50, NumericType.Pixels);
+        DesiredHeight = new NumericValue(50, NumericType.Pixels);
 
         RectFill = new ColorProperty(Color.Transparent);
         Padding = new PaddingProperty(Common._2D.Padding.Empty);

@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Onlooker.Common;
 using Onlooker.Common.Args;
 using Onlooker.Common.Extensions;
 using Onlooker.IntermediateConfiguration.Gui;
@@ -14,7 +15,7 @@ public class MainMenuController : GameController
 
     public MainMenuController()
     {
-        Gui = new GuiDisplay();
+        Gui = new GuiDisplay(CommonValues.ScreenRect);
     }
     
     protected override void OnEnable()
@@ -24,7 +25,7 @@ public class MainMenuController : GameController
         Gui.Root.Children.Overwrite(menuRoot.ChildElements);
         Gui.Enabled = true;
         
-        GameManager.Current.HookController(Gui);
+        HookController(Gui);
     }
 
     protected override void OnDisable()

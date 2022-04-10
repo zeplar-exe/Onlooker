@@ -45,4 +45,14 @@ public abstract class GameController
     protected virtual void OnEnable() { }
     protected virtual void OnDisable() { }
     public virtual void OnDisposing(CancellationEventArgs args) { }
+
+    protected void HookController(GameController controller)
+    {
+        GameManager.Current.HookController(controller);
+    }
+
+    protected bool UnhookController(GameController controller)
+    {
+        return GameManager.Current.UnhookController(controller);
+    }
 }

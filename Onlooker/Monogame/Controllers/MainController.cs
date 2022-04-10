@@ -24,7 +24,7 @@ public class MainController : GameController
         MainMenu = new MainMenuController();
         RandomMap = new RandomMapController();
         
-        GameManager.Current.HookController(LoadingScreen);
+        HookController(LoadingScreen);
     }
 
     public override void Update(GameTime time)
@@ -57,8 +57,8 @@ public class MainController : GameController
                     CompletionHandler = ControllerCompletionHandler.Dispose
                 };
                 
-                GameManager.Current.HookController(transition);
-                GameManager.Current.HookController(MainMenu);
+                HookController(transition);
+                HookController(MainMenu);
 
                 var fill = transition.QueueFillScreen(TransitionFillDirection.TopToBottom, new AnimationSettings
                 {
@@ -95,7 +95,7 @@ public class MainController : GameController
                 // TODO: Take pointers from that unity project to deal with image squash/stretching
                 RandomMap.Enabled = true;
                 
-                GameManager.Current.HookController(RandomMap);
+                HookController(RandomMap);
                 
                 State.MoveTo(GameState.WorldUpdating);
                 

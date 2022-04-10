@@ -73,7 +73,7 @@ public class RandomMapController : GameController
         }
         
         TilemapController.Enabled = true;
-        GameManager.Current.HookController(TilemapController);
+        HookController(TilemapController);
 
         Size = size;
     }
