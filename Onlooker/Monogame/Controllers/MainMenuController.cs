@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using Onlooker.Common.Args;
 using Onlooker.Common.Extensions;
-using Onlooker.Common.Helpers;
 using Onlooker.IntermediateConfiguration.Gui;
 using Onlooker.IntermediateConfiguration.Modules;
 using Onlooker.IntermediateConfiguration.Modules.Gui;

@@ -1,5 +1,4 @@
 using Onlooker.Common.Extensions;
-using Onlooker.Common.MethodOutput;
 using Onlooker.Common.Wrappers;
 using Onlooker.IntermediateConfiguration.Gui;
 using Onlooker.IntermediateConfiguration.Gui.Processing;

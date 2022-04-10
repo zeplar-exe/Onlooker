@@ -1,7 +1,6 @@
 using System.Text;
 using Microsoft.Xna.Framework;
 using Onlooker.Common.Helpers;
-using Onlooker.Common.MethodOutput;
 using Onlooker.IntermediateConfiguration.Modules;
 using Onlooker.IntermediateConfiguration.Modules.Common;
 using Onlooker.Monogame.Graphics;

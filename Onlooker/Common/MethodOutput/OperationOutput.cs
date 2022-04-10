@@ -1,4 +1,3 @@
-using System.Text;
 using Onlooker.Monogame.Logging;
 
 namespace Onlooker.Common.MethodOutput;

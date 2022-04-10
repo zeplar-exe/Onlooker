@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Onlooker.Common.Extensions;
 using Onlooker.Common.Helpers;
-using Onlooker.Common.MethodOutput;
 using Onlooker.Monogame;
 using Onlooker.Monogame.Logging;
 using SpriteFontPlus;

@@ -3,16 +3,9 @@ using Microsoft.Xna.Framework;
 using Onlooker.Common._2D;
 using Onlooker.Common.Extensions;
 using Onlooker.Common.Helpers;
-using Onlooker.Common.MethodOutput;
 using Onlooker.IntermediateConfiguration.Gui.Events;
-using Onlooker.IntermediateConfiguration.Gui.Processing.Colors;
-using Onlooker.IntermediateConfiguration.Gui.Processing.Commands;
 using Onlooker.IntermediateConfiguration.Gui.Processing.Numeric;
-using Onlooker.IntermediateConfiguration.Modules;
-using Onlooker.IntermediateConfiguration.Modules.Settings;
-using Onlooker.Monogame.Controllers;
 using Onlooker.Monogame.Graphics;
-using Onlooker.Monogame.Logging;
 using Onlooker.ObjectProperties;
 using Onlooker.ObjectProperties.Binding;
 
