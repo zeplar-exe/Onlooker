@@ -1,6 +1,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using Onlooker.Common.Extensions;
+using Onlooker.Common.Helpers;
+using Onlooker.Common.MethodOutput;
 using Onlooker.Monogame;
+using Onlooker.Monogame.Logging;
 using SpriteFontPlus;
 
 namespace Onlooker.IntermediateConfiguration.Modules.Common;
@@ -12,17 +15,19 @@ public class CommonFontsModule : IModule
     public void Init(ModuleRoot root)
     {
         var directory = root.Directory.ToRelativeDirectory("common/fonts");
+        var (defaultFontOutput, defaultFontValue) = FontHelper.GetDefaultFont("error.ttf");
 
-        var information = GetSpriteFont(directory.ToRelativeFile("information.ttf"));
-
-        if (information == null)
+        if (defaultFontOutput.Type != ProcessingOutputType.Success)
         {
+            AppLoggerCommon.ErrorLog(defaultFontOutput.Message);
             GameManager.Current.Exit();
             
             return;
         }
 
-        Information = information;
+        var defaultFont = defaultFontValue!;
+
+        Information = GetSpriteFont(directory.ToRelativeFile("information.ttf")) ?? defaultFont;
     }
 
     public void Write(ModuleRoot root)
