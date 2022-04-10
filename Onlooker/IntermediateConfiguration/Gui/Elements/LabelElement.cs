@@ -23,11 +23,11 @@ public class LabelElement : TextElement
         
         if (Font == null)
         {
-            var ((outputType, outputMessage), errorFont) = FontHelper.GetDefaultFont("error");
+            var (output, errorFont) = FontHelper.GetDefaultFont("error");
 
-            if (outputType is not ProcessingOutputType.Success)
+            if (output.IsFailure())
             {
-                AppLoggerCommon.ErrorLog(LogMessageBuilder.TimestampedMessage(outputMessage));
+                AppLoggerCommon.ErrorLog(output.CreateLog());
                 
                 return;
             }

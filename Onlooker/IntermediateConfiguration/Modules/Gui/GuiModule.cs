@@ -27,16 +27,10 @@ public class GuiModule : IModule
         var processor = new GuiProcessor();
         var (output, document) = processor.ProcessFrontendXml(XDocumentWrapper.Create(mainMenu));
 
-        switch (output.Type)
-        {
-            case ProcessingOutputType.Success:
-                AppLoggerCommon.ConfigLoadingLog(output.ToString());
-                break;
-            case ProcessingOutputType.Corrupt:
-            case ProcessingOutputType.Failure:
-                AppLoggerCommon.ErrorLog(output.ToString());
-                break;
-        }
+        if (output.IsSuccess())
+            AppLoggerCommon.ConfigLoadingLog(output.ToString());
+        else
+            AppLoggerCommon.ErrorLog(output.ToString());
 
         MainMenu = document;
     }

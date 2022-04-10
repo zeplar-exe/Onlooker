@@ -17,9 +17,9 @@ public class CommonFontsModule : IModule
         var directory = root.Directory.ToRelativeDirectory("common/fonts");
         var (defaultFontOutput, defaultFontValue) = FontHelper.GetDefaultFont("error.ttf");
 
-        if (defaultFontOutput.Type != ProcessingOutputType.Success)
+        if (defaultFontOutput.IsFailure())
         {
-            AppLoggerCommon.ErrorLog(defaultFontOutput.Message);
+            AppLoggerCommon.ErrorLog(defaultFontOutput.CreateLog());
             GameManager.Current.Exit();
             
             return;

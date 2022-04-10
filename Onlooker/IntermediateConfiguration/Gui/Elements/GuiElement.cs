@@ -4,7 +4,6 @@ using Onlooker.Common._2D;
 using Onlooker.Common.Extensions;
 using Onlooker.Common.Helpers;
 using Onlooker.Common.MethodOutput;
-using Onlooker.Common.MethodOutput.OutputTypes;
 using Onlooker.IntermediateConfiguration.Gui.Events;
 using Onlooker.IntermediateConfiguration.Gui.Processing.Colors;
 using Onlooker.IntermediateConfiguration.Gui.Processing.Commands;

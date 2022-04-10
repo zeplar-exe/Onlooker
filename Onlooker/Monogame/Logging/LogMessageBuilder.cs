@@ -19,14 +19,14 @@ public class LogMessageBuilder
         Messages.Add(text);
     }
 
-    public void IncludeDate()
+    public void IncludeDate(bool b = true)
     {
-        IncludeDateProperty = true;
+        IncludeDateProperty = b;
     }
 
-    public void IncludeTime()
+    public void IncludeTime(bool b = true)
     {
-        IncludeTimeProperty = true;
+        IncludeTimeProperty = b;
     }
 
     public static LogMessageBuilder TimedMessage(string message)

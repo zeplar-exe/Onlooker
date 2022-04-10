@@ -1,7 +1,6 @@
 using System.Xml.Linq;
 using Microsoft.Xna.Framework;
 using Onlooker.Common.MethodOutput;
-using Onlooker.Common.MethodOutput.OutputTypes;
 using Onlooker.IntermediateConfiguration;
 using Onlooker.IntermediateConfiguration.Gui.Processing.Colors;
 using Onlooker.IntermediateConfiguration.Gui.Processing.Commands;

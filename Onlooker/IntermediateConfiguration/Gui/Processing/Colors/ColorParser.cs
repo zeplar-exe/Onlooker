@@ -4,7 +4,6 @@ using Jammo.ParserTools.Lexing;
 using Jammo.ParserTools.Tools;
 using Microsoft.Xna.Framework;
 using Onlooker.Common.MethodOutput;
-using Onlooker.Common.MethodOutput.OutputTypes;
 using Onlooker.Common.StringResources.Gui;
 
 namespace Onlooker.IntermediateConfiguration.Gui.Processing.Colors;
